@@ -7,12 +7,22 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// import api routes
-const cuisine = require('./routes/cuisines');
-const user = require('./routes/user');
+const authenticate = require('./middleware/authenticate');
 
-app.use('/api/cuisine', cuisine);
-app.use('/api/user', user);
+// import api routes
+const cuisine = require('./routes/cuisine');
+const dishtype = require('./routes/dishType');
+const diet = require('./routes/diet');
+const recipe = require('./routes/recipe');
+const user = require('./routes/user');
+const auth = require('./routes/auth');
+
+app.use('/api', auth);
+app.use('/api/recipe', authenticate, recipe);
+app.use('/api/user', authenticate, user);
+app.use('/api/cuisine', authenticate, cuisine);
+app.use('/api/dishType', authenticate, dishtype);
+app.use('/api/diet', authenticate, diet);
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
