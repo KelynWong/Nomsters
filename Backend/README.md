@@ -12,16 +12,16 @@ All endpoints (except login and sign up) requires a "suthentication" header in t
 
 ## Endpoints
 - [Login](#login)
-- [Sign Up](#signup)
-- [Get A User](#getuser)
-- [Update User](#updateuser)
-- [Delete User](#deleteuser)
-- [Update User Diet](#updateuserdiet)
-- [Add User Favourite Recipe](#addfavrecipe)
-- [Delete User Favourite Recipe](#deletefavrecipe)
-- [Get Dish Types](#dishtypes)
-- [Get Diets](#diets)
-- [Get Cuisines](#cuisines)
+- [Sign Up](#sign-up)
+- [Get A User](#get-a-user)
+- [Update User](#update-user)
+- [Delete User](#delete-user)
+- [Update User Diet](#update-user-diet)
+- [Add User Favourite Recipe](#add-user-favourite-recipe)
+- [Delete User Favourite Recipe](#delete-user-favourite-recipe)
+- [Get Dish Types](#get-dish-types)
+- [Get Diets](#get-diets)
+- [Get Cuisines](#get-cuisines)
 
 ### Login 
 - **URL:** `/login`
