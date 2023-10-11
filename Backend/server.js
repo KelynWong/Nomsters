@@ -7,9 +7,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// API routes
+// import api routes
 const cuisine = require('./routes/cuisines');
-app.use('/api', cuisine);
+const user = require('./routes/user');
+
+app.use('/api/cuisine', cuisine);
+app.use('/api/user', user);
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
