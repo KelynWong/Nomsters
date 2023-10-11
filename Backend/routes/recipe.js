@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/config'); 
 
-router.get('/all', (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM recipe`
   db.query(sql, (err, rows) => {
     if (err) {
