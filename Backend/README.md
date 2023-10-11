@@ -23,7 +23,7 @@ All endpoints (except login and sign up) requires a "suthentication" header in t
 - [Get Diets](#diets)
 - [Get Cuisines](#cuisines)
 
-### Login {#login}
+### Login 
 - **URL:** `/login`
 - **Method:** `POST`
 - **Description:** 
@@ -59,7 +59,7 @@ All endpoints (except login and sign up) requires a "suthentication" header in t
         "userId": 1
     }
 
-### Sign Up {#signup}
+### Sign Up 
 - **URL:** `/signup`
 - **Method:** `POST`
 - **Description:** 
