@@ -12,17 +12,19 @@ router.get('/', async (req, res) => {
   const urlWithParams = `${placesUrl}?` +
     `keyword=grocery&` +
     `location=${encodeURIComponent(location)}&` + // Encode the location
-    `radius=300&` +
+    `radius=1000&` +
     `rankby=prominence&` +
     `key=${apiKey}`;
 
   try {
     const response = await axios.get(urlWithParams);
     res.json(response.data);
-    //Pass this data into place details by getting place id from response data, remove res.json later on
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 module.exports = router;
+
+
+
