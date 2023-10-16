@@ -18,7 +18,6 @@
   </head>
   <body>
     <h3>Grocers Nearby</h3>
-    <!--The div element for the map -->
     <div class="container">
       <div class="row">
         <div class="col-3" style="background-color: grey">
@@ -26,8 +25,10 @@
           <ul id="locations"></ul>
         </div>
         <div class="col-6">
+          <!--The div element for the map -->
           <div id="map"></div>
         </div>
+        <!--Place where the extra infomation is added on marker click-->
         <div
           class="col-3"
           id="extra_info"
@@ -37,6 +38,7 @@
     </div>
 
     <script>
+      //Initialise variables
       var location = "";
       var infoWindow = null;
 
@@ -72,7 +74,7 @@
         const apiUrl = "http://localhost:3100/api/maps/grocers";
 
         var array_of_grocers = [];
-
+        //call maps.js which will call and retrive nearby places from google places api
         axios
           .get(apiUrl, {
             params: { location: location },
@@ -82,20 +84,26 @@
             array_of_grocers = response.data.results;
             console.log(array_of_grocers);
 
-            //Set the number of results to display here
+            //Set the number of results to display here(change the i<num to whatever number you want)
             for (let i = 0; (i <= 8) & (i < array_of_grocers.length); i++) {
 
-              //Gets releavant display data for each grocery store
+              //Gets relevant display data for each grocery store
+              //Unique id for each grocery store
               let place_id = array_of_grocers[i].place_id;
+              //name = name of grocery store eg. Fairprice
               let name = array_of_grocers[i].name;
+              //grocer location is the lat/longditude eg. (1.142124,1.492394)
               let grocer_location = array_of_grocers[i].geometry.location;
+              //grocer rating is the rating of the grocery store eg. 4.5
               let grocer_rating = array_of_grocers[i].rating;
+              //address is the address of the grocery store eg. 748c bedok reservoir
               let address = array_of_grocers[i].vicinity;
               //Some grocery stores do not have a open/close status so is by default false
               let openboolean = false;
               if (array_of_grocers[i].opening_hours.open_now) {
                 openboolean = array_of_grocers[i].opening_hours.open_now;
               }
+              //If the value called openboolean is true, set the text to say that its open
               if (openboolean == true) {
                 openboolean = "Open";
               } else {
@@ -109,9 +117,11 @@
               mapLink.innerText = "View on Google Maps";
               var br = document.createElement("br");
               let line = document.createElement("li");
+              //name is appened to h5 element
               let name_element = document.createElement("h5");
               name_element.innerText = name;
-              let text2 = document.createTextNode(address);
+              //address is appened to address_text 
+              let address_text = document.createTextNode(address);
 
               //Creates green or red text for open or closed depending on the status
               let open_text = document.createElement("p");
@@ -122,9 +132,9 @@
                 open_text.style.color = "red";
               }
 
-              //append text and open status
+              //append text,address and open status
               line.appendChild(name_element);
-              line.appendChild(text2);
+              line.appendChild(address_text);
               line.appendChild(open_text);
 
               //Create and append star rating for each grocery store
@@ -134,15 +144,19 @@
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Star%2A.svg/1117px-Star%2A.svg.png";
               var halfstar =
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Half_Star_Yellow.svg/1200px-Half_Star_Yellow.svg.png";
+              
+              //Get the rating of grocer, if 0 means not rated
               var rating_int = parseFloat(grocer_rating);
               if (grocer_rating == "0") {
                 grocer_rating = "No rating ";
               }
+              //Rating text eg. 4.5
               let rating_text = document.createTextNode(grocer_rating + " ");
               line.appendChild(br);
               line.appendChild(rating_text);
               while (rating_int >= 0.5) {
                 if (rating_int >= 1) {
+                  //If remainjg rating is 1 or more, append full star
                   var star_img = document.createElement("img");
                   star_img.src = star;
                   star_img.width = 20;
@@ -150,6 +164,7 @@
                   line.appendChild(star_img);
                   rating_int = rating_int - 1;
                 } else {
+                  //If remaining rating is less than 1 but more than 0.5 eg. 0.7, append half star
                   var star_img = document.createElement("img");
                   star_img.src = halfstar;
                   star_img.width = 20;
@@ -158,6 +173,7 @@
                   rating_int = rating_int - 1;
                 }
               }
+              //append empty stars as necessary
               for (let i = 0.5; i < 5 - Math.round(grocer_rating); i++) {
                 var star_img = document.createElement("img");
                 star_img.src = empty_star;
@@ -180,6 +196,7 @@
               const markerImg = document.createElement("img");
               markerImg.width = 32;
               markerImg.height = 32;
+              //Set the marker image to a custom image
               markerImg.src =
                 "https://cdn-icons-png.flaticon.com/512/3419/3419665.png";
               const glyphSvgPinElement = new google.maps.marker.PinElement({
@@ -192,6 +209,7 @@
               });
               //On hover will show the name of the grocery store
               marker.title = name;
+              //If someone clicks outside of the popup, it will close
               marker.addListener("click", ({ domEvent, latLng }) => {
                 const { target } = domEvent;
                 infoWindow.close();
@@ -211,29 +229,38 @@
                 
                 var detailsurl = "http://localhost:3100/api/maps/details";
                 //second call to location api with place_id to get more specific details on click
+
+                //Inititalise variables
                 phone_number = "";
                 var timing_text = "No timings avaliable";
                 var location_photo ="";
+                //If a div already exists, remove it, this is so that when you click multiple markers it dosent just show both info.
                 if(document.getElementById("Extra_details_div")){
                   let toremove=document.getElementById("Extra_details_div");
                   toremove.remove()
                 }
+
+                //Div containing all the extra details, will be appened to id=extrainfo div
                 var Extra_details_div = document.createElement("div");
                 Extra_details_div.id = "Extra_details_div";
 
+                //Axios call to get specific details of the selected grocery store
                 axios
                   .get(detailsurl, {
                     params: { place_id: place_id },
                   })
                   .then(async (response) => {
+                    //Second div that contains phone number and opening/closing times
                     let extra_div = document.createElement("div");
-                    //phone number
+                    
+                    //Phone number Avaliable
                     phone_number = response.data.result.formatted_phone_number;
                     if (phone_number) {
                       phone_text = document.createTextNode('Contact Number: '+phone_number);
                       extra_div.appendChild(phone_text);
                     } 
                     else {
+                      //No phone number avaliable
                       phone_para = document.createElement("p");
                       phone_text = document.createTextNode(
                         "No phone number avaliable"
@@ -251,6 +278,8 @@
                       timing_list.appendChild(timing_text_element);
                       extra_div.appendChild(timing_list);
                     }
+
+                    //Append the second div to the main div
                     Extra_details_div.appendChild(extra_div);
 
 
@@ -258,13 +287,17 @@
                     if (response.data.result.photos) {
                       photo_reference =
                         response.data.result.photos[0].photo_reference;
+                      //Link to photo as given by google api
                       location_photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${photo_reference}&key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk`;
                       let image=document.createElement("img");
                       image.src=location_photo;
-                      image.style.width = "100%";  // Set the width to 100%
-                      image.style.height = "100%"; // Set the height to 100%
+                      //Set style of photo
+                      image.style.width = "100%";
+                      image.style.height = "100%";
+                      //Div to contain photo 
                       let imagediv=document.createElement("div");
                       imagediv.appendChild(image);
+                      //Append photo to main div
                       Extra_details_div.appendChild(imagediv);
                     }
 
@@ -272,11 +305,14 @@
                     else{
                       location_photo="https://t4.ftcdn.net/jpg/02/78/37/33/360_F_278373358_25gUoss2GtX0KJa8kJQmNcp872u6dTxW.jpg";
                       let image=document.createElement("img");
-                      image.style.width = "100%";  // Set the width to 100%
-                      image.style.height = "100%"; // Set the height to 100%
+                       //Set style of photo
+                      image.style.width = "100%";  
+                      image.style.height = "100%"; 
                       image.src=location_photo;
+                      //Div to contain photo 
                       let imagediv=document.createElement("div");
                       imagediv.appendChild(image);
+                       //Append photo to main div
                       Extra_details_div.appendChild(imagediv);
                     }
                   });
@@ -293,7 +329,7 @@
                 //**************************************************************************************//
                 
 
-
+                //Display open or closed based on boolean
                 let openboolean = false;
                 if (array_of_grocers[i].opening_hours.open_now) {
                   openboolean = array_of_grocers[i].opening_hours.open_now;
@@ -311,9 +347,11 @@
                 mapLink.innerText = "View on Google Maps";
                 var br = document.createElement("br");
                 let line = document.createElement("li");
+                //name is appened to h5 element
                 let name_element = document.createElement("h5");
                 name_element.innerText = name;
-                let text2 = document.createTextNode(address);
+                //address is appened to text 2
+                let address_text = document.createTextNode(address);
 
                 //Creates green or red text for open or closed depending on the status
                 let open_text = document.createElement("p");
@@ -325,9 +363,9 @@
                 }
                 let phone_text = document.createTextNode(phone_number + "\n");
 
-                //append text and open status
+                //append text, addreess, open status and phone number
                 Extra_details_div.appendChild(name_element);
-                Extra_details_div.appendChild(text2);
+                Extra_details_div.appendChild(address_text);
                 Extra_details_div.appendChild(open_text);
                 Extra_details_div.appendChild(phone_text);
 
@@ -377,6 +415,7 @@
                 //Append everything to locations
                 document.getElementById("extra_info").appendChild(Extra_details_div);
 
+                //This is to display in the infowindow (small pop up on the map when u click the marker)
                 const contentString =
                   '<div id="content">' +
                   '<div id="siteNotice"></div>' +
