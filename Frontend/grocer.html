@@ -100,7 +100,7 @@
               let address = array_of_grocers[i].vicinity;
               //Some grocery stores do not have a open/close status so is by default false
               let openboolean = false;
-              if (array_of_grocers[i].opening_hours.open_now) {
+              if (array_of_grocers[i].opening_hours) {
                 openboolean = array_of_grocers[i].opening_hours.open_now;
               }
               //If the value called openboolean is true, set the text to say that its open
