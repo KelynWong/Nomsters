@@ -28,12 +28,18 @@
         <div class="col-6">
           <div id="map"></div>
         </div>
+        <div
+          class="col-3"
+          id="extra_info"
+          style="background-color: lightcoral"
+        ></div>
       </div>
     </div>
 
     <script>
       var location = "";
-      var infoWindow = null; // Declare infoWindow variable outside of initMap function
+      var infoWindow = null;
+
       // Initialize and add the map
       async function initMap() {
         try {
@@ -47,7 +53,7 @@
           console.log(error);
         }
 
-        //Makes the map with how zoomed in it is using google places api
+        //Makes the map with how zoomed in it is using google map api
 
         var map = new google.maps.Map(document.getElementById("map"), {
           zoom: 15,
@@ -62,7 +68,9 @@
 
         //Get data for marker elements for nearby grocery stores using places api
 
-        const apiUrl = "http://localhost:3100/api/maps";
+        //const apiUrl = "https://leaptron2.dscloud.me:3000/api/maps";
+        const apiUrl = "http://localhost:3100/api/maps/grocers";
+
         var array_of_grocers = [];
 
         axios
@@ -75,7 +83,8 @@
             console.log(array_of_grocers);
 
             //Set the number of results to display here
-            for (let i = 0; i <= 5 & i < array_of_grocers.length; i++) {
+            for (let i = 0; (i <= 8) & (i < array_of_grocers.length); i++) {
+
               //Gets releavant display data for each grocery store
               let place_id = array_of_grocers[i].place_id;
               let name = array_of_grocers[i].name;
@@ -98,10 +107,11 @@
                 name
               )}`;
               mapLink.innerText = "View on Google Maps";
+              var br = document.createElement("br");
               let line = document.createElement("li");
-              let text = document.createTextNode(
-                name + "\n" + address + "\n"
-              );
+              let name_element = document.createElement("h5");
+              name_element.innerText = name;
+              let text2 = document.createTextNode(address);
 
               //Creates green or red text for open or closed depending on the status
               let open_text = document.createElement("p");
@@ -113,7 +123,8 @@
               }
 
               //append text and open status
-              line.appendChild(text);
+              line.appendChild(name_element);
+              line.appendChild(text2);
               line.appendChild(open_text);
 
               //Create and append star rating for each grocery store
@@ -121,25 +132,24 @@
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Empty_Star.svg/1200px-Empty_Star.svg.png";
               var star =
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Star%2A.svg/1117px-Star%2A.svg.png";
-              var halfstar=
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Half_Star_Yellow.svg/1200px-Half_Star_Yellow.svg.png"
+              var halfstar =
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Half_Star_Yellow.svg/1200px-Half_Star_Yellow.svg.png";
               var rating_int = parseFloat(grocer_rating);
-              var br=document.createElement('br')
-              if(grocer_rating=='0'){
-                grocer_rating='No rating '
+              if (grocer_rating == "0") {
+                grocer_rating = "No rating ";
               }
-              let rating_text= document.createTextNode(grocer_rating+' ')
-              line.appendChild(br)
-              line.appendChild(rating_text)
-              while (rating_int >=0.5) {
-                if(rating_int>=1){
-                var star_img = document.createElement("img");
-                star_img.src = star;
-                star_img.width = 20;
-                star_img.height = 20;
-                line.appendChild(star_img);
-                rating_int = rating_int - 1;}
-                else{
+              let rating_text = document.createTextNode(grocer_rating + " ");
+              line.appendChild(br);
+              line.appendChild(rating_text);
+              while (rating_int >= 0.5) {
+                if (rating_int >= 1) {
+                  var star_img = document.createElement("img");
+                  star_img.src = star;
+                  star_img.width = 20;
+                  star_img.height = 20;
+                  line.appendChild(star_img);
+                  rating_int = rating_int - 1;
+                } else {
                   var star_img = document.createElement("img");
                   star_img.src = halfstar;
                   star_img.width = 20;
@@ -148,20 +158,16 @@
                   rating_int = rating_int - 1;
                 }
               }
-              for(let i=0.5;i<5-Math.round(grocer_rating);i++){
+              for (let i = 0.5; i < 5 - Math.round(grocer_rating); i++) {
                 var star_img = document.createElement("img");
                 star_img.src = empty_star;
                 star_img.width = 20;
                 star_img.height = 20;
                 line.appendChild(star_img);
               }
-              
-              
-
-    
 
               //append map link
-              line.appendChild(br)
+              line.appendChild(br);
               line.appendChild(mapLink);
 
               //Append everything to locations
@@ -186,11 +192,191 @@
               });
               //On hover will show the name of the grocery store
               marker.title = name;
-
               marker.addListener("click", ({ domEvent, latLng }) => {
                 const { target } = domEvent;
                 infoWindow.close();
-                //Sets what the popup window shows when you click a marker
+
+
+                //**************************************************************************************//
+                //                                                                                      //
+                //                                                                                      //
+                //Begin code of second call to location api to get more specific details on marker click//
+                //                                                                                      //
+                //                                                                                      //
+                //**************************************************************************************//
+
+
+
+
+                
+                var detailsurl = "http://localhost:3100/api/maps/details";
+                //second call to location api with place_id to get more specific details on click
+                phone_number = "";
+                var timing_text = "No timings avaliable";
+                var location_photo ="";
+                if(document.getElementById("Extra_details_div")){
+                  let toremove=document.getElementById("Extra_details_div");
+                  toremove.remove()
+                }
+                var Extra_details_div = document.createElement("div");
+                Extra_details_div.id = "Extra_details_div";
+
+                axios
+                  .get(detailsurl, {
+                    params: { place_id: place_id },
+                  })
+                  .then(async (response) => {
+                    let extra_div = document.createElement("div");
+                    //phone number
+                    phone_number = response.data.result.formatted_phone_number;
+                    if (phone_number) {
+                      phone_text = document.createTextNode('Contact Number: '+phone_number);
+                      extra_div.appendChild(phone_text);
+                    } 
+                    else {
+                      phone_para = document.createElement("p");
+                      phone_text = document.createTextNode(
+                        "No phone number avaliable"
+                      );
+                      phone_para.appendChild(phone_text);
+                      extra_div.appendChild(phone_para);
+                    }
+
+                    //Paragraph showing opening times eg. monday:10am-11pm
+                    timing_text =
+                      response.data.result.current_opening_hours.weekday_text;
+                    for (days of timing_text) {
+                      let timing_list = document.createElement("li");
+                      let timing_text_element = document.createTextNode(days);
+                      timing_list.appendChild(timing_text_element);
+                      extra_div.appendChild(timing_list);
+                    }
+                    Extra_details_div.appendChild(extra_div);
+
+
+                    //Call place photos api to see if theres any available photos
+                    if (response.data.result.photos) {
+                      photo_reference =
+                        response.data.result.photos[0].photo_reference;
+                      location_photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${photo_reference}&key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk`;
+                      let image=document.createElement("img");
+                      image.src=location_photo;
+                      image.style.width = "100%";  // Set the width to 100%
+                      image.style.height = "100%"; // Set the height to 100%
+                      let imagediv=document.createElement("div");
+                      imagediv.appendChild(image);
+                      Extra_details_div.appendChild(imagediv);
+                    }
+
+                    //If no photos are found, set this as the default photo
+                    else{
+                      location_photo="https://t4.ftcdn.net/jpg/02/78/37/33/360_F_278373358_25gUoss2GtX0KJa8kJQmNcp872u6dTxW.jpg";
+                      let image=document.createElement("img");
+                      image.style.width = "100%";  // Set the width to 100%
+                      image.style.height = "100%"; // Set the height to 100%
+                      image.src=location_photo;
+                      let imagediv=document.createElement("div");
+                      imagediv.appendChild(image);
+                      Extra_details_div.appendChild(imagediv);
+                    }
+                  });
+                
+
+                //**************************************************************************************//
+                //                                                                                      //
+                //Code below same as above call, obtain open now or not boolean, stars etc              //                                                              //
+                //                                                                                      //
+                //                                                                                      //
+                //Can recode in the future to reuse some of the variables from the 1st call if got time,//
+                //but this is safer/can edit style seperately if needed                                 //                                                       //
+                //                                                                                      //
+                //**************************************************************************************//
+                
+
+
+                let openboolean = false;
+                if (array_of_grocers[i].opening_hours.open_now) {
+                  openboolean = array_of_grocers[i].opening_hours.open_now;
+                }
+                if (openboolean == true) {
+                  openboolean = "Open";
+                } else {
+                  openboolean = "Closed";
+                }
+                //Creates a link to google maps for the grocery store
+                let mapLink = document.createElement("a");
+                mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  name
+                )}`;
+                mapLink.innerText = "View on Google Maps";
+                var br = document.createElement("br");
+                let line = document.createElement("li");
+                let name_element = document.createElement("h5");
+                name_element.innerText = name;
+                let text2 = document.createTextNode(address);
+
+                //Creates green or red text for open or closed depending on the status
+                let open_text = document.createElement("p");
+                open_text.innerText = openboolean;
+                if (openboolean == "Open") {
+                  open_text.style.color = "green";
+                } else {
+                  open_text.style.color = "red";
+                }
+                let phone_text = document.createTextNode(phone_number + "\n");
+
+                //append text and open status
+                Extra_details_div.appendChild(name_element);
+                Extra_details_div.appendChild(text2);
+                Extra_details_div.appendChild(open_text);
+                Extra_details_div.appendChild(phone_text);
+
+                //Create and append star rating for each grocery store
+                var empty_star =
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Empty_Star.svg/1200px-Empty_Star.svg.png";
+                var star =
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Star%2A.svg/1117px-Star%2A.svg.png";
+                var halfstar =
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Half_Star_Yellow.svg/1200px-Half_Star_Yellow.svg.png";
+                var rating_int = parseFloat(grocer_rating);
+                if (grocer_rating == "0") {
+                  grocer_rating = "No rating ";
+                }
+                let rating_text = document.createTextNode(grocer_rating + " ");
+                Extra_details_div.appendChild(br);
+                Extra_details_div.appendChild(rating_text);
+                while (rating_int >= 0.5) {
+                  if (rating_int >= 1) {
+                    var star_img = document.createElement("img");
+                    star_img.src = star;
+                    star_img.width = 20;
+                    star_img.height = 20;
+                    Extra_details_div.appendChild(star_img);
+                    rating_int = rating_int - 1;
+                  } else {
+                    var star_img = document.createElement("img");
+                    star_img.src = halfstar;
+                    star_img.width = 20;
+                    star_img.height = 20;
+                    Extra_details_div.appendChild(star_img);
+                    rating_int = rating_int - 1;
+                  }
+                }
+                for (let i = 0.5; i < 5 - Math.round(grocer_rating); i++) {
+                  var star_img = document.createElement("img");
+                  star_img.src = empty_star;
+                  star_img.width = 20;
+                  star_img.height = 20;
+                  Extra_details_div.appendChild(star_img);
+                }
+
+                //append map link
+                Extra_details_div.appendChild(br);
+                Extra_details_div.appendChild(mapLink);
+
+                //Append everything to locations
+                document.getElementById("extra_info").appendChild(Extra_details_div);
+
                 const contentString =
                   '<div id="content">' +
                   '<div id="siteNotice"></div>' +
