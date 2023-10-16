@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const basicAuth = require('basic-auth');
 const router = express.Router();
 const db = require('../../db/mariadb');
 require('dotenv').config();
@@ -38,7 +39,15 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const credentials = basicAuth(req);
+
+  if (!credentials || !credentials.name || !credentials.pass) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  const username = credentials.name;
+  const password = credentials.pass;
+
   const sql = 'SELECT * FROM user';
 
   db.query(sql)
