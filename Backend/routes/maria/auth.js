@@ -8,6 +8,11 @@ require('dotenv').config();
 
 router.post('/signup', (req, res) => {
   const { username, password, image } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Please provide username and password' });
+  }
+
   const sqlGet = 'SELECT * FROM user';
 
   db.query(sqlGet)
@@ -42,7 +47,7 @@ router.post('/login', (req, res) => {
   const credentials = basicAuth(req);
 
   if (!credentials || !credentials.name || !credentials.pass) {
-    return res.status(401).send('Unauthorized');
+    return res.status(400).json({ message: 'Please provide login credentials' });
   }
 
   const username = credentials.name;
@@ -56,7 +61,7 @@ router.post('/login', (req, res) => {
       const user = rows.find((user) => user.username === username);
 
       if (!user) {
-        res.status(401).json({ message: 'Username doesnt exist' });
+        res.status(400).json({ message: 'Username doesnt exist' });
         return;
       }
 
@@ -66,7 +71,7 @@ router.post('/login', (req, res) => {
             const token = jwt.sign({ userId: Number(user.userId) }, process.env.JWT_SECRET, { expiresIn: '24h' });
             res.json({ token, userId: Number(user.userId) });
           } else {
-            res.status(401).json({ message: 'Password is incorrect' });
+            res.status(400).json({ message: 'Password is incorrect' });
           }
         });
     })
