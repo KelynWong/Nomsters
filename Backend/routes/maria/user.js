@@ -12,6 +12,7 @@ router.get('/:id', (req, res) => {
             if (rows.length === 0) {
                 res.status(404).json({ message: 'User not found' });
             } else {
+                rows[0].userId = Number(rows[0].userId);
                 res.json(rows[0]);
             }
         })
