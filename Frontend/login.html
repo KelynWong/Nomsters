@@ -14,8 +14,10 @@
 
     <style>
         .bigdiv {
-            background-image: url('login.png');
+            /* background-image: url('src/img/login.png'); */
             position: relative;
+            width: auto;
+            height: 100%;
         }
 
         #background {
@@ -44,7 +46,9 @@
 
             #exampleInputUsername1, #exampleInputPassword1 {
                 margin-top: 10px;
-                width: 300px;
+                width: 400px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .btn {
@@ -53,7 +57,7 @@
                 margin-bottom: 1cm;
                 margin-top: 10px;
                 width: 35%;
-                outline: none !important;
+                border-style:none;
             }
 
             a {
@@ -64,6 +68,14 @@
                 color:black;
                 font-size: small;
             }
+
+            .logo {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+                
+            }
     </style>
 
     <style>
@@ -71,8 +83,9 @@
 
          html, body { height: 100%; }
             body {
-            background-image: url('login.png');
             overflow: hidden;
+            background-image: url('src/img/login.png');
+            background-size: cover;
             }
 
             .ocean { 
@@ -85,7 +98,7 @@
             }
 
             .wave {
-            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+            background: url('src/img/waveRed.svg') repeat-x; 
             position: absolute;
             top: -198px;
             width: 6400px;
@@ -122,13 +135,16 @@
 
 </head>
 
+<body>
+
     <div class="bigdiv">
         
         <div class="container col-6">
            
             <div class="row">
                 <div class="form">
-                    <div class="icon">nomsters icon goes here</div>
+                    <!-- <div class="icon">nomsters icon goes here</div> -->
+                    <img src="img/logo.png" alt="logo" class="logo mx-auto" />
                     <form>
                         
                         <div class="mb-3">
@@ -160,4 +176,6 @@
         <div class="wave"></div>
     </div>
 
- </div>
+</div>
+    
+</body>
