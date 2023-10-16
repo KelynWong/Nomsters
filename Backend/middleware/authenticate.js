@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 function authenticate(req, res, next) {
-  const token = req.headers.authorization;
+  var token = req.headers.authorization;
+  token = token && token.split(/\s+/)[1] // Token Format: BEARER 4324fdsirejwrewk
 
   if (!token) {
     return res.status(401).json({ message: 'Token is missing' });
