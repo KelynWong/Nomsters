@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+
+    <script>
+      var location = "";
+      // Initialize and add the map
+      async function initMap() {
+        try {
+          // Retrieves current location using google geolocation api
+          const response = await axios.post(
+            "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk",
+            {}
+          );
+          var location = response.data.location;
+        } catch (error) {
+          console.log(error);
+        }
+
+        //Makes the map with how zoomed in it is using google places api
+
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: location,
+          mapId: "c076fb2f221a8a39",
+        });
+
+        //Get data for marker elements for nearby grocery stores using places api
+
+        const apiUrl = "http://localhost:3000/api/maps";
+        var list_of_grocers = [];
+
+        axios
+          .get(apiUrl, {
+            params: { location: location },
+          })
+          .then((response) => {
+            // Retrives an array of nearby grocery stores
+            array_of_grocers = response.data;
+          })
+          .catch((error) => {
+            // Handle any errors here
+            console.error(error);
+          });
+
+          for(grocer of list_of_grocers){
+            console.log(grocer.geometry.location)
+          }
+
+        //import  advanced marker elements library
+        const { AdvancedMarkerElement } = await google.maps.importLibrary(
+          "marker"
+        );
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+          map,
+          position: location,
+        });
+      }
+    </script>
+    <script
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk&callback=initMap"
+    ></script>
+  </body>
+</html>

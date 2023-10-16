@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" 
+    crossorigin="anonymous">
+
+    <style>
+        .bigdiv {
+            background-image: url('login.png');
+            position: relative;
+        }
+
+        #background {
+            width: 100%;
+        }
+
+        .container {
+            position: absolute;
+            top: 200px;
+            left: 70px;
+            right: 70px;
+            width: 50%;
+            height:fit-content;
+            margin: auto !important;
+            font-size: 24px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+            .icon {
+                margin: auto;
+                text-align: center;
+                color: black;
+            }
+
+            #exampleInputUsername1, #exampleInputPassword1 {
+                margin-top: 10px;
+                width: 300px;
+            }
+
+            .btn {
+                background-color: #DE352A;
+                outline-style: none;
+                margin-bottom: 1cm;
+                margin-top: 10px;
+                width: 35%;
+                outline: none !important;
+            }
+
+            a {
+                color: #DE352A;
+            }
+
+            .signup {
+                color:black;
+                font-size: small;
+            }
+    </style>
+
+    <style>
+         /* code for the wave */
+
+         html, body { height: 100%; }
+            body {
+            background-image: url('login.png');
+            overflow: hidden;
+            }
+
+            .ocean { 
+            background-color: white;
+            height: 0%;
+            width:100%;
+            position:absolute;
+            bottom:0;
+            left:0;
+            }
+
+            .wave {
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+            position: absolute;
+            top: -198px;
+            width: 6400px;
+            height: 198px;
+            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+            }
+
+            .wave:nth-of-type(2) {
+            top: -175px;
+            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+            opacity: 1;
+            }
+
+            @keyframes wave {
+                0% {
+                    margin-left: 0;
+                }
+                100% {
+                    margin-left: -1600px;
+                }
+            }
+
+            @keyframes swell {
+                0%, 100% {
+                    transform: translate3d(0,-25px,0);
+                }
+                50% {
+                    transform: translate3d(0,5px,0);
+                }
+            }
+            /* end of wave code */
+    </style>
+
+</head>
+
+    <div class="bigdiv">
+        
+        <div class="container col-3">
+           
+            <div class="row">
+                <div class="form">
+                    <div class="icon">nomsters icon goes here</div>
+                    <form>
+                        
+                        <div class="mb-3">
+                          <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                        </div>
+
+                        <div class="mb-3">
+                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ocean">
+
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+ </div>
