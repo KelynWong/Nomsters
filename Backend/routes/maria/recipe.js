@@ -70,6 +70,8 @@ router.get('/', (req, res) => {
                 row.dishtypes = row.dishtypes;
                 row.diets = row.diets;
                 row.cuisines = row.cuisines;
+
+                row.recipeId = Number(row.recipeId);
             });
 
             res.json(rows);
