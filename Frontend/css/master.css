@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'PlayfairDisplay';
-    src: url('fonts/PlayfairDisplay-Bold.otf') format('truetype'), url('fonts/PlayfairDisplay-Bold.woff') format('woff'), url('fonts/PlayfairDisplay-Bold.woff2') format('woff2');
+    src: url('fonts/PlayfairDisplay-Bold.ttf') format('truetype'), url('fonts/PlayfairDisplay-Bold.woff') format('woff'), url('fonts/PlayfairDisplay-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
@@ -8,6 +8,13 @@
 @font-face {
     font-family: 'PlayfairDisplay';
     src: url('fonts/PlayfairDisplay-Regular.ttf') format('truetype'), url('fonts/PlayfairDisplay-Regular.woff') format('woff'), url('fonts/PlayfairDisplay-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BigshotOne';
+    src: url('fonts/BigshotOne.ttf') format('truetype'), url('fonts/BigshotOne.woff') format('woff'), url('fonts/PlayBigshotOne.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -81,48 +88,51 @@ li {
     line-height: 1.8em;
 }
 
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+    margin-bottom: 0 !important;
+}
+
 h1 {
     font-family: 'PlayfairDisplay';
     font-weight: bold;
     text-transform: capitalize;
-    font-size: 80px;
-    line-height: 5.625em;
-    letter-spacing: .4em;
+    font-size: 64px;
+    line-height: 1.3em;
+    letter-spacing: .06em;
 }
 
 h2 {
     font-family: 'PlayfairDisplay';
     font-weight: bold;
+    text-transform: capitalize;
     font-size: 54px;
 }
 
 h3 {
     font-family: 'PlayfairDisplay';
     font-weight: bold;
-    font-size: 36px;
+    text-transform: capitalize;
+    font-size: 32px;
 }
 
 h4 {
     font-family: 'PlayfairDisplay';
     font-weight: bold;
-    font-size: 28px;
-    line-height: 2.625em;
+    text-transform: capitalize;
+    font-size: 24px;
     letter-spacing: .05em;
 }
 
 h5 {
-    font-family: 'PlayfairDisplay';
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 2.625em;
-    letter-spacing: .05em;
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 20px;
 }
 
 h6 {
     font-family: 'Poppins';
-    font-weight: medium;
-    font-size: 20px;
-    line-height: auto;
+    font-weight: 500;
+    font-size: 18px;
 }
 
 p {
@@ -130,6 +140,20 @@ p {
     font-size: 16px;
     line-height: 1.4em; 
     letter-spacing: .02em;
+}
+
+.p-15 {
+    color: rgba(0, 0, 0, 0.60);
+    font-size: 15px;
+}
+
+.red {
+    color: #DE352A;
+}
+
+.width-75 {
+    width: 75%;
+    margin: 0 auto;
 }
 
 .btn {
