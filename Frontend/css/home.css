@@ -27,7 +27,7 @@
     align-content: center;
     justify-content: space-between;
     align-items: center;
-    margin: 50px auto;
+    margin: 50px auto 0;
 }
 
 #section2 h3 {
@@ -44,12 +44,8 @@
     line-height: 1.1em;
 }
 
-#section3, #section6 {
+#section3 {
     margin: 100px auto;
-}
-
-#section4, #section5, #section7 {
-    margin: 120px auto;
 }
 
 .section-head {
@@ -92,24 +88,19 @@
     margin: 34px 0;
 }
 
-.container-listing {
-    width: 30%;
-    margin: 0 12px;
-}
-
 .container-listing:first-child {
-    margin-right: 12px;
+    margin-right: 18px;
     margin-left: 0px;
 }
 
 .container-listing:last-child {
-    margin-left: 12px;
+    margin-left: 18px;
     margin-right: 0px;
 }
 
 .container-listing {
     width: 32%;
-    margin: 0 24px;
+    margin: 0 18px;
 }
 
 .container-listing img {
@@ -130,8 +121,13 @@
 }
 
 .subdesc .p-15 {
-    margin-left: 8px;
+    margin-left: 6px;
 }
+
+#section4 {
+    margin: 0 auto 100px;
+}
+
 
 #section4 .button {
     border-radius: 8px;
@@ -249,6 +245,10 @@
     background-image: url("../img/cuisine/italian.jpg");
 }
 
+#section5 {
+    margin: 100px auto 0;
+}
+
 #section5 h6, #section7 h6 {
     text-align: center;
     margin: 21px 0 32px !important;
@@ -301,16 +301,22 @@
     color: #979797;
 }
 
+#section6 {
+    margin: 80px auto 0;
+}
+
 #section7 {
     text-align: center;
+    margin: 100px auto 120px;
 }
 
 .calorie {
     border-radius: 8px;
-    padding: 24px 32px 475px;
+    padding: 24px 32px 26vw;
     margin: 20px 18px;
     position: relative;
     color: #fff;
+    background-position: bottom center;
 } 
 
 .calorie:first-child {
@@ -324,17 +330,14 @@
 }
 
 .calorie h3 {
-    font-size: 28px;
+    font-size: 26px;
 }
 
 .calorie .section-head {
     align-items: flex-end;
     z-index: 10;
     position: relative;
-}
-
-.calorie .section-head svg {
-    margin-left: 144px;
+    width: 18vw;
 }
 
 .calorie:hover  {
