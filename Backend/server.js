@@ -19,6 +19,7 @@ const recipe = require('./routes/maria/recipe');
 const user = require('./routes/maria/user');
 const auth = require('./routes/maria/auth');
 const maps= require('./routes/maria/maps');
+const mealprep=require('./routes/maria/mealprep');
 
 // uncomment for localhost
 // const cuisine = require('./routes/mysql/cuisine');
@@ -35,6 +36,7 @@ app.use('/api/cuisine', authenticate, cuisine);
 app.use('/api/dishType', authenticate, dishtype);
 app.use('/api/diet', authenticate, diet);
 app.use('/api/maps', maps)
+app.use('/api/mealprep', mealprep)
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
