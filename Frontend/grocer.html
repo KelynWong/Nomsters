@@ -70,8 +70,7 @@
 
         //Get data for marker elements for nearby grocery stores using places api
 
-        //const apiUrl = "https://leaptron2.dscloud.me:3000/api/maps";
-        const apiUrl = "http://localhost:3100/api/maps/grocers";
+        const apiUrl = "https://leaptron2.dscloud.me:3000/api/maps/grocers";
 
         var array_of_grocers = [];
         //call maps.js which will call and retrive nearby places from google places api
@@ -100,7 +99,7 @@
               let address = array_of_grocers[i].vicinity;
               //Some grocery stores do not have a open/close status so is by default false
               let openboolean = false;
-              if (array_of_grocers[i].opening_hours.open_now) {
+              if (array_of_grocers[i].opening_hours) {
                 openboolean = array_of_grocers[i].opening_hours.open_now;
               }
               //If the value called openboolean is true, set the text to say that its open
@@ -117,6 +116,7 @@
               mapLink.innerText = "View on Google Maps";
               var br = document.createElement("br");
               let line = document.createElement("li");
+              let linediv= document.createElement("div");
               //name is appened to h5 element
               let name_element = document.createElement("h5");
               name_element.innerText = name;
@@ -185,9 +185,10 @@
               //append map link
               line.appendChild(br);
               line.appendChild(mapLink);
+              linediv.appendChild(line);
 
               //Append everything to locations
-              document.getElementById("locations").appendChild(line);
+              document.getElementById("locations").appendChild(linediv);
 
               //Creates info window to show on click for grocery store
               infoWindow = new google.maps.InfoWindow({});
@@ -201,6 +202,8 @@
                 "https://cdn-icons-png.flaticon.com/512/3419/3419665.png";
               const glyphSvgPinElement = new google.maps.marker.PinElement({
                 glyph: markerImg,
+                background:'rgba(59,64,122,255)',
+                borderColor:'white'
               });
               const marker = new google.maps.marker.AdvancedMarkerElement({
                 map,
@@ -209,10 +212,9 @@
               });
               //On hover will show the name of the grocery store
               marker.title = name;
-              //If someone clicks outside of the popup, it will close
-              marker.addListener("click", ({ domEvent, latLng }) => {
-                const { target } = domEvent;
-                infoWindow.close();
+              //If someone clicks on the marker, make all the side info appear
+              marker.addListener("click", ({}) => {
+            
 
 
                 //**************************************************************************************//
@@ -227,7 +229,7 @@
 
 
                 
-                var detailsurl = "http://localhost:3100/api/maps/details";
+                var detailsurl = "https://leaptron2.dscloud.me:3000/api/maps/details";
                 //second call to location api with place_id to get more specific details on click
 
                 //Inititalise variables
