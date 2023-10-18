@@ -31,20 +31,20 @@
 
 ## Endpoints
 - [Login](#login) -> complete
-- [Sign Up](#sign-up) -> complete
+- [Sign Up](#sign-up) -> to add optional diet field
 - [Get A User](#get-a-user) -> complete
 - [Update User](#update-user) -> complete
 - [Delete User](#delete-user) -> complete
-- [Add/update User Diet](#add/update-user-diet) -> to add checking if user exists
-- [Delete User Diet](#delete-user-diet) -> not done
+- [Add or update User Diet](#add-or-update-user-diet) -> complete
+- [Delete User Diet](#delete-user-diet) -> complete
 - [Add User Favourite Recipe](#add-user-favourite-recipe) -> complete
 - [Delete User Favourite Recipe](#delete-user-favourite-recipe) -> complete
-- [Get User Favourite Recipe](#get-user-favourite-recipe) -> not done
+- [Get User Favourite Recipe](#get-user-favourite-recipe) -> complete
 - [Get Dish Types](#get-dish-types) -> complete
 - [Get Diets](#get-diets) -> complete
 - [Get Cuisines](#get-cuisines) -> complete
-- [Get Recipes](#get-recipes) ->
-- [Add Recipe](#add-recipe) -> not done
+- [Get Recipes](#get-recipes) -> complete
+- [Add Recipe](#add-recipe) -> complete
 - [Delete Recipe](#delete-recipe) -> not done
 
 ### Login 
@@ -340,8 +340,8 @@
 	    "message": "User not found"
     }
 
-### Add/Update User Diet
-- **URL:** `/user/:id`
+### Add or Update User Diet
+- **URL:** `/user/:id/diet`
 - **Method:** `POST`
 - **Description:** 
 - **Params:**
@@ -361,7 +361,7 @@
   
 #### Success Example
 - **Example request:**
-  - url: /user/1
+  - url: /user/1/diet
   - Json body request:
   ```json
     { 
@@ -373,6 +373,73 @@
     ```json
     { 
         "message": "User diet updated successfully" 
+    }
+
+#### Error Example 1 (user doesnt exist)
+- **Example request:**
+  - url: /user/3846/diet
+  - Json body request:
+  ```json
+    { 
+        "diets": "gluten free, vegan, paleolithic, fodmap friendly"
+    }
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "User not found"
+    }
+
+#### Error Example 2 (empty diet)
+- **Example request:**
+  - url: /user/1/diet
+  - Json body request:
+  ```json
+    { 
+        "diets": ""
+    }
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "Please provide diets"
+    }
+
+### Delete User Diet
+- **URL:** `/user/:id/diet`
+- **Method:** `POST`
+- **Description:** 
+- **Params:**
+  - `id` (int)
+- **Json body request:**
+  - `diets` (string) - multiple diet seperated by commas
+    ```json
+    { 
+        "diets": "gluten free, vegan, paleolithic, fodmap friendly"
+    }
+- **Response:**
+  - `message` (string)
+    ```json
+    {
+	    "message": "User diet deleted successfully"
+    }
+  
+#### Success Example
+- **Example request:**
+  - url: /user/1/diet
+  - Json body request:
+  ```json
+    { 
+        "diets": "gluten free, vegan, paleolithic, fodmap friendly"
+    }
+
+- **Example response:**
+  - status code: `200`
+    ```json
+    { 
+        "message": "User diet deleted successfully" 
     }
 
 #### Error Example 1 (user doesnt exist)
@@ -405,6 +472,22 @@
     ```json
     {
 	    "message": "Please provide diets"
+    }
+
+#### Error Example 3 (no such diet exists for user to delete)
+- **Example request:**
+  - url: /user/1
+  - Json body request:
+  ```json
+    { 
+        "diets": "testdiet, vegan, paleolithic"
+    }
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "Diet(s) not found"
     }
 
 ### Add User Favourite Recipe
@@ -562,6 +645,201 @@
     ```json
     {
 	    "message": "Recipe(s) not found"
+    }
+
+### Get User Favourite Recipe
+- **URL:** `/user/:id/recipe`
+- **Method:** `GET`
+- **Description:** 
+- **Params:**
+  - `id` (int)
+- **Response:**
+  - Array: 
+    - `recipeId` (int)
+    - `vegetarian` (tinyint)
+    - `vegan` (tinyint)
+    - `glutenFree` (tinyint)
+    - `dairyFree` (tinyint)
+    - `veryHealthy` (tinyint)
+    - `cheap` (tinyint)
+    - `veryPopular` (tinyint)
+    - `sustainable` (tinyint)
+    - `lowFodMap` (tinyint)
+    - `weightWatcherSmartPoints` (int)
+    - `gaps` (string)
+    - `preparationMinutes` (int)
+    - `cookingMinutes` (int)
+    - `aggregateLikes` (int)
+    - `healthScore` (int)
+    - `creditsText` (string)
+    - `license` (string)
+    - `sourceName` (string)
+    - `pricePerServing` (float)
+    - `id` (int)
+    - `title` (string)
+    - `readyInMinutes` (int)
+    - `servings` (int)
+    - `sourceUrl` (string)
+    - `image` (string)
+    - `image2` (blob)
+    - `imageType` (string)
+    - `summary` (string)
+    - `instructions` (string)
+    - `originalId` (string)
+    - `spoonacularSourceUrl` (string)
+    - `calories` (float)
+    - `fat` (float)
+    - `saturatedFat` (float)
+    - `carbohydrates` (float)
+    - `sugar` (float)
+    - `cholesterol` (float)
+    - `sodium` (float)
+    - `protein` (float)
+    - `dishtypes` (array of strings)
+    - `diets` (array of strings)
+    - `cuisines` (array of strings)
+    ```json
+    [
+      {
+        "recipeId": 161,
+        "vegetarian": 1,
+        "vegan": 1,
+        "glutenFree": 1,
+        "dairyFree": 1,
+        "veryHealthy": 0,
+        "cheap": 0,
+        "veryPopular": 0,
+        "sustainable": 0,
+        "lowFodMap": 1,
+        "weightWatcherSmartPoints": 0,
+        "gaps": "no",
+        "preparationMinutes": -1,
+        "cookingMinutes": -1,
+        "aggregateLikes": 3,
+        "healthScore": 36,
+        "creditsText": "Foodista.com – The Cooking Encyclopedia Everyone Can Edit",
+        "license": "CC BY 3.0",
+        "sourceName": "Foodista",
+        "pricePerServing": 87.85,
+        "id": 631913,
+        "title": "A Refreshing Drink To Welcome You All",
+        "readyInMinutes": 45,
+        "servings": 6,
+        "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+        "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+        "image2": null,
+        "imageType": "jpg",
+        "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+        "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
+        "originalId": null,
+        "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
+        "calories": 42.6,
+        "fat": 0.47,
+        "saturatedFat": 0.08,
+        "carbohydrates": 12.49,
+        "sugar": 8.27,
+        "cholesterol": 2.87,
+        "sodium": 0,
+        "protein": 15.17,
+        "dishtypes": [
+          "beverage",
+          "drink"
+        ],
+        "diets": [
+          "gluten free",
+          "dairy free",
+          "lacto ovo vegetarian",
+          "fodmap friendly",
+          "vegan"
+        ],
+        "cuisines": null
+      }
+    ]
+  
+#### Success Example
+- **Example request:**
+  - url: /user/1/recipe
+
+- **Example response:**
+  - status code: `200`
+    ```json
+    [
+      {
+        "recipeId": 161,
+        "vegetarian": 1,
+        "vegan": 1,
+        "glutenFree": 1,
+        "dairyFree": 1,
+        "veryHealthy": 0,
+        "cheap": 0,
+        "veryPopular": 0,
+        "sustainable": 0,
+        "lowFodMap": 1,
+        "weightWatcherSmartPoints": 0,
+        "gaps": "no",
+        "preparationMinutes": -1,
+        "cookingMinutes": -1,
+        "aggregateLikes": 3,
+        "healthScore": 36,
+        "creditsText": "Foodista.com – The Cooking Encyclopedia Everyone Can Edit",
+        "license": "CC BY 3.0",
+        "sourceName": "Foodista",
+        "pricePerServing": 87.85,
+        "id": 631913,
+        "title": "A Refreshing Drink To Welcome You All",
+        "readyInMinutes": 45,
+        "servings": 6,
+        "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+        "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+        "image2": null,
+        "imageType": "jpg",
+        "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+        "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
+        "originalId": null,
+        "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
+        "calories": 42.6,
+        "fat": 0.47,
+        "saturatedFat": 0.08,
+        "carbohydrates": 12.49,
+        "sugar": 8.27,
+        "cholesterol": 2.87,
+        "sodium": 0,
+        "protein": 15.17,
+        "dishtypes": [
+          "beverage",
+          "drink"
+        ],
+        "diets": [
+          "gluten free",
+          "dairy free",
+          "lacto ovo vegetarian",
+          "fodmap friendly",
+          "vegan"
+        ],
+        "cuisines": null
+      }
+    ]
+
+#### Error Example 1 (user doesnt exist)
+- **Example request:**
+  - url: /user/3846/recipe
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "User not found"
+    }
+
+#### Error Example 2 (user doesnt have any favourited recipes)
+- **Example request:**
+  - url: /user/2/recipe
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "No favourite recipes found"
     }
 
 ### Get Dish Types
@@ -727,7 +1005,7 @@
         }
     ]
 
-### Get Dish Types
+### Get Cuisines
 - **URL:** `/cuisine`
 - **Method:** `GET`
 - **Description:** 
@@ -888,6 +1166,7 @@
     - `servings` (int)
     - `sourceUrl` (string)
     - `image` (string)
+    - `image2` (blob)
     - `imageType` (string)
     - `summary` (string)
     - `instructions` (string)
@@ -933,6 +1212,7 @@
             "servings": 6,
             "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
             "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+            "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
@@ -996,6 +1276,7 @@
             "servings": 6,
             "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
             "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+            "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
@@ -1038,3 +1319,91 @@
     {
 	    "message": "No recipes found"
     }
+
+### Add recipe
+- **URL:** `/recipe`
+- **Method:** `POST`
+- **Description:** 
+- **Json body request:**
+  - `title` (string)
+  - `servings` (int)
+  - `ingredients` (array of strings)
+  - `instructions` (string)
+  - `image` (blob)
+    ```json
+    {
+      "title": "Chicken Stir-Fry",
+      "servings": 4,
+      "ingredients": [
+          "1 lb boneless, skinless chicken breasts, cut into strips",
+          "2 cups broccoli florets",
+          "1 red bell pepper, sliced",
+          "3 cloves garlic, minced",
+          "2 Tbsps soy sauce",
+          "1 Tbsp oyster sauce",
+          "2 tsp cornstarch",
+          "1/2 tsp red pepper flakes",
+          "2 Tbsps vegetable oil",
+          "Cooked rice for serving"
+      ],
+      "instructions": "In a small bowl, mix together soy sauce, oyster sauce, cornstarch, and red pepper flakes. Heat vegetable oil in a large skillet or wok over medium-high heat. Add chicken and stir-fry until cooked through. Remove chicken from the skillet. In the same skillet, add a bit more oil if needed and stir-fry broccoli, bell pepper, and garlic until tender. Return chicken to the skillet and pour the sauce mixture over. Stir-fry for a couple of minutes until the sauce thickens. Serve hot over cooked rice.",
+      "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0"
+    }
+- **Response:**
+  - `message` (string)
+    ```json
+    {
+	    "message": "Recipe added successfully"
+    }
+  
+#### Success Example
+- **Example request:**
+  - url: /recipe
+  - Json body request:
+  ```json
+    {
+      "title": "Chicken Stir-Fry",
+      "servings": 4,
+      "ingredients": [
+          "1 lb boneless, skinless chicken breasts, cut into strips",
+          "2 cups broccoli florets",
+          "1 red bell pepper, sliced",
+          "3 cloves garlic, minced",
+          "2 Tbsps soy sauce",
+          "1 Tbsp oyster sauce",
+          "2 tsp cornstarch",
+          "1/2 tsp red pepper flakes",
+          "2 Tbsps vegetable oil",
+          "Cooked rice for serving"
+      ],
+      "instructions": "In a small bowl, mix together soy sauce, oyster sauce, cornstarch, and red pepper flakes. Heat vegetable oil in a large skillet or wok over medium-high heat. Add chicken and stir-fry until cooked through. Remove chicken from the skillet. In the same skillet, add a bit more oil if needed and stir-fry broccoli, bell pepper, and garlic until tender. Return chicken to the skillet and pour the sauce mixture over. Stir-fry for a couple of minutes until the sauce thickens. Serve hot over cooked rice.",
+      "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0"
+    }
+
+- **Example response:**
+  - status code: `200`
+    ```json
+    {
+	    "message": "Recipe added successfully"
+    }
+
+#### Error Example (empty title/servings/ingredients/instructions/image)
+- **Example request:**
+  - url: /recipe
+  - Json body request:
+  ```json
+    {
+      "title": "",
+      "servings": 0,
+      "ingredients": [],
+      "instructions": "",
+      "image": ""
+    }
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "Please provide all recipe information"
+    }
+
