@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -151,11 +153,11 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Login</button>
+                            <button type="submit" class="btn btn-danger" style="font-weight:lighter" onclick="loginUser(event)">Login</button>
                         </div>
 
                         <div class="signup text-center">
-                            Don't have an Account? <a href="register.html">Sign up</a>
+                            Don't have an Account? <a href="http://localhost:5173/register.html">Sign up</a>
                         </div>
 
                     </form>
@@ -172,5 +174,43 @@
     </div>
 
 </div>
-    
+    <script>
+function loginUser() {
+  event.preventDefault();
+  const username = document.getElementById("exampleInputUsername1").value;
+  const password = document.getElementById("exampleInputPassword1").value;
+
+  // Create a Base64-encoded string for Basic Authentication
+  const base64Credentials = btoa(username + ':' + password);
+
+  // Set up the Axios POST request
+  axios.post('https://leaptron2.dscloud.me:3000/api/login', null, {
+    headers: {
+      'Authorization': 'Basic ' + base64Credentials
+    }
+  })
+  .then(response => {
+    // Handle a successful response here
+    console.log(response.data);
+    let token= response.data.token;
+    let userId= response.data.userId;
+    const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+
+    window.location.href=homePageUrl
+  })
+  .catch(error => {
+    if (error.response && error.response.data && error.response.data.message) {
+      // Extract and display the error message from the response
+      alert(error.response.data.message);
+      document.getElementById("exampleInputUsername1").value = '';
+      document.getElementById("exampleInputPassword1").value = '';
+    } else {
+      // Handle other errors
+      console.error(error);
+      alert('An error occurred during login.');
+    }
+  });
+}
+        
+    </script>
 </body>
