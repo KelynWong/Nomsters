@@ -225,4 +225,21 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.delete('/:id', (req, res) => {
+    const recipeId = req.params.id;
+
+    const sql = 'DELETE FROM recipe WHERE recipeId = ?';
+    db.query(sql, [recipeId])
+        .then((result) => {
+            if (result.affectedRows === 0) {
+                res.status(400).json({ message: 'Recipe not found' });
+            } else {
+                res.json({ message: 'Recipe deleted successfully' });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+});
+
 module.exports = router;
