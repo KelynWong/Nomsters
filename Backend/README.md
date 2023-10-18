@@ -30,22 +30,22 @@
 - hosted - `https://leaptron2.dscloud.me:3000/api`
 
 ## Endpoints
-- [Login](#login) -> complete
-- [Sign Up](#sign-up) -> to add optional diet field
-- [Get A User](#get-a-user) -> complete
-- [Update User](#update-user) -> complete
-- [Delete User](#delete-user) -> complete
-- [Add or update User Diet](#add-or-update-user-diet) -> complete
-- [Delete User Diet](#delete-user-diet) -> complete
-- [Add User Favourite Recipe](#add-user-favourite-recipe) -> complete
-- [Delete User Favourite Recipe](#delete-user-favourite-recipe) -> complete
-- [Get User Favourite Recipe](#get-user-favourite-recipe) -> complete
-- [Get Dish Types](#get-dish-types) -> complete
-- [Get Diets](#get-diets) -> complete
-- [Get Cuisines](#get-cuisines) -> complete
-- [Get Recipes](#get-recipes) -> complete
-- [Add Recipe](#add-recipe) -> complete
-- [Delete Recipe](#delete-recipe) -> not done
+- [Login](#login) 
+- [Sign Up](#sign-up) 
+- [Get A User](#get-a-user) 
+- [Update User](#update-user) 
+- [Delete User](#delete-user) 
+- [Add or update User Diet](#add-or-update-user-diet) 
+- [Delete User Diet](#delete-user-diet) 
+- [Add User Favourite Recipe](#add-user-favourite-recipe) 
+- [Delete User Favourite Recipe](#delete-user-favourite-recipe) 
+- [Get User Favourite Recipe](#get-user-favourite-recipe) 
+- [Get Dish Types](#get-dish-types) 
+- [Get Diets](#get-diets) 
+- [Get Cuisines](#get-cuisines) 
+- [Get Recipes](#get-recipes) 
+- [Add Recipe](#add-recipe) 
+- [Delete Recipe](#delete-recipe) 
 
 ### Login 
 - **URL:** `/login`
@@ -120,11 +120,13 @@
   - `username` (string)
   - `password` (string)
   - `image` (blob) - optional
+  - `diets` (string) - optional, multiple diet seperated by commas
     ```json
     {
         "username": "username",
         "password": "password",
-        "image": ""
+        "image": "",
+        "diets": ""
     }
 - **Response:**
   - `token` (string)
@@ -141,7 +143,8 @@
     {
         "username": "test",
         "password": "password123",
-        "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0"
+        "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0",
+        "diets": "gluten free, vegan, paleolithic, fodmap friendly"
     }
 
 - **Example response:**
@@ -158,7 +161,8 @@
     {
         "username": "username",
         "password": "password",
-        "image": ""
+        "image": "",
+        "diets": ""
     }
 
 - **Example response:**
@@ -174,7 +178,8 @@
     {
         "username": "",
         "password": "",
-        "image": ""
+        "image": "",
+        "diets": ""
     }
 
 - **Example response:**
@@ -1407,3 +1412,37 @@
 	    "message": "Please provide all recipe information"
     }
 
+### Delete Recipe
+- **URL:** `/recipe/:id`
+- **Method:** `DELETE`
+- **Description:** 
+- **Params:**
+  - `id` (int)
+- **Response:**
+  - `message` (string)
+    ```json
+    { 
+        "message": "Recipe deleted successfully" 
+    }
+  
+#### Success Example
+- **Example request:**
+  - url: /recipe/1
+
+- **Example response:**
+  - status code: `200`
+    ```json
+    { 
+        "message": "User deleted successfully" 
+    }
+
+#### Error Example (recipe doesnt exist)
+- **Example request:**
+  - url: /recipe/384724
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "Recipe not found"
+    }
