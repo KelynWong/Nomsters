@@ -9,10 +9,10 @@ const navbar = {
                 <button type="button" class="decide-btn">Can't decide?</button>
                 <img src="img/profile.png" class="profile" />
             </div>
-            <img src="img/logo.png" alt="logo" class="logo" />
+            <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>
             <div class="nav-main">
                 <a href="home.html">Home</a>
-                <a href="home.html">Browse Recipe</a>
+                <a href="allRecipe.html">Browse Recipe</a>
                 <!-- <div class="dropdown">
                     <p>Browse Recipe</p>
                     <div class="dropdown-content">
