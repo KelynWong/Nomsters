@@ -6,42 +6,74 @@ const router = express.Router();
 const db = require('../../db/mariadb');
 require('dotenv').config();
 
-router.post('/signup', (req, res) => {
-  const { username, password, image } = req.body;
+router.post('/signup', async (req, res) => {
+  const { username, password, image, diets } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({ message: 'Please provide username and password' });
   }
 
-  const sqlGet = 'SELECT * FROM user';
+  try {
+    // Check if the username already exists in the database
+    const usernameExists = await new Promise((resolve, reject) => {
+      const sqlGet = 'SELECT * FROM user WHERE username = ?';
+      db.query(sqlGet, [username])
+        .then((rows) => {
+          resolve(rows.length > 0);
+        })
+        .catch(reject);
+    });
 
-  db.query(sqlGet)
-    .then((rows) => {
-      // Check if the username already exists in the database
-      const usernameExists = rows.some((user) => user.username === username);
+    if (usernameExists) {
+      res.status(400).json({ message: 'Username already in use' });
+      return;
+    }
 
-      if (usernameExists) {
-        res.status(400).json({ message: 'Username already in use' });
-        return;
+    // Hash the user's password
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const results = await new Promise((resolve, reject) => {
+      const sqlInsert = 'INSERT INTO user (username, password, image) VALUES (?,?,?)';
+      db.query(sqlInsert, [username, passwordHash, image])
+        .then(resolve)
+        .catch(reject);
+    });
+
+    const userId = Number(results.insertId);
+
+    if (diets) {
+      const dietArr = diets.split(',').map(item => item.trim());
+
+      let successfulInserted = 0;
+
+      for (let i = 0; i < dietArr.length; i++) {
+        const dietName = dietArr[i];
+
+        const insertResult = await new Promise((resolve, reject) => {
+          const sqlInsert = 'INSERT INTO userdiet (userId, diet) VALUES (?,?)';
+          db.query(sqlInsert, [userId, dietName])
+            .then(result => resolve(result))
+            .catch(reject);
+        });
+
+        if (insertResult.affectedRows === 1) {
+          successfulInserted++;
+        }
       }
 
-      // Hash the user's password
-      const saltRounds = 10;
-      return bcrypt.hash(password, saltRounds);
-    })
-    .then((passwordHash) => {
-      const sqlInsert = 'INSERT INTO user (username, password, image) VALUES (?,?,?)';
-      return db.query(sqlInsert, [username, passwordHash, image]);
-    })
-    .then((results) => {
-      const userId = Number(results.insertId);
-      const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
-      res.json({ token, userId });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+      if (successfulInserted !== dietArr.length) {
+        res.status(500).json({ message: 'Error adding user diet' });
+      }
+    }
+
+    const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    res.json({ token, userId });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
 
 router.post('/login', (req, res) => {
   const credentials = basicAuth(req);
