@@ -18,6 +18,7 @@
     <style>
         .bigdiv {
             position: relative;
+            padding-top:5%;
         }
 
         #background {
@@ -26,7 +27,7 @@
 
         .container {
             position: absolute;
-            top: 200px;
+            /* top: 40%; */
             left: 70px;
             right: 70px;
             width: 50%;
@@ -82,7 +83,7 @@
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
-                width: 50%;
+                width: 70%;
                 
             }
 
@@ -120,19 +121,13 @@
             }
 
             .wave {
-            background: url('src/img/waveRed.svg') repeat-x;
+            background: url('src/img/waveRed.svg') repeat-x; 
             position: absolute;
-            top: -198px;
+            top: -150px;
             width: 6400px;
-            height: 198px;
+            height: 150px;
             animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
             transform: translate3d(0, 0, 0);
-            }
-
-            .wave:nth-of-type(2) {
-            top: -175px;
-            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
-            opacity: 1;
             }
 
             @keyframes wave {
@@ -181,11 +176,14 @@
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
                         </div>
                         <!-- <div class="text mb-3">hi</div> -->
-                        <div class="mb-3 text-center">
+                        <div class="mb-2 text-center">
                             <label for="form-control" class="form-label chooseprofilepic" style="color:black; text-align: start !important;">Choose Profile Picture</label>
                             <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
                             <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
                             
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Register</button>
                         </div>
 
                         
@@ -201,9 +199,7 @@
                         </script>
                         
 
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Register</button>
-                        </div>
+                        
 
                     </form>
                 </div>
