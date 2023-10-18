@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -183,7 +184,7 @@
                             
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Register</button>
+                            <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
                         </div>
 
                         
@@ -195,6 +196,36 @@
                             function clearImage() {
                                 document.getElementById('formFile').value = null;
                                 frame.src = "";
+                            }
+                            function registerUser(){
+                                event.preventDefault();
+                                var password = document.getElementById('exampleInputPassword1').value;
+                                var confirmPassword = document.getElementById('exampleInputPassword2').value;
+                                if(password != confirmPassword){
+                                    alert("Passwords do not match.");
+                                    return;
+                                }
+
+                                else{
+                                axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+                                "username": document.getElementById('exampleInputUsername1').value,
+                                "password": document.getElementById('exampleInputPassword1').value,
+                                "image": document.getElementById('formFile').files[0]
+                                })
+                                .then(response => {
+                                let token= response.data.token;
+                                let userId= response.data.userId;
+                                const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+
+                                window.location.href=homePageUrl
+                                
+                                })
+                                .catch(error => {
+                                // Handle any errors here
+                                alert(error)
+                                ;});
+                                }
+
                             }
                         </script>
                         
