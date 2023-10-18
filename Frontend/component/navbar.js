@@ -23,8 +23,8 @@ const navbar = {
                         </ul>
                     </div>
                 </div> -->
-                <a href="/">Nearby Grocers</a>
-                <a href="/">Submit Recipe</a>
+                <a href="grocer.html">Nearby Grocers</a>
+                <a href="submit.html">Submit Recipe</a>
             </div>
         </div>
     `,

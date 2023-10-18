@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,9 +13,13 @@
     integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" 
     crossorigin="anonymous">
 
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/home.css">
+
     <style>
         .bigdiv {
             position: relative;
+            padding-top:5%;
         }
 
         #background {
@@ -23,7 +28,7 @@
 
         .container {
             position: absolute;
-            top: 200px;
+            /* top: 40%; */
             left: 70px;
             right: 70px;
             width: 50%;
@@ -41,7 +46,7 @@
                 color: black;
             }
 
-            #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2 {
+            #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
                 margin-top: 10px;
                 width: 400px;
                 margin-left: auto;
@@ -54,6 +59,15 @@
                 margin-bottom: 1cm;
                 margin-top: 10px;
                 width: 35%;
+                border-style: none !important;
+            }
+
+            .clear {
+                background-color: grey;
+                outline-style: none;
+                margin-bottom: 1cm;
+                margin-top: 10px;
+                width: 25%;
                 border-style: none !important;
             }
 
@@ -70,7 +84,20 @@
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
-                width: 50%;
+                width: 70%;
+                
+            }
+
+            #frame {
+                max-width: 100px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .chooseprofilepic {
+                text-align: left !important;
+                font-size: 18px;
                 
             }
     </style>
@@ -95,19 +122,13 @@
             }
 
             .wave {
-            background: url('src/img/waveRed.svg') repeat-x;
+            background: url('src/img/waveRed.svg') repeat-x; 
             position: absolute;
-            top: -198px;
+            top: -150px;
             width: 6400px;
-            height: 198px;
+            height: 150px;
             animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
             transform: translate3d(0, 0, 0);
-            }
-
-            .wave:nth-of-type(2) {
-            top: -175px;
-            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
-            opacity: 1;
             }
 
             @keyframes wave {
@@ -140,6 +161,7 @@
                 <div class="form">
                     <!-- <div class="icon">nomsters icon goes here</div> -->
                     <img src="img/logo.png" alt="logo" class="logo mx-auto" />
+                    <img id="frame" src="" class="img-fluid" />
 
                     <form>
                         
@@ -154,10 +176,61 @@
                         <div class="mb-3">
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
                         </div>
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                        <!-- <div class="text mb-3">hi</div> -->
+                        <div class="mb-2 text-center">
+                            <label for="form-control" class="form-label chooseprofilepic" style="color:black; text-align: start !important;">Choose Profile Picture</label>
+                            <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
+                            <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
+                            
                         </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
+                        </div>
+
+                        
+            
+                        <script>
+                            function preview() {
+                                frame.src = URL.createObjectURL(event.target.files[0]);
+                            }
+                            function clearImage() {
+                                document.getElementById('formFile').value = null;
+                                frame.src = "";
+                            }
+                            function registerUser(){
+                                event.preventDefault();
+                                var password = document.getElementById('exampleInputPassword1').value;
+                                var confirmPassword = document.getElementById('exampleInputPassword2').value;
+                                if(password != confirmPassword){
+                                    alert("Passwords do not match.");
+                                    return;
+                                }
+
+                                else{
+                                axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+                                "username": document.getElementById('exampleInputUsername1').value,
+                                "password": document.getElementById('exampleInputPassword1').value,
+                                "image": document.getElementById('formFile').files[0]
+                                })
+                                .then(response => {
+                                let token= response.data.token;
+                                let userId= response.data.userId;
+                                const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+
+                                window.location.href=homePageUrl
+                                
+                                })
+                                .catch(error => {
+                                // Handle any errors here
+                                alert(error)
+                                ;});
+                                }
+
+                            }
+                        </script>
+                        
+
+                        
 
                     </form>
                 </div>
