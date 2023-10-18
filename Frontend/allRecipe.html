@@ -19,39 +19,85 @@
 <div id="app">
     <app-nav></app-nav>
     <h2>All Recipes</h2>
-    <div class="content">
+    <div class="recipeContent">
         <div class="dropdown d-flex justify-content-end">
             <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort by
+                Sort by
             </button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            <div id="sort" class="dropdown-menu">
+                <option class="dropdown-item" value="servings">Servings</option>
+                <option class="dropdown-item" value="calories">Calories</option>
+                <option class="dropdown-item" value="readyInMinutes">Ready In Minutes</option>
+                <option class="dropdown-item" value="pricePerServing">Price Per Serving</option>
+                <option class="dropdown-item" value="healthScore">Health Score</option>
+            </div>
         </div>
+
+
+        <!-- <div class="dropdown d-flex justify-content-end">
+            <div id="sort" class="btn dropdown-toggle border border-secondary">
+                <option class="dropdown-menu dropdown-item" value="" selected>Sort By</option>
+                <option class="dropdown-menu dropdown-item" value="servings ASC">Servings Low to High</option>
+                <option class="dropdown-menu dropdown-item" value="servings DESC">Servings High to Low</option>
+                <option class="dropdown-menu dropdown-item" value="calories ASC">Calories Low to High</option>
+                <option class="dropdown-menu dropdown-item" value="calories DESC">Calories High to Low</option>
+                <option class="dropdown-menu dropdown-item" value="readyInMinutes ASC">Ready In Minutes Low to High</option>
+                <option class="dropdown-menu dropdown-item" value="readyInMinutes DESC">Ready In Minutes High to Low</option>
+                <option class="dropdown-menu dropdown-item" value="pricePerServing ASC">Price Per Serving Low to High</option>
+                <option class="dropdown-menu dropdown-item" value="pricePerServing DESC">Price Per Serving High to Low</option>
+                <option class="dropdown-menu dropdown-item" value="healthScore ASC">Health Score Low to High</option>
+                <option class="dropdown-menu dropdown-item" value="healthScore DESC">Health Score High to Low</option>
+            </div>
+        </div> -->
 
         <div class="results">
             <div class="filter">
+                <button type="button" class="collapsible active">Dish Type <span>-</span></button>
+                <div class="content" style="opacity: 1; height: auto;">
+                    <input type="checkbox" id="side_dish" name="side dish" value="side dish">
+                    <label for="side_dish">side dish</label><br>
+                    <input type="checkbox" id="starter" name="starter" value="starter">
+                    <label for="starter">starter</label><br>
+                    <input type="checkbox" id="snack" name="snack" value="snack">
+                    <label for="snack">snack</label><br>
+                    <input type="checkbox" id="appetizer" name="appetizer" value="appetizer">
+                    <label for="appetizer">appetizer</label><br>
+                    <input type="checkbox" id="beverage" name="beverage" value="beverage">
+                    <label for="beverage">beverage</label><br>
+                </div>
 
+                <button type="button" class="collapsible">Diet <span>+</span></button>
+                <div class="content">
+                    <input type="checkbox" id="gluten_free" name="gluten free" value="gluten free">
+                    <label for="gluten_free">gluten free</label><br>
+                    <input type="checkbox" id="dairy_free" name="dairy free" value="dairy free">
+                    <label for="dairy_free">dairy free</label><br>
+                    <input type="checkbox" id="vegan" name="vegan" value="vegan">
+                    <label for="vegan">vegan</label><br>
+                    <input type="checkbox" id="lacto_ovo_vegetarian" name="lacto ovo vegetarian" value="lacto ovo vegetarian">
+                    <label for="lacto_ovo_vegetarian">lacto ovo vegetarian</label><br>
+                    <input type="checkbox" id="ketogenic" name="ketogenic" value="ketogenic">
+                    <label for="ketogenic">ketogenic</label><br>
+                </div>
+
+                <button type="button" class="collapsible">Cuisine <span>+</span></button>
+                <div class="content">
+                    <input type="checkbox" id="Korean" name="Korean" value="Korean">
+                    <label for="Korean">Korean</label><br>
+                    <input type="checkbox" id="Chinese" name="Chinese" value="Chinese">
+                    <label for="Chinese">Chinese</label><br>
+                    <input type="checkbox" id="Indian" name="Indian" value="Indian">
+                    <label for="Indian">Indian</label><br>
+                    <input type="checkbox" id="Vietnamese" name="Vietnamese" value="Vietnamese">
+                    <label for="Vietnamese">Vietnamese</label><br>
+                    <input type="checkbox" id="Japanese" name="Japanese" value="Japanese">
+                    <label for="Japanese">Japanese</label><br>
+                    <input type="checkbox" id="Italian" name="Italian" value="Italian">
+                    <label for="Italian">Italian</label><br>
+                </div>
             </div>
             <div class="container-listing-wrap">
                 <recipe-listing :recipe="indexes"></recipe-listing>
-                <!-- <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing> -->
             </div>
         </div>
     </div>
@@ -77,7 +123,6 @@ const app = Vue.createApp({
     }
 });
 app.component('app-nav', navbar);
-// app.component('app-listing', listing);
 app.component('app-footer', footer);
 app.component('recipe-listing', {
     data() {
@@ -117,12 +162,11 @@ app.component('recipe-listing', {
         }
     },
     template: listing.template + `
-        
         <div class="m-4">
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> << </button>
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt;&lt; </button>
             <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
             </button>
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> >> </button>
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &lt;&lt; </button>
         </div>
     `
 });
@@ -147,6 +191,27 @@ function createIndex(){
 
 app.mount('#app');
 
+</script>
+
+<script>
+    var collapsible = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < collapsible.length; i++) {
+        collapsible[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.opacity === "1") {
+                content.style.opacity = "0";
+                content.style.height = "0";
+                this.getElementsByTagName("span")[0].innerText = "+";
+            } else {
+                content.style.opacity = "1";
+                content.style.height = "auto";
+                this.getElementsByTagName("span")[0].innerText = "-";
+            }
+        });
+    }
 </script>
 </body>
 

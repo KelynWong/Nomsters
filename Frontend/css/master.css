@@ -73,6 +73,15 @@ input:focus-visible {
     outline: none;
 }
 
+input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #CCC;
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+}
+
 a {
     color: #000000;
     text-decoration: none;
