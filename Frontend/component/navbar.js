@@ -11,8 +11,8 @@ const navbar = {
             </div>
             <img src="img/logo.png" alt="logo" class="logo" />
             <div class="nav-main">
-                <a href="/home">Home</a>
-                <a href="/home">Browse Recipe</a>
+                <a href="home.html">Home</a>
+                <a href="home.html">Browse Recipe</a>
                 <!-- <div class="dropdown">
                     <p>Browse Recipe</p>
                     <div class="dropdown-content">
@@ -23,8 +23,8 @@ const navbar = {
                         </ul>
                     </div>
                 </div> -->
-                <a href="/">Nearby Grocers</a>
-                <a href="/">Submit Recipe</a>
+                <a href="grocer.html">Nearby Grocers</a>
+                <a href="submit.html">Submit Recipe</a>
             </div>
         </div>
     `,

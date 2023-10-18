@@ -12,6 +12,9 @@
     integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" 
     crossorigin="anonymous">
 
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/home.css">
+
     <style>
         .bigdiv {
             position: relative;
@@ -41,7 +44,7 @@
                 color: black;
             }
 
-            #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2 {
+            #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
                 margin-top: 10px;
                 width: 400px;
                 margin-left: auto;
@@ -54,6 +57,15 @@
                 margin-bottom: 1cm;
                 margin-top: 10px;
                 width: 35%;
+                border-style: none !important;
+            }
+
+            .clear {
+                background-color: grey;
+                outline-style: none;
+                margin-bottom: 1cm;
+                margin-top: 10px;
+                width: 25%;
                 border-style: none !important;
             }
 
@@ -71,6 +83,19 @@
                 margin-left: auto;
                 margin-right: auto;
                 width: 50%;
+                
+            }
+
+            #frame {
+                max-width: 100px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .chooseprofilepic {
+                text-align: left !important;
+                font-size: 18px;
                 
             }
     </style>
@@ -140,6 +165,7 @@
                 <div class="form">
                     <!-- <div class="icon">nomsters icon goes here</div> -->
                     <img src="img/logo.png" alt="logo" class="logo mx-auto" />
+                    <img id="frame" src="" class="img-fluid" />
 
                     <form>
                         
@@ -154,9 +180,29 @@
                         <div class="mb-3">
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
                         </div>
+                        <!-- <div class="text mb-3">hi</div> -->
+                        <div class="mb-3 text-center">
+                            <label for="form-control" class="form-label chooseprofilepic" style="color:black; text-align: start !important;">Choose Profile Picture</label>
+                            <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
+                            <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
+                            
+                        </div>
+
+                        
+            
+                        <script>
+                            function preview() {
+                                frame.src = URL.createObjectURL(event.target.files[0]);
+                            }
+                            function clearImage() {
+                                document.getElementById('formFile').value = null;
+                                frame.src = "";
+                            }
+                        </script>
+                        
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Register</button>
                         </div>
 
                     </form>
