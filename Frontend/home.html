@@ -92,9 +92,10 @@
 
         <div class="container-listing-wrap">
           <!-- TO BE LINK WITH DATABASE -->
+          <!-- <app-listing></app-listing>
           <app-listing></app-listing>
-          <app-listing></app-listing>
-          <app-listing></app-listing>
+          <app-listing></app-listing> -->
+          <recipe-listing :recipe="indexes"></recipe-listing>
         </div>
       </div>
 
@@ -206,9 +207,10 @@
 
         <div class="container-listing-wrap">
           <!-- TO BE LINK WITH DATABASE -->
+          <!-- <app-listing></app-listing>
           <app-listing></app-listing>
-          <app-listing></app-listing>
-          <app-listing></app-listing>
+          <app-listing></app-listing> -->
+          <recipe-listing :recipe="indexes"></recipe-listing>
         </div>
       </div>
 
@@ -252,10 +254,10 @@
               </svg>
             </div>
           </a>
+        </div>
       </div>
     </div>
-  </div>
-  <app-footer></app-footer>
+    <app-footer></app-footer>
   </div>
 
 
@@ -270,10 +272,41 @@
   <script src="component/footer.js"></script>
 
   <script>
-    const app = Vue.createApp({});
+    const app = Vue.createApp({
+      data() {
+        return {
+          indexes: createIndex()
+        };
+      }
+    });
     app.component('app-nav', navbar);
-    app.component('app-listing', listing);
+    // app.component('app-listing', listing);
     app.component('app-footer', footer);
+    
+// FOR BACKEND
+    app.component('recipe-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.recipe;
+        }
+      },
+      template: listing.template
+    });
+
+    function createIndex() {
+      let index = [];
+      for (let i = 1; i < 4; i++) {
+        index.push({ ind: '#' + i });
+      }
+      return index;
+    }
+
     app.mount('#app');
 
     gsap.from("#countRecipe", {

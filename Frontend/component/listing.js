@@ -1,6 +1,6 @@
 const listing = {
     template: `
-        <div class="container-listing">
+        <div class="container-listing" v-for="r in recipeData">
             <img src="img/steak.jpg" />
             <div class="listing-subdesc">
             <div class="subdesc">
@@ -18,7 +18,7 @@ const listing = {
                 <span class="p-14">Western</span>
             </div>
             </div>
-            <h6>Steak</h6>
+            <h6>Steak {{ r.ind }}</h6>
         </div>
     `,
 };

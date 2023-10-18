@@ -53,3 +53,17 @@ h2 {
     margin: 0 16px 16px !important;
 }
 
+.rounded-circle:first-child {
+    padding: 2px 9px;
+}
+
+.rounded-circle {
+    padding: 2px 8px;
+}
+
+
+/* :not(.btn-check)+.btn:active {
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-active-bg);
+    border-radius: 50%;
+} */

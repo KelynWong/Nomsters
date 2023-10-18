@@ -33,9 +33,11 @@
 
         <div class="results">
             <div class="filter">
-                
+
             </div>
             <div class="container-listing-wrap">
+                <recipe-listing :recipe="indexes"></recipe-listing>
+                <!-- <app-listing></app-listing>
                 <app-listing></app-listing>
                 <app-listing></app-listing>
                 <app-listing></app-listing>
@@ -49,8 +51,7 @@
                 <app-listing></app-listing>
                 <app-listing></app-listing>
                 <app-listing></app-listing>
-                <app-listing></app-listing>
-                <app-listing></app-listing>
+                <app-listing></app-listing> -->
             </div>
         </div>
     </div>
@@ -68,10 +69,82 @@ crossorigin="anonymous"></script>
 <script src="component/footer.js"></script>
 
 <script>
-const app = Vue.createApp({});
+const app = Vue.createApp({
+    data() {
+        return {
+            indexes: createIndex()
+        };
+    }
+});
 app.component('app-nav', navbar);
-app.component('app-listing', listing);
+// app.component('app-listing', listing);
 app.component('app-footer', footer);
+app.component('recipe-listing', {
+    data() {
+        return {
+            pageNumber: 1
+        }
+    },
+    props: {
+        recipe: {
+            type: Array,
+            required: true
+        },
+        size: {
+            type: Number,
+            required: false,
+            default: 12
+        }
+    },
+    methods:{
+        nextPage() {
+           this.pageNumber++;
+        },
+        prevPage() {
+          this.pageNumber--;
+        }
+    },
+    computed: {
+        pageCount() {
+            let l = this.recipe.length;
+            let s = this.size;
+            return Math.ceil(l/s);
+        },
+        recipeData() {
+            const start = this.pageNumber * this.size - this.size;
+            const end = start + this.size;
+            return this.recipe.slice(start, end);
+        }
+    },
+    template: listing.template + `
+        
+        <div class="m-4">
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> << </button>
+            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+            </button>
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> >> </button>
+        </div>
+    `
+});
+  
+      /* <button 
+            :disabled="pageNumber === 0" 
+            @click="prevPage">
+            Previous
+        </button>
+        <button 
+            :disabled="pageNumber >= pageCount -1" 
+            @click="nextPage">
+            Next
+        </button> */
+function createIndex(){
+    let index = [];
+    for(let i = 1; i < 100; i++){
+        index.push({ind:'#' + i});
+    }
+    return index;
+}
+
 app.mount('#app');
 
 </script>
