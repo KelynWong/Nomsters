@@ -16,28 +16,87 @@
   <script src="https://unpkg.com/vue@next"></script>
 </head>
 
+<style>
+    .add, .remove {
+        /* margin-top: 5px; */
+        margin-right: 5px;
+        padding-top: 5px;
+    }
+
+    #formfield, #textbox, #formfield2, #textbox2 {
+        margin-bottom: 5px;
+    }
+
+    .img-fluid {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 50%;
+    }
+</style>
+
 <body>
   <div id="app">
     <app-nav></app-nav>
 
     <div class="container col-8">
 
-        <!-- Text Fields -->
-    
+      <img id="frame" src="" class="img-fluid mx-auto" />
 
+    <!-- Text Fields -->
     <div class="mb-3">
         <label for="" class="form-label">Recipe Name</label>
         <textarea class="form-control" value="" id="" rows="1"></textarea>
       </div>
-      <div class="mb-3">
-          <label for="" class="form-label">Recipe Directions</label>
-          <textarea class="form-control" value="" id="" rows="8"  placeholder="1. Prepare..."></textarea>
-        </div>
-      <!-- numeric -->
-      <div class="form-outline">
-          <label class="form-label" for="typeNumber">Preparation Time (mins)</label>
-          <input type="number" id="typeNumber" value="preperationMinutes" class="form-control"/>
+
+      <div class="mb-2 text-center">
+        <label for="form-control" class="form-label chooseprofilepic" style="color:black; text-align: start !important;">Choose Recipe Photo</label>
+        <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
+        <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
+    </div>
+
+      <div class="row 2">
+        <div class="mb-3 col-6" id="">
+            <label for="" class="form-label">Recipe Directions</label>
+            <div id="formfield">
+                <input class="form-control" rows="1" type="text" id="textbox" placeholder="1. Prepare...">
+            </div>
+            
+            <div class="controls">
+                <button class="add btn btn-secondary mr-3" onclick="addRecipe()">Add</button>
+                <button class="remove btn btn-secondary mr-3" onclick="removeRecipe()">Remove</button>
+            </div>
+          </div>
+          <div class="mb-3 col-6">
+              <label for="" class="form-label">Ingredients</label>
+              <div id="formfield2">
+                <input type="text" class="form-control" value="" id="textbox2" rows="1"  placeholder="1. 2 beautiful onions"></textarea>
+
+
+              </div>
+              <div class="controls">
+                <button class="add btn btn-secondary mr-3" onclick="addIngredient()">Add</button>
+                <button class="remove btn btn-secondary mr-3" onclick="removeIngredient()">Remove</button>
+              </div>
+            </div>
       </div>
+      
+    <!-- numeric -->
+    <div class="row">
+        <div class="form-outline col-4">
+            <label class="form-label" for="typeNumber">Preparation Time (mins)</label>
+            <input type="number" id="typeNumber" value="preperationMinutes" class="form-control" placeholder="120"/>
+        </div>
+        <div class="form-outline col-4">
+            <label class="form-label" for="typeNumber">Number of Servings</label>
+            <input type="number" id="typeNumber" value="" class="form-control" placeholder="4"/>
+        </div>
+        <div class="form-outline col-4">
+            <label class="form-label" for="typeNumber">Price (per serving in $)</label>
+            <input type="number" id="typeNumber" value="" class="form-control" placeholder="eg. $2"/>
+        </div>
+    </div>
+      
 
       <br>
       <!-- checkboxes -->
@@ -88,6 +147,57 @@
       
     <app-footer></app-footer>
   </div>
+
+  <!-- script for add and remove buttons -->
+
+  <script>
+    function addRecipe(){
+      var newField = document.createElement('input');
+      newField.setAttribute('type','text');
+      newField.setAttribute('name','text');
+      newField.setAttribute('id','textbox');
+      newField.setAttribute('class','form-control');
+      newField.setAttribute('size',50);
+      newField.setAttribute('placeholder','Add next step here');
+      formfield.appendChild(newField);
+    }
+
+    function removeRecipe(){
+      var input_tags = formfield.getElementsByTagName('input');
+      if(input_tags.length > 1) {
+          formfield.removeChild(input_tags[(input_tags.length) - 1]);
+      }
+    }
+
+    function addIngredient(){
+      var newField = document.createElement('input');
+      newField.setAttribute('type','text');
+      newField.setAttribute('name','text');
+      newField.setAttribute('id','textbox2');
+      newField.setAttribute('class','form-control');
+      newField.setAttribute('size',50);
+      newField.setAttribute('placeholder','Add next ingredient here');
+      formfield2.appendChild(newField);
+    }
+
+    function removeIngredient(){
+      var input_tags = formfield2.getElementsByTagName('input');
+      if(input_tags.length > 1) {
+          formfield2.removeChild(input_tags[(input_tags.length) - 1]);
+      }
+    }
+  </script>
+
+  <!-- script for image preview -->
+  <script>
+    function preview() {
+                frame.src = URL.createObjectURL(event.target.files[0]);
+            }
+            function clearImage() {
+                document.getElementById('formFile').value = null;
+                frame.src = "";
+            }
+  </script>
 
 
   <!-- Bootstrap Bundle with Popper -->
