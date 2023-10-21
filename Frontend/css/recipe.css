@@ -17,6 +17,10 @@ h2 {
     --bs-dropdown-font-size: 0.85rem;
 }
 
+.dropdown-toggle::after {
+    margin-left: 1.255em;
+}
+
 .results {
     display: flex;
     flex-direction: row;

@@ -33,6 +33,22 @@
     margin: 8px 16px;
 }
 
+.title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.title-wrapper img {
+    width: 36px;
+    height: 36px;
+    margin: 0 12px;
+}
+
+.title-wrapper h2 {
+    margin-right: 16px;
+}
+
 .subtitle {
     display: flex;
     flex-direction: row;
@@ -134,7 +150,7 @@ li {
     display: inline-block;
     height: 22px;
     width: 36px;
-    background-image: url("/img/check.png");
+    background-image: url("/img/icon/check.png");
     background-size: 20px;
     background-repeat: no-repeat;
     margin-left: -36px;
@@ -144,7 +160,7 @@ li {
 }
 
 #ingredients li.checked::before {
-    background-image: url("/img/checked.png");
+    background-image: url("/img/icon/checked.png");
     left: 2px;
     background-size: 23px;
     top: 4px;

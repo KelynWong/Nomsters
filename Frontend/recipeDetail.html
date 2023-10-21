@@ -35,7 +35,22 @@
                     </svg>
                 </a>
             </div>
-            <h2>Classic Tiramisù</h2>
+            <!-- <div class="title-wrapper">
+                <h2>Classic Tiramisù</h2>
+                <img src="img/icon/vegetarian.png" v-if="vegetarian == 1" />
+                <img src="img/icon/vegan.png" v-if="vegan == 1" />
+                <img src="img/icon/gluten-free.png" v-if="glutenFree == 1" />
+                <img src="img/icon/dairy-free.png" v-if="dairyFree == 1" />
+                <img src="img/icon/sustainable.png" v-if="sustainable == 1" />
+            </div> -->
+            <div class="title-wrapper">
+                <h2>Classic Tiramisù</h2>
+                <img src="img/icon/vegetarian-color.png" v-if="vegetarian == 1" />
+                <img src="img/icon/vegan-color.png" v-if="vegan == 1" />
+                <img src="img/icon/gluten-free-color.png" v-if="glutenFree == 1" />
+                <img src="img/icon/dairy-free-color.png" v-if="dairyFree == 1" />
+                <img src="img/icon/sustainable-color.png" v-if="sustainable == 1" />
+            </div>
             <div class="subtitle">
                 <div class="subtitle-wrapper">
                     <p class="subtext">Prep Time</p>
@@ -44,6 +59,10 @@
                 <div class="subtitle-wrapper middle">
                     <p class="subtext">Servings</p>
                     <p>4 people</p>
+                </div>
+                <div class="subtitle-wrapper middle">
+                    <p class="subtext">Price Per Serving</p>
+                    <p>$5</p>
                 </div>
                 <div class="subtitle-wrapper">
                     <a href="">
@@ -82,35 +101,35 @@
                         <h3>Nutrition Facts</h3>
                         <div class="nutrition">
                             <p class="grey">Calories</p>
-                            <p>297kcal</p>
+                            <p>{{ calories }}kcal</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Total Fat</p>
-                            <p>18g</p>
+                            <p>{{ fat }}g</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Saturated Fat</p>
-                            <p>11g</p>
+                            <p>{{ saturatedFat }}g</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Cholesterol</p>
-                            <p>88mg</p>
+                            <p>{{ cholesterol }}mg</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Sodium</p>
-                            <p>77mg</p>
+                            <p>{{ sodium }}mg</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Total Carbohydrate</p>
-                            <p>26g</p>
+                            <p>{{ carbohydrates }}g</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Sugar</p>
-                            <p>11g</p>
+                            <p>{{ sugar }}g</p>
                         </div>
                         <div class="nutrition">
                             <p class="grey">Protein</p>
-                            <p>5g</p>
+                            <p>{{ protein }}g</p>
                         </div>
                     </div>
                 </div>
@@ -151,7 +170,25 @@ crossorigin="anonymous"></script>
 <script src="component/footer.js"></script>
 
 <script>
-    const app = Vue.createApp({});
+    const app = Vue.createApp({
+        data() {
+            return {
+                vegetarian: 1,
+                vegan: 1,
+                glutenFree: 1,
+                dairyFree: 1,
+                sustainable: 1,
+                calories: 42.6,
+                fat: 0.47,
+                saturatedFat: 0.08,
+                carbohydrates: 12.49,
+                sugar: 8.27,
+                cholesterol: 2.87,
+                sodium: 0,
+                protein: 15.17,
+            }
+        }
+    });
     app.component('app-nav', navbar);
     app.component('app-footer', footer);
     app.mount('#app');

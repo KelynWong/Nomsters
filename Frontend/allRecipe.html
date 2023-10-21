@@ -22,33 +22,14 @@
     <div class="recipeContent">
         <div class="dropdown d-flex justify-content-end">
             <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Sort by
+                {{ selectedOption}}
             </button>
-            <div id="sort" class="dropdown-menu">
-                <option class="dropdown-item" value="servings">Servings</option>
-                <option class="dropdown-item" value="calories">Calories</option>
-                <option class="dropdown-item" value="readyInMinutes">Ready In Minutes</option>
-                <option class="dropdown-item" value="pricePerServing">Price Per Serving</option>
-                <option class="dropdown-item" value="healthScore">Health Score</option>
-            </div>
+            <ul id="sort" class="dropdown-menu">
+                <li v-for="(option, index) in options" :key="index">
+                    <div class="dropdown-item" @click="selectOption(option)">{{ option.label }}</div>
+                </li>
+            </ul>
         </div>
-
-
-        <!-- <div class="dropdown d-flex justify-content-end">
-            <div id="sort" class="btn dropdown-toggle border border-secondary">
-                <option class="dropdown-menu dropdown-item" value="" selected>Sort By</option>
-                <option class="dropdown-menu dropdown-item" value="servings ASC">Servings Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="servings DESC">Servings High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="calories ASC">Calories Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="calories DESC">Calories High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="readyInMinutes ASC">Ready In Minutes Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="readyInMinutes DESC">Ready In Minutes High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="pricePerServing ASC">Price Per Serving Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="pricePerServing DESC">Price Per Serving High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="healthScore ASC">Health Score Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="healthScore DESC">Health Score High to Low</option>
-            </div>
-        </div> -->
 
         <div class="results">
             <div class="filter">
@@ -118,10 +99,24 @@ crossorigin="anonymous"></script>
 const app = Vue.createApp({
     data() {
         return {
-            indexes: createIndex()
+            indexes: createIndex(),
+            selectedOption: 'Sort by',
+            options: [
+                { label: 'Servings', value: 'servings' },
+                { label: 'Calories', value: 'calories' },
+                { label: 'Ready In Minutes', value: 'readyInMinutes' },
+                { label: 'Price Per Serving', value: 'pricePerServing' },
+                { label: 'Health Score', value: 'healthScore' }
+            ]
         };
+    },
+    methods: {
+        selectOption(option) {
+            this.selectedOption = option.label;
+        }
     }
 });
+
 app.component('app-nav', navbar);
 app.component('app-footer', footer);
 app.component('recipe-listing', {
@@ -173,17 +168,7 @@ app.component('recipe-listing', {
         </div>
     `
 });
-  
-      /* <button 
-            :disabled="pageNumber === 0" 
-            @click="prevPage">
-            Previous
-        </button>
-        <button 
-            :disabled="pageNumber >= pageCount -1" 
-            @click="nextPage">
-            Next
-        </button> */
+
 function createIndex(){
     let index = [];
     for(let i = 1; i < 100; i++){
