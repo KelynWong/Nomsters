@@ -162,11 +162,14 @@ app.component('recipe-listing', {
         }
     },
     template: listing.template + `
-        <div class="m-4">
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt;&lt; </button>
+        <div class="m-4 d-flex align-items-center">
+            <p class="m-1">Total {{ pageCount }} pages</p>
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+            <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
             <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
             </button>
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &lt;&lt; </button>
+            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+            <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
         </div>
     `
 });
