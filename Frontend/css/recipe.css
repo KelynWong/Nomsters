@@ -208,10 +208,14 @@ span.value.upper.price::before {
     font-size: 16px;
 }
 
-.rounded-circle:first-child {
+/* .rounded-circle:first-child {
     padding: 2px 9px;
-}
+} */
 
 .rounded-circle {
-    padding: 2px 8px;
+    /* padding: 2px 8px; */
+    width: 2.5em;
+    height: 2.4em;
+    line-height: normal;
+    letter-spacing: normal;
 }
