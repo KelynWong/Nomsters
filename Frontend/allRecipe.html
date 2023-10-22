@@ -282,7 +282,8 @@
         app.component('recipe-listing', {
             data() {
                 return {
-                    pageNumber: 1
+                    pageNumber: 1,
+                    fav: 0,
                 }
             },
             props: {
@@ -298,11 +299,15 @@
             },
             methods:{
                 nextPage() {
-                this.pageNumber++;
+                    this.pageNumber++;
                 },
                 prevPage() {
-                this.pageNumber--;
+                    this.pageNumber--;
+                },
+                changeColor() {
+                    this.fav = this.fav === 0 ? 1 : 0;
                 }
+    
             },
             computed: {
                 pageCount() {
@@ -351,9 +356,6 @@
                     <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
                 </div>
             `
-
-
-
 
             /*
             template: listing.template + `
