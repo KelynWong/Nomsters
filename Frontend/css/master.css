@@ -359,12 +359,38 @@ p {
     height: 14vw;
 }
 
-.container-listing .recipe-img svg {
+#heart {
     position: absolute;
     top: 12px;
     right: 12px;
-    width: 24px;
+    width: 32px;
+    height: 26px;
+}
+
+#heart::before, #heart::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 16px;
     height: 24px;
+    border-radius: 50px 50px 0 0;
+    background: #fff;
+}
+
+#heart.heart-filled::before , #heart.heart-filled::after  {
+    background: #DE352A;
+}
+
+#heart::before {
+    left: 15px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+#heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
 }
 
 .listing-subdesc {

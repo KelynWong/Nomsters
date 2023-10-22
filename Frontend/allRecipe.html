@@ -315,13 +315,23 @@
             `
         });
 
-        // function createIndex(){
-        //     let index = [];
-        //     for(let i = 1; i < 100; i++){
-        //         index.push({ind:'#' + i});
-        //     }
-        //     return index;
-        // }
+        function createIndex(){
+            let index = [];
+            for(let i = 1; i < 100; i++) {
+                if (i < 10) {
+                    index.push({
+                        ind:'#' + i,
+                        fav: 1
+                    });
+                } else {
+                    index.push({
+                        ind:'#' + i,
+                        fav: 0
+                    });
+                }
+            }
+            return index;
+        }
 
         app.mount('#app');
 
