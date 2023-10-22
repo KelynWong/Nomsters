@@ -33,48 +33,65 @@
 
             <div class="results">
                 <div class="filter">
-                    <button type="button" class="collapsible active">Dish Type <span>-</span></button>
-                    <div class="content" style="opacity: 1; height: auto;">
-                        <input type="checkbox" id="side_dish" name="side dish" value="side dish">
-                        <label for="side_dish">side dish</label><br>
-                        <input type="checkbox" id="starter" name="starter" value="starter">
-                        <label for="starter">starter</label><br>
-                        <input type="checkbox" id="snack" name="snack" value="snack">
-                        <label for="snack">snack</label><br>
-                        <input type="checkbox" id="appetizer" name="appetizer" value="appetizer">
-                        <label for="appetizer">appetizer</label><br>
-                        <input type="checkbox" id="beverage" name="beverage" value="beverage">
-                        <label for="beverage">beverage</label><br>
+                    <button type="button" class="collapsible filter-header active">Dish Type <span>-</span></button>
+                    <ul class="content col2" style="opacity: 1; height: auto;">
+                        <li v-for="dishtype in dishtypes">
+                            <input type="checkbox" :id="dishtype.id" name="dishtypes" :value="dishtype.value">
+                            <label :for="dishtype.id">{{ dishtype.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="collapsible filter-header">Diet <span>+</span></button>
+                    <ul class="content">
+                        <li v-for="diet in diets">
+                            <input type="checkbox" :id="diet.id" name="diets" :value="diet.value">
+                            <label :for="diet.id">{{ diet.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="collapsible filter-header">Cuisine <span>+</span></button>
+                    <ul class="content col2">
+                        <li v-for="cuisine in cuisines">
+                            <input type="checkbox" :id="cuisine.id" name="cuisines" :value="cuisine.value">
+                            <label :for="cuisine.id">{{ cuisine.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <!-- SELECT servings FROM nomsters.recipe GROUP BY servings; -->
+                    <button type="button" class="collapsible filter-header">Serving <span>+</span></button>
+                    <ul class="content col5">
+                        <li v-for="serving in servings">
+                            <input type="checkbox" :id="serving.id" name="servings" :value="serving.value">
+                            <label :for="serving.id">{{ serving.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
+                    <div class="content col2">
+                        <input type="checkbox" id="30" name="readyInMinutes" value="<= 30">
+                        <label for="30">&lt;= 30mins</label><br>
+                        <input type="checkbox" id="60" name="readyInMinutes" value="<= 60">
+                        <label for="60">&lt;= 1hr</label><br>
+                        <input type="checkbox" id="120" name="readyInMinutes" value="<= 120">
+                        <label for="120">&lt;= 2hr</label><br>
+                        <input type="checkbox" id="121" name="readyInMinutes" value="> 120">
+                        <label for="121">&gt; 2hr</label><br>
                     </div>
 
-                    <button type="button" class="collapsible">Diet <span>+</span></button>
-                    <div class="content">
-                        <input type="checkbox" id="gluten_free" name="gluten free" value="gluten free">
-                        <label for="gluten_free">gluten free</label><br>
-                        <input type="checkbox" id="dairy_free" name="dairy free" value="dairy free">
-                        <label for="dairy_free">dairy free</label><br>
-                        <input type="checkbox" id="vegan" name="vegan" value="vegan">
-                        <label for="vegan">vegan</label><br>
-                        <input type="checkbox" id="lacto_ovo_vegetarian" name="lacto ovo vegetarian" value="lacto ovo vegetarian">
-                        <label for="lacto_ovo_vegetarian">lacto ovo vegetarian</label><br>
-                        <input type="checkbox" id="ketogenic" name="ketogenic" value="ketogenic">
-                        <label for="ketogenic">ketogenic</label><br>
+                    <div class="filter-header">Calories</div>
+                    <div class="min-max-slider" data-legendnum="2" id="calories">
+                        <!-- <label for="min">Minimum Calorie</label> -->
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" />
+                        <!-- <label for="max">Maximum Calorie</label> -->
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" />
                     </div>
 
-                    <button type="button" class="collapsible">Cuisine <span>+</span></button>
-                    <div class="content">
-                        <input type="checkbox" id="Korean" name="Korean" value="Korean">
-                        <label for="Korean">Korean</label><br>
-                        <input type="checkbox" id="Chinese" name="Chinese" value="Chinese">
-                        <label for="Chinese">Chinese</label><br>
-                        <input type="checkbox" id="Indian" name="Indian" value="Indian">
-                        <label for="Indian">Indian</label><br>
-                        <input type="checkbox" id="Vietnamese" name="Vietnamese" value="Vietnamese">
-                        <label for="Vietnamese">Vietnamese</label><br>
-                        <input type="checkbox" id="Japanese" name="Japanese" value="Japanese">
-                        <label for="Japanese">Japanese</label><br>
-                        <input type="checkbox" id="Italian" name="Italian" value="Italian">
-                        <label for="Italian">Italian</label><br>
+                    <div class="filter-header">Price Per Serving</div>
+                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing">
+                        <!-- <label for="min">Minimum Price</label> -->
+                        <input id="min" class="min" name="minPrice" type="range" step="1" :min="minPrice" :max="maxPrice" />
+                        <!-- <label for="max">Maximum Price</label> -->
+                        <input id="max" class="max" name="maxPrice" type="range" step="1" :min="minPrice" :max="maxPrice" />
                     </div>
                 </div>
                 <div class="container-listing-wrap">
@@ -94,88 +111,138 @@
     <script src="component/footer.js"></script>
 
     <script>
-    const app = Vue.createApp({
-        data() {
-            return {
-                indexes: createIndex(),
-                selectedOption: 'Sort by',
-                options: [
-                    { label: 'Servings', value: 'servings' },
-                    { label: 'Calories', value: 'calories' },
-                    { label: 'Ready In Minutes', value: 'readyInMinutes' },
-                    { label: 'Price Per Serving', value: 'pricePerServing' },
-                    { label: 'Health Score', value: 'healthScore' }
-                ]
-            };
-        },
-        methods: {
-            selectOption(option) {
-                this.selectedOption = option.label;
+        const app = Vue.createApp({
+            data() {
+                return {
+                    indexes: createIndex(),
+                    selectedOption: 'Sort by',
+                    options: [
+                        { label: 'Popularity', value: 'aggregateLikes' },
+                        { label: 'Healthiness', value: 'healthScore' },
+                        { label: 'Low to High', value: 'ASC' },
+                        { label: 'High to Low', value: 'DESC' }
+                    ],
+                    dishtypes: [
+                        { id: 'side_dish', value: 'side dish' },
+                        { id: 'starter', value: 'starter' },
+                        { id: 'snack', value: 'snack' },
+                        { id: 'lunch', value: 'lunch' },
+                        { id: 'dinner', value: 'dinner' },
+                        { id: 'soup', value: 'soup' },
+                        { id: 'dessert', value: 'dessert' },
+                    ],
+                    diets: [
+                        { id: 'gluten_free', value: "gluten free" },
+                        { id: 'dairy_free', value: "dairy free" },
+                        { id: 'lacto_ovo_vegetarian', value: "lacto ovo vegetarian" },
+                        { id: 'fodmap_friendly', value: "fodmap friendly" },
+                        { id: 'vegan', value: "vegan" },
+                        { id: 'paleolithic', value: "paleolithic" },
+                        { id: 'primal', value: "primal" },
+                        { id: 'whole_30', value: "whole 30" },
+                        { id: 'pescatarian', value: "pescatarian" },
+                        { id: 'ketogenic', value: "ketogenic" }
+                    ],
+                    cuisines: [
+                        { id: 'Korean', value: "Korean" },
+                        { id: 'Chinese', value: "Chinese" },
+                        { id: 'Indian', value: "Indian" },
+                        { id: 'Vietnamese', value: "Vietnamese" },
+                        { id: 'Japanese', value: "Japanese" },
+                        { id: 'Italian', value: "Italian" }
+                    ],
+                    servings: [
+                        { value: '1' },
+                        { value: '2' },
+                        { value: '3' },
+                        { value: '4' },
+                        { value: '5' },
+                        { value: '6' },
+                        { value: '7' },
+                        { value: '8' },
+                        { value: '9' },
+                        { value: '10' },
+                        { value: '11' },
+                        { value: '12' },
+                        { value: '13' },
+                        { value: '14' },
+                        { value: '15' },
+                        { value: '16' },
+                    ],
+                    minCalorie: 14.38,
+                    maxCalorie: 1788.67,
+                    minPrice: 4.37,
+                    maxPrice: 2371.08,
+                };
+            },
+            methods: {
+                selectOption(option) {
+                    this.selectedOption = option.label;
+                }
             }
+        });
+
+        app.component('app-nav', navbar);
+        app.component('app-footer', footer);
+        app.component('recipe-listing', {
+            data() {
+                return {
+                    pageNumber: 1
+                }
+            },
+            props: {
+                recipe: {
+                    type: Array,
+                    required: true
+                },
+                size: {
+                    type: Number,
+                    required: false,
+                    default: 12
+                }
+            },
+            methods:{
+                nextPage() {
+                this.pageNumber++;
+                },
+                prevPage() {
+                this.pageNumber--;
+                }
+            },
+            computed: {
+                pageCount() {
+                    let l = this.recipe.length;
+                    let s = this.size;
+                    return Math.ceil(l/s);
+                },
+                recipeData() {
+                    const start = this.pageNumber * this.size - this.size;
+                    const end = start + this.size;
+                    return this.recipe.slice(start, end);
+                }
+            },
+            template: listing.template + `
+                <div class="m-4 d-flex align-items-center">
+                    <p class="m-1">Total {{ pageCount }} pages</p>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+                    </button>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+                </div>
+            `
+        });
+
+        function createIndex(){
+            let index = [];
+            for(let i = 1; i < 100; i++){
+                index.push({ind:'#' + i});
+            }
+            return index;
         }
-    });
 
-    app.component('app-nav', navbar);
-    app.component('app-footer', footer);
-    app.component('recipe-listing', {
-        data() {
-            return {
-                pageNumber: 1
-            }
-        },
-        props: {
-            recipe: {
-                type: Array,
-                required: true
-            },
-            size: {
-                type: Number,
-                required: false,
-                default: 12
-            }
-        },
-        methods:{
-            nextPage() {
-            this.pageNumber++;
-            },
-            prevPage() {
-            this.pageNumber--;
-            }
-        },
-        computed: {
-            pageCount() {
-                let l = this.recipe.length;
-                let s = this.size;
-                return Math.ceil(l/s);
-            },
-            recipeData() {
-                const start = this.pageNumber * this.size - this.size;
-                const end = start + this.size;
-                return this.recipe.slice(start, end);
-            }
-        },
-        template: listing.template + `
-            <div class="m-4 d-flex align-items-center">
-                <p class="m-1">Total {{ pageCount }} pages</p>
-                <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
-                <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
-                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
-                </button>
-                <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
-                <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
-            </div>
-        `
-    });
-
-    function createIndex(){
-        let index = [];
-        for(let i = 1; i < 100; i++){
-            index.push({ind:'#' + i});
-        }
-        return index;
-    }
-
-    app.mount('#app');
+        app.mount('#app');
 
     </script>
 
@@ -198,6 +265,135 @@
                 }
             });
         }
+
+        var thumbsize = 14;
+
+        function draw(slider,splitvalue) {
+
+            /* set function vars */
+            var id = slider.getAttribute('id');
+            var min = slider.querySelector('.min');
+            var max = slider.querySelector('.max');
+            var lower = slider.querySelector('.lower');
+            var upper = slider.querySelector('.upper');
+            var legend = slider.querySelector('.legend');
+            var thumbsize = parseInt(slider.getAttribute('data-thumbsize'));
+            var rangewidth = parseInt(slider.getAttribute('data-rangewidth'));
+            var rangemin = parseInt(slider.getAttribute('data-rangemin'));
+            var rangemax = parseInt(slider.getAttribute('data-rangemax'));
+
+            /* set min and max attributes */
+            min.setAttribute('max',splitvalue);
+            max.setAttribute('min',splitvalue);
+
+            /* set css */
+            min.style.width = parseInt(thumbsize + ((splitvalue - rangemin)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            max.style.width = parseInt(thumbsize + ((rangemax - splitvalue)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            min.style.left = '0px';
+            max.style.left = parseInt(min.style.width)+'px';
+            min.style.top = lower.offsetHeight+'px';
+            max.style.top = lower.offsetHeight+'px';
+            legend.style.marginTop = min.offsetHeight+'px';
+            slider.style.height = (lower.offsetHeight + min.offsetHeight + legend.offsetHeight)+'px';
+            
+            /* correct for 1 off at the end */
+            if(max.value>(rangemax - 1)) max.setAttribute('data-value',rangemax);
+
+            /* write value and labels */
+            max.value = max.getAttribute('data-value'); 
+            min.value = min.getAttribute('data-value');
+
+            if (id == "calories") {
+                lower.innerHTML = min.getAttribute('data-value') + " kcal";
+                upper.innerHTML = " " + max.getAttribute('data-value') + " kcal";
+            } else {
+                lower.innerHTML = min.getAttribute('data-value');
+                upper.innerHTML = max.getAttribute('data-value');
+            }
+
+        }
+
+        function init(slider) {
+            /* set function vars */
+            var id = slider.getAttribute('id');
+            var min = slider.querySelector('.min');
+            var max = slider.querySelector('.max');
+            var rangemin = parseInt(min.getAttribute('min'));
+            var rangemax = parseInt(max.getAttribute('max'));
+            var avgvalue = (rangemin + rangemax)/2;
+            var legendnum = slider.getAttribute('data-legendnum');
+
+            /* set data-values */
+            min.setAttribute('data-value',rangemin);
+            max.setAttribute('data-value',rangemax);
+            
+            /* set data vars */
+            slider.setAttribute('data-rangemin',rangemin); 
+            slider.setAttribute('data-rangemax',rangemax); 
+            slider.setAttribute('data-thumbsize',thumbsize); 
+            slider.setAttribute('data-rangewidth',slider.offsetWidth);
+
+            /* write labels */
+            var lower = document.createElement('span');
+            var upper = document.createElement('span');
+
+            if (id == "pricePerServing") {
+                lower.classList.add('lower','value','price');
+                upper.classList.add('upper','value','price');
+            } else {
+                lower.classList.add('lower','value');
+                upper.classList.add('upper','value');
+            }
+            
+            lower.appendChild(document.createTextNode(rangemin));
+            upper.appendChild(document.createTextNode(rangemax));
+            
+            slider.insertBefore(lower,min.previousElementSibling);
+            slider.insertBefore(upper,min.previousElementSibling);
+            
+            /* write legend */
+            var legend = document.createElement('div');
+            legend.classList.add('legend');
+            var legendvalues = [];
+            for (var i = 0; i < legendnum; i++) {
+                legendvalues[i] = document.createElement('div');
+                var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
+                legendvalues[i].appendChild(document.createTextNode(val));
+                legend.appendChild(legendvalues[i]);
+
+            } 
+            slider.appendChild(legend);
+
+            /* draw */
+            draw(slider,avgvalue);
+
+            /* events */
+            min.addEventListener("input", function() {update(min);});
+            max.addEventListener("input", function() {update(max);});
+        }
+
+        function update(el){
+            /* set function vars */
+            var slider = el.parentElement;
+            var min = slider.querySelector('#min');
+            var max = slider.querySelector('#max');
+            var minvalue = Math.floor(min.value);
+            var maxvalue = Math.floor(max.value);
+            
+            /* set inactive values before draw */
+            min.setAttribute('data-value',minvalue);
+            max.setAttribute('data-value',maxvalue);
+
+            var avgvalue = (minvalue + maxvalue)/2;
+
+            /* draw */
+            draw(slider,avgvalue);
+        }
+
+        var sliders = document.querySelectorAll('.min-max-slider');
+        sliders.forEach( function(slider) {
+            init(slider);
+        });
     </script>
 </body>
 
