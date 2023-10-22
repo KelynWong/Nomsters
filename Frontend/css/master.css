@@ -81,7 +81,7 @@ input:focus-visible {
     outline: none;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"], input[type="radio"] {
     width: 14px;
     height: 14px;
     border: 1px solid #CCC;
@@ -353,6 +353,7 @@ p {
     position: relative;
     background-image: url(/img/steak.jpg);
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     border-radius: 8px;
     width: 100%;

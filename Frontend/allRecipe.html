@@ -39,8 +39,8 @@
 
             <div class="results">
                 <div class="filter">
-                    <button type="button" class="collapsible filter-header active">Dish Type <span>-</span></button>
-                    <ul class="content col2" style="opacity: 1; height: auto;">
+                    <button type="button" class="collapsible filter-header">Dish Type <span>+</span></button>
+                    <ul class="content col2">
                         <li v-for="dishtype in dishtypes">
                             <input type="checkbox" :id="dishtype.id" name="dishtypes" :value="dishtype.value" @change="searchRecipes" v-model="dishtype.checked">
                             <label :for="dishtype.id">{{ dishtype.value }}</label><br>
@@ -63,24 +63,24 @@
                         </li>
                     </ul>
 
-                    <!-- SELECT servings FROM nomsters.recipe GROUP BY servings; -->
+                    <!-- SELECT servings FROM nomsters.recipe GROUP BY servings;
                     <button type="button" class="collapsible filter-header">Serving <span>+</span></button>
                     <ul class="content col5">
                         <li v-for="serving in servings">
                             <input type="checkbox" :id="serving.id" name="servings" :value="serving.value" @change="searchRecipes">
                             <label :for="serving.id">{{ serving.value }}</label><br>
                         </li>
-                    </ul>
+                    </ul> -->
 
                     <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
                     <div class="content col2">
-                        <input type="checkbox" id="30" name="readyInMinutes" value="<= 30" @change="searchRecipes">
+                        <input type="radio" id="30" name="readyInMinutes" value="<= 30" @change="searchRecipes">
                         <label for="30">&lt;= 30mins</label><br>
-                        <input type="checkbox" id="60" name="readyInMinutes" value="<= 60" @change="searchRecipes">
+                        <input type="radio" id="60" name="readyInMinutes" value="<= 60" @change="searchRecipes">
                         <label for="60">&lt;= 1hr</label><br>
-                        <input type="checkbox" id="120" name="readyInMinutes" value="<= 120" @change="searchRecipes">
+                        <input type="radio" id="120" name="readyInMinutes" value="<= 120" @change="searchRecipes">
                         <label for="120">&lt;= 2hr</label><br>
-                        <input type="checkbox" id="121" name="readyInMinutes" value="> 120" @change="searchRecipes">
+                        <input type="radio" id="121" name="readyInMinutes" value="> 120" @change="searchRecipes">
                         <label for="121">&gt; 2hr</label><br>
                     </div>
 
@@ -90,6 +90,14 @@
                         <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
                         <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                    </div>
+
+                    <div class="filter-header">Servings</div>
+                    <div class="min-max-slider" data-legendnum="2" id="servings">
+                        <!-- <label for="min">Minimum Calorie</label> -->
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <!-- <label for="max">Maximum Calorie</label> -->
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
                     </div>
 
                     <div class="filter-header">Price Per Serving</div>
@@ -151,6 +159,8 @@
                     maxCalorie: 1788.67,
                     minPrice: 4.37,
                     maxPrice: 2371.08,
+                    minServing: 1,
+                    maxServing: 100,
                     sortDirection: "ASC",
                     recipes: [],
                     searchTitle: "",
@@ -255,6 +265,9 @@
                 },
                 toggleSortDirection() {
                     this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+                },
+                changeColor() {
+                    this.fav = this.fav === 0 ? 1 : 0;
                 }
             }, 
             watch: {
@@ -265,6 +278,7 @@
 
         app.component('app-nav', navbar);
         app.component('app-footer', footer);
+        
         app.component('recipe-listing', {
             data() {
                 return {
@@ -303,6 +317,46 @@
                 }
             },
             template: listing.template + `
+                <div class="m-4 d-flex align-items-center justify-content-end w-100">
+                    <p class="m-1">Total {{ pageCount }} pages</p>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+                    <template v-if="pageCount <= 7">
+                        <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+                        </button>
+                    </template>
+                    <template v-else>
+                        <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === 1 }" @click="pageNumber = 1">1</button>
+                        <template v-if="pageNumber <= 6">
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + 1 }" v-for="page in 5" @click="pageNumber = page + 1"> {{ page + 1 }}</button>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+                        </template>
+                        <template v-else-if="pageNumber >= pageCount - 4">
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + pageCount - 6 }" v-for="page in 6" @click="pageNumber = page + pageCount - 6"> {{ page + pageCount - 6 }}</button>
+                        </template>
+                        <template v-else>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 2">{{ pageNumber - 2 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 1">{{ pageNumber - 1 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle btn-dark" disabled>{{ pageNumber }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 1">{{ pageNumber + 1 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 2">{{ pageNumber + 2 }}</button>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+                        </template>
+                    </template>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+                </div>
+            `
+
+
+
+
+            /*
+            template: listing.template + `
                 <div class="m-4 d-flex align-items-center">
                     <p class="m-1">Total {{ pageCount }} pages</p>
                     <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
@@ -313,25 +367,8 @@
                     <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
                 </div>
             `
+            */
         });
-
-        function createIndex(){
-            let index = [];
-            for(let i = 1; i < 100; i++) {
-                if (i < 10) {
-                    index.push({
-                        ind:'#' + i,
-                        fav: 1
-                    });
-                } else {
-                    index.push({
-                        ind:'#' + i,
-                        fav: 0
-                    });
-                }
-            }
-            return index;
-        }
 
         app.mount('#app');
 
@@ -397,6 +434,9 @@
             if (id == "calories") {
                 lower.innerHTML = min.getAttribute('data-value') + " kcal";
                 upper.innerHTML = " " + max.getAttribute('data-value') + " kcal";
+            } else if (id == "servings") {
+                lower.innerHTML = min.getAttribute('data-value');
+                upper.innerHTML = " " + max.getAttribute('data-value');
             } else {
                 lower.innerHTML = min.getAttribute('data-value');
                 upper.innerHTML = max.getAttribute('data-value');

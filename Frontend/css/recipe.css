@@ -92,10 +92,16 @@ h2 {
 }
 
 .filter .content li {
-    break-inside: avoid-column;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    display: flex;
+    align-items: baseline;
+    padding: 2px 0;
+}
+
+label {
+    display: inline-block;
+    max-width: 90px;
+    word-break: inherit;
+    line-height: 1.4em;
 }
 
 .col2 {
@@ -188,14 +194,18 @@ span.value.upper.price::before {
 
 .container-listing-wrap {
     width: 80%;
-    margin: 0;
-    /* margin: 0 0 0 16px; */
-    justify-content: flex-end;
+    /* margin: 0; */
+    margin: 0 0 0 32px;
+    justify-content: flex-start;
 }
 
 .container-listing {
-    width: 22vw;
+    width: 21.5vw;
     margin: 0 16px 32px !important;
+}
+
+.container-listing h6 {
+    font-size: 16px;
 }
 
 .rounded-circle:first-child {
