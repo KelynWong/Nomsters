@@ -1141,6 +1141,13 @@
   - `cuisine` (string) - optional, multiple cuisines seperate by commas
   - `dishtype` (string) - optional, multiple dish types seperate by commas
   - `diet` (string) - optional, multiple diets seperate by commas
+  - `servings` (string) - optional, multiple servings seperate by commas
+  - `minCalories` (float) - optional, if this is present then maxCalories also has to be present
+  - `maxCalories` (float) - optional, if this is present then minCalories also has to be present
+  - `minPrice` (float) - optional, if this is present then maxPrice also has to be present
+  - `maxPrice` (float) - optional, if this is present then minCalories also has to be present
+  - `minReadyInMinutes` (float) - optional, if this is present then maxReadyInMinutes also has to be present
+  - `maxReadyInMinutes` (float) - optional, if this is present then minReadyInMinutes also has to be present
   - `sort` (string) - optional, must be a field that exists in recipe (recommended fields to sort by: "healthScore", "pricePerServing", "readyInMinutes", "servings", "calories")
   - `order` (string) - optional, only either "ASC" or "DESC" (if blank, default is ASC)
 - **Response:**
