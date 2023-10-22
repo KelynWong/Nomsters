@@ -9,9 +9,9 @@ const footer = {
                 <div class="right">
                     <ul>
                         <li><a href="/home">Home</a></li>
-                        <li><a href="/">About Us</a></li>
                         <li><a href="/">Browse Recipe</a></li>
                         <li><a href="/">Nearby Grocers</a></li>
+                        <li><a href="/">Favourites</a></li>
                     </ul>
 
                     <ul>
