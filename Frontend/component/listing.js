@@ -1,7 +1,11 @@
 const listing = {
     template: `
-        <a href="/" class="container-listing" v-for="r in recipeData">
-            <img src="img/steak.jpg" />
+        <a href="recipeDetail.html" class="container-listing" v-for="r in recipeData">
+            <div class="recipe-img">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none">
+                    <path d="M2.46085 2.18753C0.173202 4.47518 0.173212 8.18417 2.46085 10.4718L10.0548 18.0657C10.436 18.447 11.0542 18.447 11.4355 18.0657L19.0294 10.4718C21.317 8.18415 21.317 4.47517 19.0294 2.18753C16.7418 -0.100103 13.0328 -0.100114 10.7451 2.18753C8.45748 -0.100103 4.74849 -0.100114 2.46085 2.18753Z" fill="#DE352A"/>
+                </svg>
+            </div>
             <div class="listing-subdesc">
             <div class="subdesc">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 25 25" fill="none">

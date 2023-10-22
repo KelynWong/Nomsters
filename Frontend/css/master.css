@@ -346,13 +346,25 @@ p {
 .container-listing {
     width: 31%;
     margin: 0 18px;
+    border-radius: 8px;
 }
 
-.container-listing img {
-    display: block;
+.container-listing .recipe-img {
+    position: relative;
+    background-image: url(/img/steak.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 8px;
     width: 100%;
     height: 14vw;
+}
+
+.container-listing .recipe-img svg {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
 }
 
 .listing-subdesc {
