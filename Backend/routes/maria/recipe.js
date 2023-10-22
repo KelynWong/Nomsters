@@ -62,9 +62,59 @@ router.get('/', (req, res) => {
         }
     }
 
+    // Filter recipes by calories
+    const minCalories = req.query.minCalories;
+    const maxCalories = req.query.maxCalories;
+    if (minCalories && maxCalories) {
+        if (title || cuisine || dishtype || diet) {
+            sql += ' AND';
+        } else {
+            sql += ' WHERE';
+        }
+        sql += ` calories >= ${minCalories} AND calories <= ${maxCalories}`;
+    }
+
+    // Filter recipes by pricePerServing
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
+    if (minPrice && maxPrice) {
+        if (title || cuisine || dishtype || diet || (minCalories && maxCalories)) {
+            sql += ' AND';
+        } else {
+            sql += ' WHERE';
+        }
+        sql += ` pricePerServing >= ${minPrice} AND pricePerServing <= ${maxPrice}`;
+    }
+
+    // Filter recipes by readyInMinutes
+    const minReadyInMinutes = req.query.minReadyInMinutes;
+    const maxReadyInMinutes = req.query.maxReadyInMinutes;
+    if (minReadyInMinutes && maxReadyInMinutes) {
+        if (title || cuisine || dishtype || diet || (minCalories && maxCalories) || (minPrice && maxPrice)) {
+            sql += ' AND';
+        } else {
+            sql += ' WHERE';
+        }
+        sql += ` readyInMinutes >= ${minReadyInMinutes} AND readyInMinutes <= ${maxReadyInMinutes}`;
+    }
+
+    // Filter recipes by servings
+    const servings = req.query.servings;
+    if (servings) {
+        const servingsArray = servings.split(',').map(s => s.trim());
+        if (servingsArray.length > 0) {
+            if (title || cuisine || dishtype || diet || (minCalories && maxCalories) || (minPrice && maxPrice) || (minReadyInMinutes && maxReadyInMinutes)) {
+                sql += ' AND';
+            } else {
+                sql += ' WHERE';
+            }
+            sql += ` servings IN (${servingsArray.map(serving => `'${serving}'`).join(', ')})`;
+        }
+    }
+
     // Sorting
     const sort = req.query.sort;
-    const order = req.query.order === 'asc' ? 'ASC' : 'DESC';
+    const order = req.query.order === 'ASC' ? 'ASC' : 'DESC';
 
     if (sort) {
         sql += ` ORDER BY ${sort} ${order}`;
@@ -241,5 +291,51 @@ router.delete('/:id', (req, res) => {
             res.status(500).json({ error: err.message });
         });
 });
+
+router.get('/random', (req, res) => {
+    var limit=req.query.limit;
+    var diet=req.query.diet;
+    var minutes=req.query.readyInMinutes;
+    if(minutes==30){
+        var minutessql='= 30'
+    }
+    else{
+        var minutessql='> 30'
+    }
+    if(!diet){
+        const sql = `SELECT * FROM recipe WHERE readyInMinutes ${minutessql} ORDER BY RAND() LIMIT ${limit}`;
+        db.query(sql)
+        .then((rows) => {
+            if (rows.length === 0) {
+                res.status(404).json({ message: 'No recipes found' });
+                return;
+            }
+            res.json(rows);
+        })
+        .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });}
+
+        else{
+            const sql = `SELECT * FROM recipe WHERE recipeId IN (SELECT recipeId FROM diets WHERE name = '${diet}') AND readyInMinutes ${minutessql}  ORDER BY RAND() LIMIT ${limit}`;
+            db.query(sql)
+                .then((rows) => {
+                    if (rows.length === 0) {
+                        res.status(404).json({ message: 'No recipes found' });
+                        return;
+                    }   
+        
+                    rows.forEach((row) => {
+                        row.recipeId = Number(row.recipeId);
+                        row.id = Number(row.id);
+                    });
+        
+                    res.json(rows);
+                })
+                .catch((err) => {
+                    res.status(500).json({ error: err.message });
+                });
+        }
+})
 
 module.exports = router;
