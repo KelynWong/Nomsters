@@ -118,7 +118,10 @@
                     </div>
                 </div>
                 <div class="container-listing-wrap">
-                    <recipe-listing :recipe="recipes"></recipe-listing>
+                    <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
+                    <div v-else class="alert alert-danger w-100 d-flex align-items-center" role="alert">
+                        <p class="text-center">{{errorMessage}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,13 +159,13 @@
                     minCalorie: 0,
                     maxCalorie: 10,
                     selectedMinCalories: 0,
-                    selectedMaxCalories: 10,
+                    selectedMaxCalories: 0,
                     minPrice: 0,
-                    maxPrice: 10,
+                    maxPrice: 0,
                     selectedMinPrice: 0,
                     selectedMaxPrice: 0,
                     minServing: 0,
-                    maxServing: 10,
+                    maxServing: 0,
                     selectedMinServings: 0,
                     selectedMaxServings: 0,
                     selectedSort: "",
@@ -171,6 +174,8 @@
                     searchTitle: "",
                     selectedMinReadyInMinutes: 0,
                     selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER,
+                    isError: false,
+                    errorMessage: "",
                 };
             },
             mounted() {
@@ -201,7 +206,7 @@
                 fetchDiets(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/diet', {
                         headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
                         }
                     }).then(response => {
                         this.diets = response.data.map(item => ({
@@ -210,13 +215,15 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 fetchCuisines(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/cuisine', {
                         headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
                         }
                     }).then(response => {
                         this.cuisines = response.data.map(item => ({
@@ -225,13 +232,15 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 fetchDishTypes(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/dishType', {
                         headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
                         }
                     }).then(response => {
                         this.dishtypes = response.data.map(item => ({
@@ -240,13 +249,15 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 fetchMinMax(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/recipe/minMax', {
                         headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
                         }
                     }).then(response => {
                         let data = response.data;
@@ -267,13 +278,15 @@
                         
                         this.searchRecipes();
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 searchRecipes(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
                         headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
                         },
                         params: {
                             title: this.searchTitle, // not done
@@ -293,9 +306,13 @@
                         }
                     }).then(response => {
                         console.log(response.data)
+                        this.isError = false;
                         this.recipes = response.data
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.recipes = [];
+                        this.isError = true;
                     });
                 },
                 toggleSortDirection() {
