@@ -1,6 +1,6 @@
 const listing = {
         template: `
-            <a href="recipeDetail.html" class="container-listing" v-for="r in recipeData" >
+            <a href="./recipeDetail.html" class="container-listing" v-for="r in recipeData" >
                 <div class="recipe-img" :style="{ backgroundImage: 'url(' + r.image + ')' }">
                     <div v-if="select">
                         <!-- not selected -->
@@ -100,7 +100,7 @@ const listing = {
         `,
         templatetwo:`
         <div class="top-recipe" v-for="r in recipeData">
-        <a href>
+        <a href="./recipedetail.html">
         <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
         
         <h5>{{r.title}}</h5>
