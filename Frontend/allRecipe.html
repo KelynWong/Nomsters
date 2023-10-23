@@ -87,25 +87,25 @@
                     <div class="filter-header">Calories</div>
                     <div class="min-max-slider" data-legendnum="2" id="calories">
                         <!-- <label for="min">Minimum Calorie</label> -->
-                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" v-model="selectedMinCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
-                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" v-model="selectedMaxCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
                     </div>
 
                     <div class="filter-header">Servings</div>
                     <div class="min-max-slider" data-legendnum="2" id="servings">
                         <!-- <label for="min">Minimum Calorie</label> -->
-                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <input id="min" class="min" name="minCalorie" type="range" step="1"  v-model="selectedMinServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
-                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1"  v-model="selectedMaxServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
                     </div>
 
                     <div class="filter-header">Price Per Serving</div>
                     <div class="min-max-slider" data-legendnum="2" id="pricePerServing">
                         <!-- <label for="min">Minimum Price</label> -->
-                        <input id="min" class="min" name="minPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <input id="min" class="min" name="minPrice" type="range" step="1" v-model="selectedMinPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Price</label> -->
-                        <input id="max" class="max" name="maxPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxPrice" type="range" step="1" v-model="selectedMaxPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
                     </div>
                 </div>
                 <div class="container-listing-wrap">
@@ -157,15 +157,21 @@
                     ],
                     minCalorie: 14.38,
                     maxCalorie: 1788.67,
+                    selectedMinCalorie: 14.38,
+                    selectedMaxCalorie: 1788.67,
                     minPrice: 4.37,
                     maxPrice: 2371.08,
+                    selectedMinPrice: 4.37,
+                    selectedMaxPrice: 2371.08,
                     minServing: 1,
                     maxServing: 100,
+                    selectedMinServings: 1,
+                    selectedMaxServings: 100,
                     sortDirection: "ASC",
                     recipes: [],
                     searchTitle: "",
                     selectedMinReadyInMinutes: 0,
-                    selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER
+                    selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER,
                 };
             },
             mounted() {
@@ -247,20 +253,20 @@
                             cuisine: this.selectedCuisines,
                             dishtype: this.selectedDishtypes,
                             diet: this.selectedDiets,
-                            minServings: this.minServings, // not done
-                            maxServings: this.maxServings, // not done
-                            minCalories: this.selectedMinCalories, // not done
-                            maxCalories: this.selectedMaxCalories, // not done
-                            minPrice: this.selectedMinPrice, // not done
-                            maxPrice: this.selectedMaxPrice, // not done
+                            minServings: this.selectedMinServings,
+                            maxServings: this.selectedMaxServings, 
+                            minCalories: this.selectedMinCalories,
+                            maxCalories: this.selectedMaxCalories,
+                            minPrice: this.selectedMinPrice, 
+                            maxPrice: this.selectedMaxPrice, 
                             minReadyInMinutes: this.selectedMinReadyInMinutes, 
                             maxReadyInMinutes: this.selectedMaxReadyInMinutes, 
                             sort: this.selectedSort, // not done
                             order: this.sortDirection
                         }
                     }).then(response => {
-                        console.log(this.selectedMinReadyInMinutes)
-                        console.log(this.selectedMaxReadyInMinutes)
+                        console.log(this.selectedMinCalories)
+                        console.log(this.selectedMaxCalories)
                         console.log(response.data)
                         this.recipes = response.data
                     }).catch( error => {
