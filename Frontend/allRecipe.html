@@ -85,27 +85,36 @@
                     </div>
 
                     <div class="filter-header">Calories</div>
-                    <div class="min-max-slider" data-legendnum="2" id="calories">
+                    <div class="min-max-slider" data-legendnum="2" id="calories" :data-rangemin="minCalorie" :data-rangemax="maxCalorie">
                         <!-- <label for="min">Minimum Calorie</label> -->
+                        <span class="lower value">{{Math.round(selectedMinCalories)}} kcal</span>
+                        <span class="upper value">{{Math.round(selectedMaxCalories)}} kcal</span>
                         <input id="min" class="min" name="minCalorie" type="range" step="1" v-model="selectedMinCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
                         <input id="max" class="max" name="maxCalorie" type="range" step="1" v-model="selectedMaxCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>{{Math.round(minCalorie)}}</div><div>{{Math.round(maxCalorie)}}</div></div>
                     </div>
 
                     <div class="filter-header">Servings</div>
-                    <div class="min-max-slider" data-legendnum="2" id="servings">
+                    <div class="min-max-slider" data-legendnum="2" id="servings" :data-rangemin="minServing" :data-rangemax="maxServing">
                         <!-- <label for="min">Minimum Calorie</label> -->
+                        <span class="lower value">{{Math.round(selectedMinServings)}}</span>
+                        <span class="upper value">{{Math.round(selectedMaxServings)}}</span>
                         <input id="min" class="min" name="minCalorie" type="range" step="1"  v-model="selectedMinServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
                         <input id="max" class="max" name="maxCalorie" type="range" step="1"  v-model="selectedMaxServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>{{Math.round(minServing)}}</div><div>{{Math.round(maxServing)}}</div></div>
                     </div>
 
                     <div class="filter-header">Price Per Serving</div>
-                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing">
+                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing" :data-rangemin="minPrice" :data-rangemax="maxPrice">
                         <!-- <label for="min">Minimum Price</label> -->
+                        <span class="lower value">{{Math.round(selectedMinPrice)}}</span>
+                        <span class="upper value">{{Math.round(selectedMaxPrice)}}</span>
                         <input id="min" class="min" name="minPrice" type="range" step="1" v-model="selectedMinPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Price</label> -->
                         <input id="max" class="max" name="maxPrice" type="range" step="1" v-model="selectedMaxPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>${{Math.round(minPrice)}}</div><div>${{Math.round(maxPrice)}}</div></div>
                     </div>
                 </div>
                 <div class="container-listing-wrap">
@@ -125,6 +134,13 @@
     <script src="component/footer.js"></script>
 
     <script>
+        function initSliders(){
+            var sliders = document.querySelectorAll('.min-max-slider');
+            sliders.forEach( function(slider) {
+                init(slider);
+            });
+        }
+
         const app = Vue.createApp({
             data() {
                 return {
@@ -137,36 +153,18 @@
                     dishtypes: [],
                     diets: [],
                     cuisines: [],
-                    servings: [
-                        { value: '1' },
-                        { value: '2' },
-                        { value: '3' },
-                        { value: '4' },
-                        { value: '5' },
-                        { value: '6' },
-                        { value: '7' },
-                        { value: '8' },
-                        { value: '9' },
-                        { value: '10' },
-                        { value: '11' },
-                        { value: '12' },
-                        { value: '13' },
-                        { value: '14' },
-                        { value: '15' },
-                        { value: '16' },
-                    ],
-                    minCalorie: 14.38,
-                    maxCalorie: 1788.67,
-                    selectedMinCalorie: 14.38,
-                    selectedMaxCalorie: 1788.67,
-                    minPrice: 4.37,
-                    maxPrice: 2371.08,
-                    selectedMinPrice: 4.37,
-                    selectedMaxPrice: 2371.08,
-                    minServing: 1,
-                    maxServing: 100,
-                    selectedMinServings: 1,
-                    selectedMaxServings: 100,
+                    minCalorie: 0,
+                    maxCalorie: 10,
+                    selectedMinCalories: 0,
+                    selectedMaxCalories: 10,
+                    minPrice: 0,
+                    maxPrice: 10,
+                    selectedMinPrice: 0,
+                    selectedMaxPrice: 0,
+                    minServing: 0,
+                    maxServing: 10,
+                    selectedMinServings: 0,
+                    selectedMaxServings: 0,
                     selectedSort: "",
                     sortDirection: "ASC",
                     recipes: [],
@@ -176,10 +174,10 @@
                 };
             },
             mounted() {
+                this.fetchMinMax();
                 this.fetchDiets();
                 this.fetchCuisines();
                 this.fetchDishTypes();
-                this.searchRecipes();
             },
             computed: {
                 selectedDishtypes() {
@@ -245,6 +243,33 @@
                         console.log(error.message);
                     });
                 },
+                fetchMinMax(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/recipe/minMax', {
+                        headers:{
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                        }
+                    }).then(response => {
+                        let data = response.data;
+                        
+                        this.minCalorie = data.minCalories;
+                        this.selectedMinCalories = data.minCalories;
+                        this.maxCalorie = data.maxCalories;
+                        this.selectedMaxCalories = data.maxCalories;
+                        this.minServing = data.minServings;
+                        this.selectedMinServings = data.minServings;
+                        this.maxServing = data.maxServings;
+                        this.selectedMaxServings = data.maxServings;
+                        this.minPrice = data.minPrice;
+                        this.selectedMinPrice = data.minPrice;
+                        this.maxPrice = data.maxPrice;
+                        this.selectedMaxPrice = data.maxPrice;
+                        initSliders();
+                        
+                        this.searchRecipes();
+                    }).catch( error => {
+                        console.log(error.message);
+                    });
+                },
                 searchRecipes(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
                         headers:{
@@ -267,8 +292,6 @@
                             order: this.sortDirection
                         }
                     }).then(response => {
-                        console.log(this.selectedMinCalories)
-                        console.log(this.selectedMaxCalories)
                         console.log(response.data)
                         this.recipes = response.data
                     }).catch( error => {
@@ -392,9 +415,7 @@
 
         app.mount('#app');
 
-    </script>
 
-    <script>
         var collapsible = document.getElementsByClassName("collapsible");
         var i;
 
@@ -484,36 +505,36 @@
             slider.setAttribute('data-thumbsize',thumbsize); 
             slider.setAttribute('data-rangewidth',slider.offsetWidth);
 
-            /* write labels */
-            var lower = document.createElement('span');
-            var upper = document.createElement('span');
+            // /* write labels */
+            // var lower = document.createElement('span');
+            // var upper = document.createElement('span');
 
-            if (id == "pricePerServing") {
-                lower.classList.add('lower','value','price');
-                upper.classList.add('upper','value','price');
-            } else {
-                lower.classList.add('lower','value');
-                upper.classList.add('upper','value');
-            }
+            // if (id == "pricePerServing") {
+            //     lower.classList.add('lower','value','price');
+            //     upper.classList.add('upper','value','price');
+            // } else {
+            //     lower.classList.add('lower','value');
+            //     upper.classList.add('upper','value');
+            // }
             
-            lower.appendChild(document.createTextNode(rangemin));
-            upper.appendChild(document.createTextNode(rangemax));
+            // lower.appendChild(document.createTextNode(rangemin));
+            // upper.appendChild(document.createTextNode(rangemax));
             
-            slider.insertBefore(lower,min.previousElementSibling);
-            slider.insertBefore(upper,min.previousElementSibling);
+            // slider.insertBefore(lower,min.previousElementSibling);
+            // slider.insertBefore(upper,min.previousElementSibling);
             
-            /* write legend */
-            var legend = document.createElement('div');
-            legend.classList.add('legend');
-            var legendvalues = [];
-            for (var i = 0; i < legendnum; i++) {
-                legendvalues[i] = document.createElement('div');
-                var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
-                legendvalues[i].appendChild(document.createTextNode(val));
-                legend.appendChild(legendvalues[i]);
+            // /* write legend */
+            // var legend = document.createElement('div');
+            // legend.classList.add('legend');
+            // var legendvalues = [];
+            // for (var i = 0; i < legendnum; i++) {
+            //     legendvalues[i] = document.createElement('div');
+            //     var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
+            //     legendvalues[i].appendChild(document.createTextNode(val));
+            //     legend.appendChild(legendvalues[i]);
 
-            } 
-            slider.appendChild(legend);
+            // } 
+            // slider.appendChild(legend);
 
             /* draw */
             draw(slider,avgvalue);
@@ -540,11 +561,7 @@
             /* draw */
             draw(slider,avgvalue);
         }
-
-        var sliders = document.querySelectorAll('.min-max-slider');
-        sliders.forEach( function(slider) {
-            init(slider);
-        });
+        
     </script>
 </body>
 
