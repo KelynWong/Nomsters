@@ -268,28 +268,6 @@
           recipedishtypecount:27,
         };
       },
-    created(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-  
-    const id = urlParams.get('id');
-    // to add in session logic
-    const headers = {
-    Authorization: token,
-    };
-    axios.get('https://leaptron2.dscloud.me:3000/api/recipe/count',{
-      headers: headers,
-      params:{tocount:'recipe'}
-    })
-      .then(response => {
-      // Assuming the response contains recipe data
-      this.recipecount = response.data.count
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-      }
     });
     
     app.component('app-nav', navbar);
@@ -318,13 +296,12 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-  
-    const id = urlParams.get('id');
+    const token = sessionStorage.getItem('token');
+    console.log(token)
+    const id = sessionStorage.getItem('userId');
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`
     };
 
 
@@ -376,13 +353,11 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
@@ -448,13 +423,11 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
@@ -524,13 +497,11 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
@@ -601,13 +572,12 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
+
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
@@ -676,13 +646,12 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
+
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
@@ -751,13 +720,12 @@
     // This code is executed when the component is created.
     
     // Example Axios GET request
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = sessionStorage.getItem('token');
   
-    const id = urlParams.get('id');
+
     // to add in session logic
     const headers = {
-    Authorization: token,
+      Authorization: `Bearer ${token}`,
     };
 
       axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{

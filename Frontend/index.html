@@ -194,9 +194,11 @@ function loginUser() {
     console.log(response.data);
     let token= response.data.token;
     let userId= response.data.userId;
-    const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('userId', userId);
 
-    window.location.href=homePageUrl
+    const homePageUrl = `http://localhost:5173/home.html`;
+    window.location.href = homePageUrl;
   })
   .catch(error => {
     if (error.response && error.response.data && error.response.data.message) {
