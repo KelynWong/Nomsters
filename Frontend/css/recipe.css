@@ -138,7 +138,7 @@ span.value.lower::before {
 }
 
 span.value.upper::before {
-    content: "-"; 
+    content: ""; 
     display: inline-block; 
     margin-left: 0.4em;
 }
