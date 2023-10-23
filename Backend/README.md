@@ -1141,7 +1141,8 @@
   - `cuisine` (string) - optional, multiple cuisines seperate by commas
   - `dishtype` (string) - optional, multiple dish types seperate by commas
   - `diet` (string) - optional, multiple diets seperate by commas
-  - `servings` (string) - optional, multiple servings seperate by commas
+  - `minServings` (float) - optional, if this is present then maxServings also has to be present
+  - `maxServings` (float) - optional, if this is present then minServings also has to be present
   - `minCalories` (float) - optional, if this is present then maxCalories also has to be present
   - `maxCalories` (float) - optional, if this is present then minCalories also has to be present
   - `minPrice` (float) - optional, if this is present then maxPrice also has to be present
