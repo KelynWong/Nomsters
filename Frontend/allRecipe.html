@@ -119,8 +119,8 @@
                 </div>
                 <div class="container-listing-wrap">
                     <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
-                    <div v-else class="alert alert-danger w-100 d-flex align-items-center" role="alert">
-                        <p class="text-center">{{errorMessage}}</p>
+                    <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
+                        <p>{{errorMessage}}</p>
                     </div>
                 </div>
             </div>
