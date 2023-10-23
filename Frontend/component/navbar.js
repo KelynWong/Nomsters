@@ -1,10 +1,16 @@
 const navbar = {
+    data() {
+        return {
+            searchQuery: ""
+        }
+    },
+    emits: ['search'],
     template: `
         <div id="nav">
             <div class="very-top-nav">
                 <div class="search-bar">
                     <img class="search-icon" src="img/icon/search.png" alt="search-icon">
-                    <input class="search-field" type="search" placeholder="Search for Recipe...">
+                    <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
                 </div>
                 <button type="button" class="decide-btn">Can't decide?</button>
                 <img src="img/icon/profile.png" class="profile" />
