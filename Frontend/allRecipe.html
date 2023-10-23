@@ -74,13 +74,13 @@
 
                     <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
                     <div class="content col2">
-                        <input type="radio" id="30" name="readyInMinutes" value="<= 30" @change="searchRecipes">
+                        <input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
                         <label for="30">&lt;= 30mins</label><br>
-                        <input type="radio" id="60" name="readyInMinutes" value="<= 60" @change="searchRecipes">
+                        <input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
                         <label for="60">&lt;= 1hr</label><br>
-                        <input type="radio" id="120" name="readyInMinutes" value="<= 120" @change="searchRecipes">
+                        <input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
                         <label for="120">&lt;= 2hr</label><br>
-                        <input type="radio" id="121" name="readyInMinutes" value="> 120" @change="searchRecipes">
+                        <input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="searchRecipes(); setMaxNumber">
                         <label for="121">&gt; 2hr</label><br>
                     </div>
 
@@ -164,6 +164,8 @@
                     sortDirection: "ASC",
                     recipes: [],
                     searchTitle: "",
+                    selectedMinReadyInMinutes: 0,
+                    selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER
                 };
             },
             mounted() {
@@ -245,18 +247,20 @@
                             cuisine: this.selectedCuisines,
                             dishtype: this.selectedDishtypes,
                             diet: this.selectedDiets,
-                            servings: this.selectedServings, // not done
+                            minServings: this.minServings, // not done
+                            maxServings: this.maxServings, // not done
                             minCalories: this.selectedMinCalories, // not done
                             maxCalories: this.selectedMaxCalories, // not done
                             minPrice: this.selectedMinPrice, // not done
                             maxPrice: this.selectedMaxPrice, // not done
-                            minReadyInMinutes: this.selectedMinReadyInMinutes, // not done
-                            maxReadyInMinutes: this.selectedMaxReadyInMinutes, // not done
+                            minReadyInMinutes: this.selectedMinReadyInMinutes, 
+                            maxReadyInMinutes: this.selectedMaxReadyInMinutes, 
                             sort: this.selectedSort, // not done
                             order: this.sortDirection
                         }
                     }).then(response => {
-                        console.log(this.selectedDishtypes)
+                        console.log(this.selectedMinReadyInMinutes)
+                        console.log(this.selectedMaxReadyInMinutes)
                         console.log(response.data)
                         this.recipes = response.data
                     }).catch( error => {
@@ -265,6 +269,12 @@
                 },
                 toggleSortDirection() {
                     this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+                },
+                setMaxNumber(){
+                    this.selectedMinReadyInMinutes = Number.MAX_SAFE_INTEGER
+                },
+                setMinNumber(){
+                    this.selectedMaxReadyInMinutes = Number.MIN_SAFE_INTEGER
                 },
                 changeColor() {
                     this.fav = this.fav === 0 ? 1 : 0;
