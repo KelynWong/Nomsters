@@ -155,6 +155,7 @@
     flex-direction: column;
     align-items: center;
     margin: 20px 14px;
+    text-align: center;
 }
 
 .cuisine:first-child, .top-recipe:first-child {
