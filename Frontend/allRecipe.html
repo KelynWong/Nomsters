@@ -485,10 +485,13 @@
             max.setAttribute('min',splitvalue);
 
             /* set css */
-            min.style.width = parseInt(thumbsize + ((splitvalue - rangemin)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
-            max.style.width = parseInt(thumbsize + ((rangemax - splitvalue)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            /*min.style.width = parseInt(thumbsize + ((splitvalue - rangemin)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            max.style.width = parseInt(thumbsize + ((rangemax - splitvalue)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';*/
+            min.style.width = 50+'%';
+            max.style.width = 100+'%';
             min.style.left = '0px';
-            max.style.left = parseInt(min.style.width)+'px';
+            /*max.style.left = parseInt(min.style.width)+'px';*/
+            max.style.left = 0+'%';
             min.style.top = lower.offsetHeight+'px';
             max.style.top = lower.offsetHeight+'px';
             legend.style.marginTop = min.offsetHeight+'px';
