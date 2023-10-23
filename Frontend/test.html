@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Recipe</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Font awesome for icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="css/recipe.css">
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="app">
+        <app-nav></app-nav>
+        <app-footer></app-footer>
+    </div>
+    
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+    <script src="component/navbar.js"></script>
+    <script src="component/randomRecipeGenerator.js"></script>
+    <script src="component/listing.js"></script>
+    <script src="component/footer.js"></script>
+
+    <script>
+        
+        const app = Vue.createApp({
+            components: {
+                'app-footer': footer,
+            },
+        });
+
+        app.component('app-nav', {
+            data() {
+                return {
+                    showIsActive: false,
+                }
+            },
+            methods:{
+                showHideModal() {
+                    this.showIsActive = !this.showIsActive;
+                },
+            },
+            template: navbar.template + `
+                <div class="random-recipe" :class="{active: showIsActive}">
+                    <div class="overlay" @click="showHideModal"></div>
+                    <div class="modal-box">
+                        <h2>Completed</h2>
+                        <div class="buttons">
+                            <button class="btn close-btn" @click="showHideModal">Close</button>
+                            <button class="btn">Regenerate Recipe</button>
+                            <button class="btn">Go to Recipe</button>
+                        </div>
+                    </div>
+                </div>
+            `,
+        });
+        
+        app.mount('#app');
+        
+
+    </script>
+
+</body>
+
+</html>
