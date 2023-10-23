@@ -6,7 +6,7 @@ const db = require('../../db/mariadb');
 router.get('/:id', (req, res) => {
     const userId = req.params.id;
 
-    const sql = 'SELECT * FROM user WHERE userId = ?';
+    const sql = 'SELECT user.*,(SELECT JSON_ARRAYAGG(diet) FROM userdiet WHERE userdiet.userId = user.userId) AS diets FROM user WHERE userId = ?';
     db.query(sql, [userId])
         .then((rows) => {
             if (rows.length === 0) {
@@ -193,7 +193,7 @@ router.get('/:id/recipe', (req, res) => {
             db.query(sql, [userId])
                 .then((rows) => {
                     if (rows.length === 0) {
-                        res.status(404).json({ message: 'No favourite recipes found' });
+                        res.status(400).json({ message: 'No favourite recipes found' });
                         return;
                     }
 
