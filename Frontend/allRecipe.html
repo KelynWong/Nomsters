@@ -167,6 +167,7 @@
                     maxServing: 100,
                     selectedMinServings: 1,
                     selectedMaxServings: 100,
+                    selectedSort: "",
                     sortDirection: "ASC",
                     recipes: [],
                     searchTitle: "",
@@ -197,6 +198,7 @@
             methods: {
                 selectOption(option) {
                     this.selectedOption = option.label;
+                    this.selectedSort = option.value;
                 },
                 fetchDiets(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/diet', {
