@@ -83,13 +83,13 @@
 
                     <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
                     <div class="content col2">
-                        <input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
+                        <input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="30">&lt;= 30mins</label><br>
-                        <input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
+                        <input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="60">&lt;= 1hr</label><br>
-                        <input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="searchRecipes(); setMinNumber">
+                        <input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="120">&lt;= 2hr</label><br>
-                        <input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="searchRecipes(); setMaxNumber">
+                        <input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="setMaxNumber">
                         <label for="121">&gt; 2hr</label><br>
                     </div>
 
@@ -184,7 +184,7 @@
                     selectedSort: "",
                     sortDirection: "ASC",
                     recipes: [],
-                    selectedMinReadyInMinutes: 0,
+                    selectedMinReadyInMinutes: Number.MIN_SAFE_INTEGER,
                     selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER,
                     isError: false,
                     errorMessage: "",
@@ -302,15 +302,15 @@
                             maxCalories: this.selectedMaxCalories,
                             minPrice: this.selectedMinPrice, 
                             maxPrice: this.selectedMaxPrice, 
-                            minReadyInMinutes: this.selectedMinReadyInMinutes, 
-                            maxReadyInMinutes: this.selectedMaxReadyInMinutes, 
+                            minReadyInMinutes: this.selectedMinReadyInMinutes, // not done
+                            maxReadyInMinutes: this.selectedMaxReadyInMinutes, // not done
                             sort: this.selectedSort, 
                             order: this.sortDirection
                         }
                     }).then(response => {
                         console.log(response.data)
-                        console.log(titleQuery)
-                        console.log(this.title)
+                        console.log(this.selectedMinReadyInMinutes)
+                        console.log(this.selectedMaxReadyInMinutes)
                         this.title = (typeof titleQuery === 'string') ? titleQuery : this.title;
                         this.isError = false;
                         this.recipes = response.data
@@ -325,10 +325,14 @@
                     this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
                 },
                 setMaxNumber(){
-                    this.selectedMinReadyInMinutes = Number.MAX_SAFE_INTEGER
+                    this.selectedMinReadyInMinutes = Number.MIN_SAFE_INTEGER
+                    console.log("hwerwer")
+                    this.searchRecipes()
                 },
                 setMinNumber(){
-                    this.selectedMaxReadyInMinutes = Number.MIN_SAFE_INTEGER
+                    this.selectedMaxReadyInMinutes = Number.MAX_SAFE_INTEGER
+                    console.log("kjrngesigiuui")
+                    this.searchRecipes()
                 },
                 changeColor() {
                     this.fav = this.fav === 0 ? 1 : 0;
