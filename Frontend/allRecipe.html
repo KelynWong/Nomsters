@@ -8,6 +8,8 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Font awesome for icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/recipe.css">
@@ -15,204 +17,517 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
 </head>
+<body>
+    <div id="app">
+        <app-nav></app-nav>
+        <h2>All Recipes</h2>
+        <div class="recipeContent">
+            <div class="dropdown d-flex justify-content-end">
+                <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ selectedOption}}
+                </button>
+                <ul id="sort" class="dropdown-menu">
+                    <li v-for="(option, index) in options" :key="index" >
+                        <div class="dropdown-item" @click="selectOption(option); searchRecipes()">{{ option.label }}</div>
+                    </li>
+                </ul>
+                <button @click="toggleSortDirection" class="btn btn-light">
+                    <i v-if="sortDirection === 'ASC'" class="fas fa-chevron-up"></i>
+                    <i v-else class="fas fa-chevron-down"></i>
+                </button>
+            </div>
 
-<div id="app">
-    <app-nav></app-nav>
-    <h2>All Recipes</h2>
-    <div class="recipeContent">
-        <div class="dropdown d-flex justify-content-end">
-            <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Sort by
-            </button>
-            <div id="sort" class="dropdown-menu">
-                <option class="dropdown-item" value="servings">Servings</option>
-                <option class="dropdown-item" value="calories">Calories</option>
-                <option class="dropdown-item" value="readyInMinutes">Ready In Minutes</option>
-                <option class="dropdown-item" value="pricePerServing">Price Per Serving</option>
-                <option class="dropdown-item" value="healthScore">Health Score</option>
+            <div class="results">
+                <div class="filter">
+                    <button type="button" class="collapsible filter-header">Dish Type <span>+</span></button>
+                    <ul class="content col2">
+                        <li v-for="dishtype in dishtypes">
+                            <input type="checkbox" :id="dishtype.id" name="dishtypes" :value="dishtype.value" @change="searchRecipes" v-model="dishtype.checked">
+                            <label :for="dishtype.id">{{ dishtype.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="collapsible filter-header">Diet <span>+</span></button>
+                    <ul class="content">
+                        <li v-for="diet in diets">
+                            <input type="checkbox" :id="diet.id" name="diets" :value="diet.value" @change="searchRecipes" v-model="diet.checked">
+                            <label :for="diet.id">{{ diet.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="collapsible filter-header">Cuisine <span>+</span></button>
+                    <ul class="content col2">
+                        <li v-for="cuisine in cuisines">
+                            <input type="checkbox" :id="cuisine.id" name="cuisines" :value="cuisine.value" @change="searchRecipes" v-model="cuisine.checked">
+                            <label :for="cuisine.id">{{ cuisine.value }}</label><br>
+                        </li>
+                    </ul>
+
+                    <!-- SELECT servings FROM nomsters.recipe GROUP BY servings;
+                    <button type="button" class="collapsible filter-header">Serving <span>+</span></button>
+                    <ul class="content col5">
+                        <li v-for="serving in servings">
+                            <input type="checkbox" :id="serving.id" name="servings" :value="serving.value" @change="searchRecipes">
+                            <label :for="serving.id">{{ serving.value }}</label><br>
+                        </li>
+                    </ul> -->
+
+                    <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
+                    <div class="content col2">
+                        <input type="radio" id="30" name="readyInMinutes" value="<= 30" @change="searchRecipes">
+                        <label for="30">&lt;= 30mins</label><br>
+                        <input type="radio" id="60" name="readyInMinutes" value="<= 60" @change="searchRecipes">
+                        <label for="60">&lt;= 1hr</label><br>
+                        <input type="radio" id="120" name="readyInMinutes" value="<= 120" @change="searchRecipes">
+                        <label for="120">&lt;= 2hr</label><br>
+                        <input type="radio" id="121" name="readyInMinutes" value="> 120" @change="searchRecipes">
+                        <label for="121">&gt; 2hr</label><br>
+                    </div>
+
+                    <div class="filter-header">Calories</div>
+                    <div class="min-max-slider" data-legendnum="2" id="calories">
+                        <!-- <label for="min">Minimum Calorie</label> -->
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <!-- <label for="max">Maximum Calorie</label> -->
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                    </div>
+
+                    <div class="filter-header">Servings</div>
+                    <div class="min-max-slider" data-legendnum="2" id="servings">
+                        <!-- <label for="min">Minimum Calorie</label> -->
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <!-- <label for="max">Maximum Calorie</label> -->
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                    </div>
+
+                    <div class="filter-header">Price Per Serving</div>
+                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing">
+                        <!-- <label for="min">Minimum Price</label> -->
+                        <input id="min" class="min" name="minPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <!-- <label for="max">Maximum Price</label> -->
+                        <input id="max" class="max" name="maxPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                    </div>
+                </div>
+                <div class="container-listing-wrap">
+                    <recipe-listing :recipe="recipes"></recipe-listing>
+                </div>
             </div>
         </div>
-
-
-        <!-- <div class="dropdown d-flex justify-content-end">
-            <div id="sort" class="btn dropdown-toggle border border-secondary">
-                <option class="dropdown-menu dropdown-item" value="" selected>Sort By</option>
-                <option class="dropdown-menu dropdown-item" value="servings ASC">Servings Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="servings DESC">Servings High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="calories ASC">Calories Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="calories DESC">Calories High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="readyInMinutes ASC">Ready In Minutes Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="readyInMinutes DESC">Ready In Minutes High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="pricePerServing ASC">Price Per Serving Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="pricePerServing DESC">Price Per Serving High to Low</option>
-                <option class="dropdown-menu dropdown-item" value="healthScore ASC">Health Score Low to High</option>
-                <option class="dropdown-menu dropdown-item" value="healthScore DESC">Health Score High to Low</option>
-            </div>
-        </div> -->
-
-        <div class="results">
-            <div class="filter">
-                <button type="button" class="collapsible active">Dish Type <span>-</span></button>
-                <div class="content" style="opacity: 1; height: auto;">
-                    <input type="checkbox" id="side_dish" name="side dish" value="side dish">
-                    <label for="side_dish">side dish</label><br>
-                    <input type="checkbox" id="starter" name="starter" value="starter">
-                    <label for="starter">starter</label><br>
-                    <input type="checkbox" id="snack" name="snack" value="snack">
-                    <label for="snack">snack</label><br>
-                    <input type="checkbox" id="appetizer" name="appetizer" value="appetizer">
-                    <label for="appetizer">appetizer</label><br>
-                    <input type="checkbox" id="beverage" name="beverage" value="beverage">
-                    <label for="beverage">beverage</label><br>
-                </div>
-
-                <button type="button" class="collapsible">Diet <span>+</span></button>
-                <div class="content">
-                    <input type="checkbox" id="gluten_free" name="gluten free" value="gluten free">
-                    <label for="gluten_free">gluten free</label><br>
-                    <input type="checkbox" id="dairy_free" name="dairy free" value="dairy free">
-                    <label for="dairy_free">dairy free</label><br>
-                    <input type="checkbox" id="vegan" name="vegan" value="vegan">
-                    <label for="vegan">vegan</label><br>
-                    <input type="checkbox" id="lacto_ovo_vegetarian" name="lacto ovo vegetarian" value="lacto ovo vegetarian">
-                    <label for="lacto_ovo_vegetarian">lacto ovo vegetarian</label><br>
-                    <input type="checkbox" id="ketogenic" name="ketogenic" value="ketogenic">
-                    <label for="ketogenic">ketogenic</label><br>
-                </div>
-
-                <button type="button" class="collapsible">Cuisine <span>+</span></button>
-                <div class="content">
-                    <input type="checkbox" id="Korean" name="Korean" value="Korean">
-                    <label for="Korean">Korean</label><br>
-                    <input type="checkbox" id="Chinese" name="Chinese" value="Chinese">
-                    <label for="Chinese">Chinese</label><br>
-                    <input type="checkbox" id="Indian" name="Indian" value="Indian">
-                    <label for="Indian">Indian</label><br>
-                    <input type="checkbox" id="Vietnamese" name="Vietnamese" value="Vietnamese">
-                    <label for="Vietnamese">Vietnamese</label><br>
-                    <input type="checkbox" id="Japanese" name="Japanese" value="Japanese">
-                    <label for="Japanese">Japanese</label><br>
-                    <input type="checkbox" id="Italian" name="Italian" value="Italian">
-                    <label for="Italian">Italian</label><br>
-                </div>
-            </div>
-            <div class="container-listing-wrap">
-                <recipe-listing :recipe="indexes"></recipe-listing>
-            </div>
-        </div>
+        <app-footer></app-footer>
     </div>
-    <app-footer></app-footer>
-</div>
 
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+    <script src="component/navbar.js"></script>
+    <script src="component/listing.js"></script>
+    <script src="component/footer.js"></script>
 
-<script src="component/navbar.js"></script>
-<script src="component/listing.js"></script>
-<script src="component/footer.js"></script>
-
-<script>
-const app = Vue.createApp({
-    data() {
-        return {
-            indexes: createIndex()
-        };
-    }
-});
-app.component('app-nav', navbar);
-app.component('app-footer', footer);
-app.component('recipe-listing', {
-    data() {
-        return {
-            pageNumber: 1
-        }
-    },
-    props: {
-        recipe: {
-            type: Array,
-            required: true
-        },
-        size: {
-            type: Number,
-            required: false,
-            default: 12
-        }
-    },
-    methods:{
-        nextPage() {
-           this.pageNumber++;
-        },
-        prevPage() {
-          this.pageNumber--;
-        }
-    },
-    computed: {
-        pageCount() {
-            let l = this.recipe.length;
-            let s = this.size;
-            return Math.ceil(l/s);
-        },
-        recipeData() {
-            const start = this.pageNumber * this.size - this.size;
-            const end = start + this.size;
-            return this.recipe.slice(start, end);
-        }
-    },
-    template: listing.template + `
-        <div class="m-4">
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt;&lt; </button>
-            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
-            </button>
-            <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &lt;&lt; </button>
-        </div>
-    `
-});
-  
-      /* <button 
-            :disabled="pageNumber === 0" 
-            @click="prevPage">
-            Previous
-        </button>
-        <button 
-            :disabled="pageNumber >= pageCount -1" 
-            @click="nextPage">
-            Next
-        </button> */
-function createIndex(){
-    let index = [];
-    for(let i = 1; i < 100; i++){
-        index.push({ind:'#' + i});
-    }
-    return index;
-}
-
-app.mount('#app');
-
-</script>
-
-<script>
-    var collapsible = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < collapsible.length; i++) {
-        collapsible[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.opacity === "1") {
-                content.style.opacity = "0";
-                content.style.height = "0";
-                this.getElementsByTagName("span")[0].innerText = "+";
-            } else {
-                content.style.opacity = "1";
-                content.style.height = "auto";
-                this.getElementsByTagName("span")[0].innerText = "-";
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    // indexes: createIndex(),
+                    selectedOption: 'Sort by',
+                    options: [
+                        { label: 'Popularity', value: 'aggregateLikes' },
+                        { label: 'Healthiness', value: 'healthScore' },
+                    ],
+                    dishtypes: [],
+                    diets: [],
+                    cuisines: [],
+                    servings: [
+                        { value: '1' },
+                        { value: '2' },
+                        { value: '3' },
+                        { value: '4' },
+                        { value: '5' },
+                        { value: '6' },
+                        { value: '7' },
+                        { value: '8' },
+                        { value: '9' },
+                        { value: '10' },
+                        { value: '11' },
+                        { value: '12' },
+                        { value: '13' },
+                        { value: '14' },
+                        { value: '15' },
+                        { value: '16' },
+                    ],
+                    minCalorie: 14.38,
+                    maxCalorie: 1788.67,
+                    minPrice: 4.37,
+                    maxPrice: 2371.08,
+                    minServing: 1,
+                    maxServing: 100,
+                    sortDirection: "ASC",
+                    recipes: [],
+                    searchTitle: "",
+                };
+            },
+            mounted() {
+                this.fetchDiets();
+                this.fetchCuisines();
+                this.fetchDishTypes();
+                this.searchRecipes();
+            },
+            computed: {
+                selectedDishtypes() {
+                    const selectedItems = this.dishtypes.filter(item => item.checked).map(item => item.value);
+                    return selectedItems.join(', '); 
+                },
+                selectedDiets() {
+                    const selectedItems = this.diets.filter(item => item.checked).map(item => item.value);
+                    return selectedItems.join(', '); 
+                },
+                selectedCuisines() {
+                    const selectedItems = this.cuisines.filter(item => item.checked).map(item => item.value);
+                    return selectedItems.join(', '); 
+                },
+            },
+            methods: {
+                selectOption(option) {
+                    this.selectedOption = option.label;
+                },
+                fetchDiets(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/diet', {
+                        headers:{
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                        }
+                    }).then(response => {
+                        this.diets = response.data.map(item => ({
+                            id: item.name.replace(/\s+/g, '_').toLowerCase(),
+                            value: item.name,
+                            checked: false
+                        }))
+                    }).catch( error => {
+                        console.log(error.message);
+                    });
+                },
+                fetchCuisines(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/cuisine', {
+                        headers:{
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                        }
+                    }).then(response => {
+                        this.cuisines = response.data.map(item => ({
+                            id: item.name.replace(/\s+/g, '_').toLowerCase(),
+                            value: item.name,
+                            checked: false
+                        }))
+                    }).catch( error => {
+                        console.log(error.message);
+                    });
+                },
+                fetchDishTypes(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/dishType', {
+                        headers:{
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                        }
+                    }).then(response => {
+                        this.dishtypes = response.data.map(item => ({
+                            id: item.name.replace(/\s+/g, '_').toLowerCase(),
+                            value: item.name,
+                            checked: false
+                        }))
+                    }).catch( error => {
+                        console.log(error.message);
+                    });
+                },
+                searchRecipes(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+                        headers:{
+                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
+                        },
+                        params: {
+                            title: this.searchTitle, // not done
+                            cuisine: this.selectedCuisines,
+                            dishtype: this.selectedDishtypes,
+                            diet: this.selectedDiets,
+                            servings: this.selectedServings, // not done
+                            minCalories: this.selectedMinCalories, // not done
+                            maxCalories: this.selectedMaxCalories, // not done
+                            minPrice: this.selectedMinPrice, // not done
+                            maxPrice: this.selectedMaxPrice, // not done
+                            minReadyInMinutes: this.selectedMinReadyInMinutes, // not done
+                            maxReadyInMinutes: this.selectedMaxReadyInMinutes, // not done
+                            sort: this.selectedSort, // not done
+                            order: this.sortDirection
+                        }
+                    }).then(response => {
+                        console.log(this.selectedDishtypes)
+                        console.log(response.data)
+                        this.recipes = response.data
+                    }).catch( error => {
+                        console.log(error.message);
+                    });
+                },
+                toggleSortDirection() {
+                    this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+                },
+                changeColor() {
+                    this.fav = this.fav === 0 ? 1 : 0;
+                }
+            }, 
+            watch: {
+                sortDirection: 'searchRecipes', 
             }
         });
-    }
-</script>
+
+
+        app.component('app-nav', navbar);
+        app.component('app-footer', footer);
+        
+        app.component('recipe-listing', {
+            data() {
+                return {
+                    pageNumber: 1,
+                    fav: 0,
+                }
+            },
+            props: {
+                recipe: {
+                    type: Array,
+                    required: true
+                },
+                size: {
+                    type: Number,
+                    required: false,
+                    default: 12
+                }
+            },
+            methods:{
+                nextPage() {
+                    this.pageNumber++;
+                },
+                prevPage() {
+                    this.pageNumber--;
+                },
+                changeColor() {
+                    this.fav = this.fav === 0 ? 1 : 0;
+                }
+    
+            },
+            computed: {
+                pageCount() {
+                    let l = this.recipe.length;
+                    let s = this.size;
+                    return Math.ceil(l/s);
+                },
+                recipeData() {
+                    const start = this.pageNumber * this.size - this.size;
+                    const end = start + this.size;
+                    return this.recipe.slice(start, end);
+                }
+            },
+            template: listing.template + `
+                <div class="m-4 d-flex align-items-center justify-content-end w-100">
+                    <p class="m-1">Total {{ pageCount }} pages</p>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+                    <template v-if="pageCount <= 7">
+                        <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+                        </button>
+                    </template>
+                    <template v-else>
+                        <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === 1 }" @click="pageNumber = 1">1</button>
+                        <template v-if="pageNumber <= 6">
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + 1 }" v-for="page in 5" @click="pageNumber = page + 1"> {{ page + 1 }}</button>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+                        </template>
+                        <template v-else-if="pageNumber >= pageCount - 4">
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + pageCount - 6 }" v-for="page in 6" @click="pageNumber = page + pageCount - 6"> {{ page + pageCount - 6 }}</button>
+                        </template>
+                        <template v-else>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 2">{{ pageNumber - 2 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 1">{{ pageNumber - 1 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle btn-dark" disabled>{{ pageNumber }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 1">{{ pageNumber + 1 }}</button>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 2">{{ pageNumber + 2 }}</button>
+                            <span class="m-1">...</span>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+                        </template>
+                    </template>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+                </div>
+            `
+
+            /*
+            template: listing.template + `
+                <div class="m-4 d-flex align-items-center">
+                    <p class="m-1">Total {{ pageCount }} pages</p>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+                    <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+                    </button>
+                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+                </div>
+            `
+            */
+        });
+
+        app.mount('#app');
+
+    </script>
+
+    <script>
+        var collapsible = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < collapsible.length; i++) {
+            collapsible[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.opacity === "1") {
+                    content.style.opacity = "0";
+                    content.style.height = "0";
+                    this.getElementsByTagName("span")[0].innerText = "+";
+                } else {
+                    content.style.opacity = "1";
+                    content.style.height = "auto";
+                    this.getElementsByTagName("span")[0].innerText = "-";
+                }
+            });
+        }
+
+        var thumbsize = 14;
+
+        function draw(slider,splitvalue) {
+
+            /* set function vars */
+            var id = slider.getAttribute('id');
+            var min = slider.querySelector('.min');
+            var max = slider.querySelector('.max');
+            var lower = slider.querySelector('.lower');
+            var upper = slider.querySelector('.upper');
+            var legend = slider.querySelector('.legend');
+            var thumbsize = parseInt(slider.getAttribute('data-thumbsize'));
+            var rangewidth = parseInt(slider.getAttribute('data-rangewidth'));
+            var rangemin = parseInt(slider.getAttribute('data-rangemin'));
+            var rangemax = parseInt(slider.getAttribute('data-rangemax'));
+
+            /* set min and max attributes */
+            min.setAttribute('max',splitvalue);
+            max.setAttribute('min',splitvalue);
+
+            /* set css */
+            min.style.width = parseInt(thumbsize + ((splitvalue - rangemin)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            max.style.width = parseInt(thumbsize + ((rangemax - splitvalue)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
+            min.style.left = '0px';
+            max.style.left = parseInt(min.style.width)+'px';
+            min.style.top = lower.offsetHeight+'px';
+            max.style.top = lower.offsetHeight+'px';
+            legend.style.marginTop = min.offsetHeight+'px';
+            slider.style.height = (lower.offsetHeight + min.offsetHeight + legend.offsetHeight)+'px';
+            
+            /* correct for 1 off at the end */
+            if(max.value>(rangemax - 1)) max.setAttribute('data-value',rangemax);
+
+            /* write value and labels */
+            max.value = max.getAttribute('data-value'); 
+            min.value = min.getAttribute('data-value');
+
+            if (id == "calories") {
+                lower.innerHTML = min.getAttribute('data-value') + " kcal";
+                upper.innerHTML = " " + max.getAttribute('data-value') + " kcal";
+            } else if (id == "servings") {
+                lower.innerHTML = min.getAttribute('data-value');
+                upper.innerHTML = " " + max.getAttribute('data-value');
+            } else {
+                lower.innerHTML = min.getAttribute('data-value');
+                upper.innerHTML = max.getAttribute('data-value');
+            }
+
+        }
+
+        function init(slider) {
+            /* set function vars */
+            var id = slider.getAttribute('id');
+            var min = slider.querySelector('.min');
+            var max = slider.querySelector('.max');
+            var rangemin = parseInt(min.getAttribute('min'));
+            var rangemax = parseInt(max.getAttribute('max'));
+            var avgvalue = (rangemin + rangemax)/2;
+            var legendnum = slider.getAttribute('data-legendnum');
+
+            /* set data-values */
+            min.setAttribute('data-value',rangemin);
+            max.setAttribute('data-value',rangemax);
+            
+            /* set data vars */
+            slider.setAttribute('data-rangemin',rangemin); 
+            slider.setAttribute('data-rangemax',rangemax); 
+            slider.setAttribute('data-thumbsize',thumbsize); 
+            slider.setAttribute('data-rangewidth',slider.offsetWidth);
+
+            /* write labels */
+            var lower = document.createElement('span');
+            var upper = document.createElement('span');
+
+            if (id == "pricePerServing") {
+                lower.classList.add('lower','value','price');
+                upper.classList.add('upper','value','price');
+            } else {
+                lower.classList.add('lower','value');
+                upper.classList.add('upper','value');
+            }
+            
+            lower.appendChild(document.createTextNode(rangemin));
+            upper.appendChild(document.createTextNode(rangemax));
+            
+            slider.insertBefore(lower,min.previousElementSibling);
+            slider.insertBefore(upper,min.previousElementSibling);
+            
+            /* write legend */
+            var legend = document.createElement('div');
+            legend.classList.add('legend');
+            var legendvalues = [];
+            for (var i = 0; i < legendnum; i++) {
+                legendvalues[i] = document.createElement('div');
+                var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
+                legendvalues[i].appendChild(document.createTextNode(val));
+                legend.appendChild(legendvalues[i]);
+
+            } 
+            slider.appendChild(legend);
+
+            /* draw */
+            draw(slider,avgvalue);
+
+            /* events */
+            min.addEventListener("input", function() {update(min);});
+            max.addEventListener("input", function() {update(max);});
+        }
+
+        function update(el){
+            /* set function vars */
+            var slider = el.parentElement;
+            var min = slider.querySelector('#min');
+            var max = slider.querySelector('#max');
+            var minvalue = Math.floor(min.value);
+            var maxvalue = Math.floor(max.value);
+            
+            /* set inactive values before draw */
+            min.setAttribute('data-value',minvalue);
+            max.setAttribute('data-value',maxvalue);
+
+            var avgvalue = (minvalue + maxvalue)/2;
+
+            /* draw */
+            draw(slider,avgvalue);
+        }
+
+        var sliders = document.querySelectorAll('.min-max-slider');
+        sliders.forEach( function(slider) {
+            init(slider);
+        });
+    </script>
 </body>
 
 </html>

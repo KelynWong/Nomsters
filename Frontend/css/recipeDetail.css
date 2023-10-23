@@ -1,0 +1,233 @@
+.recipe-head {
+    position: relative;
+}
+
+.recipe-head::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #EDEDED;
+}
+
+.icons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.icons-wrapper svg {
+    margin: 8px 16px;
+}
+
+.title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.title-wrapper img {
+    width: 36px;
+    height: 36px;
+    margin: 0 12px;
+}
+
+.title-wrapper h2 {
+    margin-right: 16px;
+    font-size: 48px;
+}
+
+.subtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 32px 0;
+}
+
+.subtitle-wrapper {
+    padding: 0 32px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.subtitle-wrapper:first-child {
+    padding-left: 0px;
+}
+
+.subtitle-wrapper:last-child {
+    padding-right: 0px;
+}
+
+.subtitle-wrapper.middle::before, .subtitle-wrapper.middle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #E8E8E8;
+}
+
+.subtitle-wrapper.middle::before {
+    left: 0;
+}
+
+.subtitle-wrapper.middle::after {
+    right: 0;
+}
+
+.subtitle-wrapper p {
+    letter-spacing: .08em;
+}
+
+.subtext {
+    color: #878787;
+    letter-spacing: .04em !important;
+}
+
+.recipe-body {
+    margin: 44px auto;
+}
+
+.recipe-body img {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.recipe-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 44px auto;
+}
+
+.recipe-content h3 {
+    font-size: 28px;
+}
+
+.content-left {
+    width: 45%;
+    padding-right: 54px;
+}
+
+#ingredients, #instructions {
+    margin: 18px 0;
+    padding-left: 2rem;
+}
+
+#ingredients li {
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+li {
+    margin-bottom: 16px;
+}
+
+#ingredients li::before {
+    content: '';
+    display: inline-block;
+    height: 22px;
+    width: 36px;
+    background-image: url("/img/icon/check.png");
+    background-size: 20px;
+    background-repeat: no-repeat;
+    margin-left: -36px;
+    position: relative;
+    top: 6px;
+    left: 4px;
+}
+
+#ingredients li.checked::before {
+    background-image: url("/img/icon/checked.png");
+    left: 2px;
+    background-size: 23px;
+    top: 4px;
+}
+
+/* When clicked on, add a background color and strike out text */
+#ingredients li.checked {
+    color: #7F7F7F;
+    text-decoration: line-through;
+}
+
+.nutrition-facts {
+    border-radius: 8px;
+    background: #F9F9F9;
+    padding: 28px;
+    width: 75%;
+    margin: 32px 0px 12px;
+}
+
+.nutrition-facts h3 {
+    margin-bottom: 12px !important;
+}
+
+.nutrition {
+    display: flex;
+    position: relative;
+    font-size: 15px;
+    color: #000;
+    padding: 16px 0 6px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nutrition::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #E8E8E8;
+}
+
+.nutrition .grey {
+    color: #6F6F6F;
+}
+
+.content-right {
+    width: 55%;
+}
+
+#instructions {
+    counter-reset: myOrderedListItemsCounter;
+}
+
+#instructions li {
+    list-style-type: none;
+    position: relative;
+}
+
+#instructions li:before {
+    position: absolute;
+    top: 3px;
+    display: block;
+    counter-increment: myOrderedListItemsCounter;
+    content: counter(myOrderedListItemsCounter);
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    background-color: #DE352A;
+    border-radius: 50%;
+    margin-left: -34px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

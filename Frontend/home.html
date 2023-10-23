@@ -196,7 +196,7 @@
 
       <div id="section6">
         <div class="section-head">
-          <h3>Quick <span class="red">30-minutes</span> Meal</h3>
+          <h3>Quick <span class="red">30-minute</span> Meals</h3>
           <a href="/" class="section-view">View All<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
               viewBox="0 0 19 19" fill="white">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -207,7 +207,7 @@
 
         <div class="container-listing-wrap">
           <!-- TO BE LINK WITH DATABASE -->
-          <recipe-listing :recipe="indexes"></recipe-listing>
+          <fastrecipe-listing :recipe="indexes"></recipe-listing>
         </div>
       </div>
 
@@ -287,14 +287,92 @@
           required: true
         }
       },
-      computed:{
-        recipeData() {
-          return this.recipe;
+      data(){
+        return{
+          localrecipe:[],
         }
       },
-      template: listing.template
+      computed:{
+        recipeData() {
+          return this.localrecipe;
+        }
+      },
+      template: listing.template ,  
+    created() {
+    // This code is executed when the component is created.
+    
+    // Example Axios GET request
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+  
+    const id = urlParams.get('id');
+    // to add in session logic
+    const headers = {
+    Authorization: token,
+    };
+
+    //to add in logic to get user diet
+    axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
+      headers: headers
+    })
+      .then(response => {
+        console.log(response)
+        // Assuming the response contains recipe data
+        this.localrecipe = response.data
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      }); 
+  }
     });
 
+
+    app.component('fastrecipe-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          fastrecipe:[],
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.fastrecipe;
+        }
+      },
+      template: listing.template ,  
+    created() {
+    // This code is executed when the component is created.
+    
+    // Example Axios GET request
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+  
+    const id = urlParams.get('id');
+    // to add in session logic
+    const headers = {
+    Authorization: token,
+    };
+
+      axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
+      headers: headers
+    })
+      .then(response => {
+        console.log(response)
+        // Assuming the response contains recipe data
+        this.fastrecipe = response.data
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+    });
+
+  
     function createIndex() {
       let index = [];
       for (let i = 1; i < 4; i++) {
@@ -330,6 +408,7 @@
     });
 
   </script>
+  
 </body>
 
 </html>
