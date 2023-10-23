@@ -1,12 +1,3 @@
-.recipe-wrapper {
-    width: 80%;
-    margin: 0 auto;
-}
-
-.recipe-wrapper h2 {
-    font-size: 48px;
-}
-
 .recipe-head {
     position: relative;
 }
@@ -47,6 +38,7 @@
 
 .title-wrapper h2 {
     margin-right: 16px;
+    font-size: 48px;
 }
 
 .subtitle {

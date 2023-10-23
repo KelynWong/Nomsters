@@ -164,12 +164,21 @@ p {
     font-size: 14px;
 }
 
+span {
+    display: inline-block;
+}
+
 .red {
     color: #DE352A;
 }
 
 .width-75 {
     width: 75%;
+    margin: 0 auto;
+}
+
+.width-80 {
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -349,6 +358,10 @@ p {
     border-radius: 8px;
 }
 
+.container-listing h6 {
+    font-size: 16px;
+}
+
 .container-listing .recipe-img {
     position: relative;
     background-image: url(/img/steak.jpg);
@@ -360,7 +373,13 @@ p {
     height: 14vw;
 }
 
-#heart {
+.recipe-img svg {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* #heart {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -392,7 +411,7 @@ p {
     left: 0;
     transform: rotate(45deg);
     transform-origin: 100% 100%;
-}
+} */
 
 .listing-subdesc {
     display: flex;

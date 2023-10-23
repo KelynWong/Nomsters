@@ -201,16 +201,14 @@ span.value.upper.price::before {
 
 .container-listing {
     width: 21.5vw;
-    margin: 0 16px 32px !important;
-}
-
-.container-listing h6 {
-    font-size: 16px;
+    margin: 0 0 32px 32px !important;
 }
 
 /* .rounded-circle:first-child {
     padding: 2px 9px;
 } */
+
+
 
 .rounded-circle {
     /* padding: 2px 8px; */
