@@ -29,7 +29,7 @@
       </div>
       <div class="subhead flex">
         <p style="font-style: italic;">18 Recipes</p>
-        <div class="select-fav flex" @click="selectFav" :class="{ 'red': isSelected }">
+        <div class="select-fav flex" @click="selectFav" :class="{ 'red': isSelected }" style="cursor:pointer">
           <svg v-if="!isSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 27" fill="none">
             <g clip-path="url(#clip0_285_1392)">
             <path d="M19.4997 4.5H6.49967C5.30801 4.5 4.33301 5.5125 4.33301 6.75V20.25C4.33301 21.4875 5.30801 22.5 6.49967 22.5H19.4997C20.6913 22.5 21.6663 21.4875 21.6663 20.25V6.75C21.6663 5.5125 20.6913 4.5 19.4997 4.5ZM19.4997 20.25H6.49967V6.75H19.4997V20.25Z" fill="black"/>
@@ -53,7 +53,7 @@
           </svg>
           <p>Select</p>
         </div>
-        <div class="all-fav flex" @click="allSelect" :class="{ 'red': isAllSelected }">
+        <div class="all-fav flex" @click="allSelect" :class="{ 'red': isAllSelected }" style="cursor:pointer">
           <svg v-if="!isAllSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <g clip-path="url(#clip0_278_1379)">
             <path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="black"/>
@@ -77,7 +77,7 @@
           </svg>
           <p>All</p>
         </div>
-        <div class="delete-fav flex" @click="">
+        <div class="delete-fav flex" @click="" style="cursor:pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M10 15L10 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
             <path d="M14 15L14 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
