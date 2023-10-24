@@ -11,7 +11,7 @@ const footer = {
                         <li><a href="./home.html">Home</a></li>
                         <li><a href="./allRecipe.html">Browse Recipe</a></li>
                         <li><a href="./grocer.html">Nearby Grocers</a></li>
-                        <li><a href=./favourites.html">Favourites</a></li>
+                        <li><a href="./favourites.html">Favourites</a></li>
                     </ul>
 
                     <ul>
