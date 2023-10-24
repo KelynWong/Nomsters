@@ -109,7 +109,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>
@@ -140,9 +139,7 @@
       methods: {
         fetchAllRecipes(){
             axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
-                headers:{
-                    Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5ODA0MzIwNCwiZXhwIjoxNjk4MTI5NjA0fQ.C5O7wzyWIo-1vGPBPGHtDyOTMVBvtReAZL9NKKJsOaw"
-                }
+                headers:headers
             }).then(response => {
                 console.log(response.data)
                 this.allrecipes = response.data

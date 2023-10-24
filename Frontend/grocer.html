@@ -16,6 +16,16 @@
   <script src="https://unpkg.com/vue@next"></script>
 </head>
   <body>
+    <script>
+      const token = sessionStorage.getItem('token');
+      const userId = sessionStorage.getItem('userId');
+        
+        if (!token || !userId) {
+            // If 'token' or 'userId' doesn't exist, redirect to 'index.html'
+            window.location.href = './index.html';
+        } 
+    </script>
+    
     <div id="app">
         <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
         <h3>Grocers Nearby</h3>
@@ -50,6 +60,10 @@
     <script src="component/footer.js"></script>
 
     <script>
+      const headers = {
+        Authorization: `BEARER ${token}`
+      }
+      
       const app = Vue.createApp({
         components: {
             'app-footer': footer,
