@@ -269,7 +269,7 @@ span {
     z-index: 1;
 }
 
-.overlay {
+.random-recipe .overlay {
     position: fixed;
     height: 100%;
     width: 100%;
@@ -288,9 +288,11 @@ span {
     pointer-events: auto;
     transition: all 0.3s ease;
     transform: translate(-50%, -50%) scale(1);
+    z-index: 1;
 }
 
 .modal-box {
+    z-index: -1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -319,6 +321,11 @@ span {
 
 .modal-box .container-listing {
     margin: 36px !important;
+    width: 380px;
+}
+
+.modal-box .container-listing .recipe-img {
+    height: 230px;
 }
 
 .modal-box .decide-btn {
@@ -442,6 +449,7 @@ span {
 
 .container-listing h6 {
     font-size: 16px;
+    line-height: 1.4em;
 }
 
 .container-listing .recipe-img {
