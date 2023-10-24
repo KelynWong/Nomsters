@@ -1,6 +1,6 @@
 const listing = {
         template: `
-            <a href="recipeDetail.html" class="container-listing" v-for="r in recipeData" >
+            <a :href="'recipeDetail.html?id=' + r.recipeId"class="container-listing" v-for="r in recipeData" >
                 <div class="recipe-img" :style="{ backgroundImage: 'url(' + r.image + ')' }">
                     <div v-if="select">
                         <!-- not selected -->

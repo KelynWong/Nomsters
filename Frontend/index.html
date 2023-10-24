@@ -101,23 +101,27 @@
             }
 
             .wave {
-            background: url('img/waveRed.svg') repeat-x; 
-            position: absolute;
-            top: -150px;
-            width: 6400px;
-            height: 150px;
-            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
-            transform: translate3d(0, 0, 0);
+                background: url('img/waveRed.svg') repeat-x; 
+                position: absolute;
+                top: -150px;
+                width: 6400px;
+                height: 150px;
+                animation: wave 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+                transform: translate3d(0, 0, 0);
             }
-
+            
             @keyframes wave {
                 0% {
-                    margin-left: 0;
+                    transform: translateX(0);
+                }
+                50% {
+                    transform: translateX(-800px);
                 }
                 100% {
-                    margin-left: -1600px;
+                    transform: translateX(-1600px);
                 }
             }
+            
 
             @keyframes swell {
                 0%, 100% {

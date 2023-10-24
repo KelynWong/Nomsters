@@ -58,7 +58,7 @@
                     </ul>
 
                     <button type="button" class="collapsible filter-header">Diet <span>+</span></button>
-                    <ul class="content">
+                    <ul class="content col2">
                         <li v-for="diet in diets">
                             <input type="checkbox" :id="diet.id" name="diets" :value="diet.value" @change="searchRecipes" v-model="diet.checked">
                             <label :for="diet.id">{{ diet.value }}</label><br>
