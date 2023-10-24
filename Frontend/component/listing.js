@@ -96,6 +96,7 @@ const listing = {
                         </svg>
                         <span class="p-14">{{ r.dishtypes && r.dishtypes.length > 0 ? r.dishtypes[0] : 'Snack' }}</span>
                     </div>
+                    </div>
                     <h6>{{r.title}} {{ r.ind }}</h6>
                 
             </a>
