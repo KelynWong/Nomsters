@@ -142,6 +142,7 @@
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
     <script src="component/navbar.js"></script>
+    <script src="component/randomRecipeGenerator.js"></script>
     <script src="component/listing.js"></script>
     <script src="component/footer.js"></script>
 
@@ -158,9 +159,11 @@
         }
 
         const app = Vue.createApp({
+            components: {
+                'app-footer': footer,
+            },
             data() {
                 return {
-                    // indexes: createIndex(),
                     selectedOption: 'Sort by',
                     options: [
                         { label: 'Popularity', value: 'aggregateLikes' },
@@ -364,10 +367,33 @@
             }
         });
 
-
-        app.component('app-nav', navbar);
-        app.component('app-footer', footer);
+        app.component('app-nav', {
+            data() {
+                return {
+                    showIsActive: false,
+                }
+            },
+            methods:{
+                showHideModal() {
+                    this.showIsActive = !this.showIsActive;
+                },
+            },
+            template: navbar.template + `
+                <div class="random-recipe" :class="{active: showIsActive}">
+                    <div class="overlay" @click="showHideModal"></div>
+                    <div class="modal-box">
+                        <h2>Completed</h2>
+                        <div class="buttons">
+                            <button class="btn close-btn" @click="showHideModal">Close</button>
+                            <button class="btn">Regenerate Recipe</button>
+                            <button class="btn">Go to Recipe</button>
+                        </div>
+                    </div>
+                </div>
+            `,
+        });
         
+
         app.component('recipe-listing', {
             data() {
                 return {
@@ -445,20 +471,6 @@
                     <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
                 </div>
             `
-
-            /*
-            template: listing.template + `
-                <div class="m-4 d-flex align-items-center">
-                    <p class="m-1">Total {{ pageCount }} pages</p>
-                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
-                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
-                    <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
-                    </button>
-                    <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
-                    <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
-                </div>
-            `
-            */
         });
 
         app.mount('#app');

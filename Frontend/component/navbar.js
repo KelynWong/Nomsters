@@ -12,7 +12,7 @@ const navbar = {
                     <img class="search-icon" src="img/icon/search.png" alt="search-icon">
                     <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
                 </div>
-                <button type="button" class="decide-btn">Can't decide?</button>
+                <button type="button" class="decide-btn" @click="showHideModal">Can't decide?</button>
                 <img src="img/icon/profile.png" class="profile" />
             </div>
             <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>
@@ -40,4 +40,3 @@ const navbar = {
         </div>
     `,
 };
-  
