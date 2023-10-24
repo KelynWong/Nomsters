@@ -196,7 +196,7 @@
             },
             mounted() {
                 this.fetchMinMax();
-                this.fetchDiets();
+                
                 this.fetchCuisines();
                 this.fetchDishTypes();
             },
@@ -228,6 +228,7 @@
                             value: item.name,
                             checked: false
                         }))
+                        this.fetchUserDiet();
                     }).catch( error => {
                         console.log(error.response.data.message);
                         this.errorMessage = error.response.data.message;
@@ -283,12 +284,31 @@
                         this.maxPrice = data.maxPrice;
                         this.selectedMaxPrice = data.maxPrice;
                         initSliders();
-                        
-                        this.searchRecipes();
+                        this.fetchDiets();
                     }).catch( error => {
                         console.log(error.response.data.message);
                         this.errorMessage = error.response.data.message;
                         this.isError = true;
+                    });
+                },
+                fetchUserDiet(){
+                    axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+                        headers:headers,
+                    }).then(response => {
+                        console.log(response.data.diets)
+                        response.data.diets.forEach(diet => {
+                            const option = this.diets.find(option => option.value === diet);
+                                if (option) {
+                                    option.checked = true;
+                                }
+                            });
+                        console.log(this.diets)
+                        this.searchRecipes();
+                    }).catch( error => {
+                        console.log(error.response.data.message);
+                        // this.errorMessage = error.response.data.message;
+                        // this.recipes = [];
+                        // this.isError = true;
                     });
                 },
                 searchRecipes(titleQuery){
@@ -312,6 +332,7 @@
                         }
                     }).then(response => {
                         console.log(response.data)
+                        console.log(this.selectedDiets)
                         console.log(this.selectedMinReadyInMinutes)
                         console.log(this.selectedMaxReadyInMinutes)
                         this.title = (typeof titleQuery === 'string') ? titleQuery : this.title;
