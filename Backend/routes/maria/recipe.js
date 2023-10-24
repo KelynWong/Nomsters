@@ -99,17 +99,15 @@ router.get('/', (req, res) => {
     }
 
     // Filter recipes by servings
-    const servings = req.query.servings;
-    if (servings) {
-        const servingsArray = servings.split(',').map(s => s.trim());
-        if (servingsArray.length > 0) {
-            if (title || cuisine || dishtype || diet || (minCalories && maxCalories) || (minPrice && maxPrice) || (minReadyInMinutes && maxReadyInMinutes)) {
-                sql += ' AND';
-            } else {
-                sql += ' WHERE';
-            }
-            sql += ` servings IN (${servingsArray.map(serving => `'${serving}'`).join(', ')})`;
+    const minServings = req.query.minServings;
+    const maxServings = req.query.maxServings;
+    if (minServings && maxServings) {
+        if (title || cuisine || dishtype || diet || (minCalories && maxCalories) || (minPrice && maxPrice) || (minReadyInMinutes && maxReadyInMinutes)) {
+            sql += ' AND';
+        } else {
+            sql += ' WHERE';
         }
+        sql += ` servings >= ${minServings} AND servings <= ${maxServings}`;
     }
 
     // Sorting
@@ -337,5 +335,17 @@ router.get('/random', (req, res) => {
                 });
         }
 })
+
+router.get('/count', (req, res) => {
+    var tocount=req.query.tocount;
+    const sql = `SELECT COUNT(*) AS count FROM ${tocount}`;
+    db.query(sql)
+        .then((rows) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+});
 
 module.exports = router;

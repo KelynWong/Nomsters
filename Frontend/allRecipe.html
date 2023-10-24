@@ -18,8 +18,17 @@
   <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
+    <script>
+        const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
+          
+          if (!token || !userId) {
+              // If 'token' or 'userId' doesn't exist, redirect to 'index.html'
+              window.location.href = './index.html';
+          } 
+    </script>
     <div id="app">
-        <app-nav></app-nav>
+        <app-nav @search="searchRecipes"></app-nav>
         <h2>All Recipes</h2>
         <div class="recipeContent">
             <div class="dropdown d-flex justify-content-end">
@@ -74,42 +83,54 @@
 
                     <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
                     <div class="content col2">
-                        <input type="radio" id="30" name="readyInMinutes" value="<= 30" @change="searchRecipes">
+                        <input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="30">&lt;= 30mins</label><br>
-                        <input type="radio" id="60" name="readyInMinutes" value="<= 60" @change="searchRecipes">
+                        <input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="60">&lt;= 1hr</label><br>
-                        <input type="radio" id="120" name="readyInMinutes" value="<= 120" @change="searchRecipes">
+                        <input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
                         <label for="120">&lt;= 2hr</label><br>
-                        <input type="radio" id="121" name="readyInMinutes" value="> 120" @change="searchRecipes">
+                        <input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="setMaxNumber">
                         <label for="121">&gt; 2hr</label><br>
                     </div>
 
                     <div class="filter-header">Calories</div>
-                    <div class="min-max-slider" data-legendnum="2" id="calories">
+                    <div class="min-max-slider" data-legendnum="2" id="calories" :data-rangemin="minCalorie" :data-rangemax="maxCalorie">
                         <!-- <label for="min">Minimum Calorie</label> -->
-                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <span class="lower value">{{Math.round(selectedMinCalories)}} kcal</span>
+                        <span class="upper value">{{Math.round(selectedMaxCalories)}} kcal</span>
+                        <input id="min" class="min" name="minCalorie" type="range" step="1" v-model="selectedMinCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
-                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1" v-model="selectedMaxCalories" :min="minCalorie" :max="maxCalorie" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>{{Math.round(minCalorie)}}</div><div>{{Math.round(maxCalorie)}}</div></div>
                     </div>
 
                     <div class="filter-header">Servings</div>
-                    <div class="min-max-slider" data-legendnum="2" id="servings">
+                    <div class="min-max-slider" data-legendnum="2" id="servings" :data-rangemin="minServing" :data-rangemax="maxServing">
                         <!-- <label for="min">Minimum Calorie</label> -->
-                        <input id="min" class="min" name="minCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <span class="lower value">{{Math.round(selectedMinServings)}}</span>
+                        <span class="upper value">{{Math.round(selectedMaxServings)}}</span>
+                        <input id="min" class="min" name="minCalorie" type="range" step="1"  v-model="selectedMinServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Calorie</label> -->
-                        <input id="max" class="max" name="maxCalorie" type="range" step="1" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxCalorie" type="range" step="1"  v-model="selectedMaxServings" :min="minServing" :max="maxServing" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>{{Math.round(minServing)}}</div><div>{{Math.round(maxServing)}}</div></div>
                     </div>
 
                     <div class="filter-header">Price Per Serving</div>
-                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing">
+                    <div class="min-max-slider" data-legendnum="2" id="pricePerServing" :data-rangemin="minPrice" :data-rangemax="maxPrice">
                         <!-- <label for="min">Minimum Price</label> -->
-                        <input id="min" class="min" name="minPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <span class="lower value">{{Math.round(selectedMinPrice)}}</span>
+                        <span class="upper value">{{Math.round(selectedMaxPrice)}}</span>
+                        <input id="min" class="min" name="minPrice" type="range" step="1" v-model="selectedMinPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
                         <!-- <label for="max">Maximum Price</label> -->
-                        <input id="max" class="max" name="maxPrice" type="range" step="1" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <input id="max" class="max" name="maxPrice" type="range" step="1" v-model="selectedMaxPrice" :min="minPrice" :max="maxPrice" @change="searchRecipes"/>
+                        <div class="legend" style="margin-top: 14px;"><div>${{Math.round(minPrice)}}</div><div>${{Math.round(maxPrice)}}</div></div>
                     </div>
                 </div>
                 <div class="container-listing-wrap">
-                    <recipe-listing :recipe="recipes"></recipe-listing>
+                    <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
+                    <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
+                        <p>{{errorMessage}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,7 +146,18 @@
     <script src="component/listing.js"></script>
     <script src="component/footer.js"></script>
 
-    <script>
+    <script>  
+        const headers = {
+            Authorization: `Bearer ${token}`,
+        };
+
+        function initSliders(){
+            var sliders = document.querySelectorAll('.min-max-slider');
+            sliders.forEach( function(slider) {
+                init(slider);
+            });
+        }
+
         const app = Vue.createApp({
             components: {
                 'app-footer': footer,
@@ -140,40 +172,33 @@
                     dishtypes: [],
                     diets: [],
                     cuisines: [],
-                    servings: [
-                        { value: '1' },
-                        { value: '2' },
-                        { value: '3' },
-                        { value: '4' },
-                        { value: '5' },
-                        { value: '6' },
-                        { value: '7' },
-                        { value: '8' },
-                        { value: '9' },
-                        { value: '10' },
-                        { value: '11' },
-                        { value: '12' },
-                        { value: '13' },
-                        { value: '14' },
-                        { value: '15' },
-                        { value: '16' },
-                    ],
-                    minCalorie: 14.38,
-                    maxCalorie: 1788.67,
-                    minPrice: 4.37,
-                    maxPrice: 2371.08,
-                    minServing: 1,
-                    maxServing: 100,
+                    minCalorie: 0,
+                    maxCalorie: 10,
+                    selectedMinCalories: 0,
+                    selectedMaxCalories: 0,
+                    minPrice: 0,
+                    maxPrice: 0,
+                    selectedMinPrice: 0,
+                    selectedMaxPrice: 0,
+                    minServing: 0,
+                    maxServing: 0,
+                    selectedMinServings: 0,
+                    selectedMaxServings: 0,
+                    selectedSort: "",
                     sortDirection: "ASC",
                     recipes: [],
-                    searchTitle: "",
+                    selectedMinReadyInMinutes: Number.MIN_SAFE_INTEGER,
+                    selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER,
+                    isError: false,
+                    errorMessage: "",
+                    title: "",
                 };
             },
             mounted() {
+                this.fetchMinMax();
                 this.fetchDiets();
                 this.fetchCuisines();
                 this.fetchDishTypes();
-                this.searchRecipes();
             },
             computed: {
                 selectedDishtypes() {
@@ -192,12 +217,11 @@
             methods: {
                 selectOption(option) {
                     this.selectedOption = option.label;
+                    this.selectedSort = option.value;
                 },
                 fetchDiets(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/diet', {
-                        headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
-                        }
+                        headers:headers
                     }).then(response => {
                         this.diets = response.data.map(item => ({
                             id: item.name.replace(/\s+/g, '_').toLowerCase(),
@@ -205,14 +229,14 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 fetchCuisines(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/cuisine', {
-                        headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
-                        }
+                        headers:headers
                     }).then(response => {
                         this.cuisines = response.data.map(item => ({
                             id: item.name.replace(/\s+/g, '_').toLowerCase(),
@@ -220,14 +244,14 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
                 fetchDishTypes(){
                     axios.get('https://leaptron2.dscloud.me:3000/api/dishType', {
-                        headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
-                        }
+                        headers:headers
                     }).then(response => {
                         this.dishtypes = response.data.map(item => ({
                             id: item.name.replace(/\s+/g, '_').toLowerCase(),
@@ -235,43 +259,87 @@
                             checked: false
                         }))
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
                     });
                 },
-                searchRecipes(){
+                fetchMinMax(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/recipe/minMax', {
+                        headers:headers
+                    }).then(response => {
+                        let data = response.data;
+                        
+                        this.minCalorie = data.minCalories;
+                        this.selectedMinCalories = data.minCalories;
+                        this.maxCalorie = data.maxCalories;
+                        this.selectedMaxCalories = data.maxCalories;
+                        this.minServing = data.minServings;
+                        this.selectedMinServings = data.minServings;
+                        this.maxServing = data.maxServings;
+                        this.selectedMaxServings = data.maxServings;
+                        this.minPrice = data.minPrice;
+                        this.selectedMinPrice = data.minPrice;
+                        this.maxPrice = data.maxPrice;
+                        this.selectedMaxPrice = data.maxPrice;
+                        initSliders();
+                        
+                        this.searchRecipes();
+                    }).catch( error => {
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.isError = true;
+                    });
+                },
+                searchRecipes(titleQuery){
                     axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
-                        headers:{
-                            Authorization: "BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5Nzk1NjI3MiwiZXhwIjoxNjk4MDQyNjcyfQ.VvgZqhMdDe0RPVLG6zIfoKwla_88PjC3SzR6BQ_FJtQ"
-                        },
+                        headers:headers,
                         params: {
-                            title: this.searchTitle, // not done
+                            title: (typeof titleQuery === 'string') ? titleQuery : this.title, 
                             cuisine: this.selectedCuisines,
                             dishtype: this.selectedDishtypes,
                             diet: this.selectedDiets,
-                            servings: this.selectedServings, // not done
-                            minCalories: this.selectedMinCalories, // not done
-                            maxCalories: this.selectedMaxCalories, // not done
-                            minPrice: this.selectedMinPrice, // not done
-                            maxPrice: this.selectedMaxPrice, // not done
+                            minServings: this.selectedMinServings,
+                            maxServings: this.selectedMaxServings, 
+                            minCalories: this.selectedMinCalories,
+                            maxCalories: this.selectedMaxCalories,
+                            minPrice: this.selectedMinPrice, 
+                            maxPrice: this.selectedMaxPrice, 
                             minReadyInMinutes: this.selectedMinReadyInMinutes, // not done
                             maxReadyInMinutes: this.selectedMaxReadyInMinutes, // not done
-                            sort: this.selectedSort, // not done
+                            sort: this.selectedSort, 
                             order: this.sortDirection
                         }
                     }).then(response => {
-                        console.log(this.selectedDishtypes)
                         console.log(response.data)
+                        console.log(this.selectedMinReadyInMinutes)
+                        console.log(this.selectedMaxReadyInMinutes)
+                        this.title = (typeof titleQuery === 'string') ? titleQuery : this.title;
+                        this.isError = false;
                         this.recipes = response.data
                     }).catch( error => {
-                        console.log(error.message);
+                        console.log(error.response.data.message);
+                        this.errorMessage = error.response.data.message;
+                        this.recipes = [];
+                        this.isError = true;
                     });
                 },
                 toggleSortDirection() {
                     this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
                 },
+                setMaxNumber(){
+                    this.selectedMinReadyInMinutes = Number.MIN_SAFE_INTEGER
+                    console.log("hwerwer")
+                    this.searchRecipes()
+                },
+                setMinNumber(){
+                    this.selectedMaxReadyInMinutes = Number.MAX_SAFE_INTEGER
+                    console.log("kjrngesigiuui")
+                    this.searchRecipes()
+                },
                 changeColor() {
                     this.fav = this.fav === 0 ? 1 : 0;
-                }
+                },
             }, 
             watch: {
                 sortDirection: 'searchRecipes', 
@@ -386,9 +454,7 @@
 
         app.mount('#app');
 
-    </script>
 
-    <script>
         var collapsible = document.getElementsByClassName("collapsible");
         var i;
 
@@ -478,36 +544,36 @@
             slider.setAttribute('data-thumbsize',thumbsize); 
             slider.setAttribute('data-rangewidth',slider.offsetWidth);
 
-            /* write labels */
-            var lower = document.createElement('span');
-            var upper = document.createElement('span');
+            // /* write labels */
+            // var lower = document.createElement('span');
+            // var upper = document.createElement('span');
 
-            if (id == "pricePerServing") {
-                lower.classList.add('lower','value','price');
-                upper.classList.add('upper','value','price');
-            } else {
-                lower.classList.add('lower','value');
-                upper.classList.add('upper','value');
-            }
+            // if (id == "pricePerServing") {
+            //     lower.classList.add('lower','value','price');
+            //     upper.classList.add('upper','value','price');
+            // } else {
+            //     lower.classList.add('lower','value');
+            //     upper.classList.add('upper','value');
+            // }
             
-            lower.appendChild(document.createTextNode(rangemin));
-            upper.appendChild(document.createTextNode(rangemax));
+            // lower.appendChild(document.createTextNode(rangemin));
+            // upper.appendChild(document.createTextNode(rangemax));
             
-            slider.insertBefore(lower,min.previousElementSibling);
-            slider.insertBefore(upper,min.previousElementSibling);
+            // slider.insertBefore(lower,min.previousElementSibling);
+            // slider.insertBefore(upper,min.previousElementSibling);
             
-            /* write legend */
-            var legend = document.createElement('div');
-            legend.classList.add('legend');
-            var legendvalues = [];
-            for (var i = 0; i < legendnum; i++) {
-                legendvalues[i] = document.createElement('div');
-                var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
-                legendvalues[i].appendChild(document.createTextNode(val));
-                legend.appendChild(legendvalues[i]);
+            // /* write legend */
+            // var legend = document.createElement('div');
+            // legend.classList.add('legend');
+            // var legendvalues = [];
+            // for (var i = 0; i < legendnum; i++) {
+            //     legendvalues[i] = document.createElement('div');
+            //     var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
+            //     legendvalues[i].appendChild(document.createTextNode(val));
+            //     legend.appendChild(legendvalues[i]);
 
-            } 
-            slider.appendChild(legend);
+            // } 
+            // slider.appendChild(legend);
 
             /* draw */
             draw(slider,avgvalue);
@@ -534,11 +600,7 @@
             /* draw */
             draw(slider,avgvalue);
         }
-
-        var sliders = document.querySelectorAll('.min-max-slider');
-        sliders.forEach( function(slider) {
-            init(slider);
-        });
+        
     </script>
 </body>
 

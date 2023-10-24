@@ -8,14 +8,14 @@ const footer = {
                 </div>
                 <div class="right">
                     <ul>
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/">Browse Recipe</a></li>
-                        <li><a href="/">Nearby Grocers</a></li>
-                        <li><a href="/">Favourites</a></li>
+                        <li><a href="./home.html">Home</a></li>
+                        <li><a href="./allRecipe.html">Browse Recipe</a></li>
+                        <li><a href="./grocer.html">Nearby Grocers</a></li>
+                        <li><a href=./favourites.html">Favourites</a></li>
                     </ul>
 
                     <ul>
-                        <li><a href="/">Submit Recipe</a></li>
+                        <li><a href="./submit.html">Submit Recipe</a></li>
                         <li><a href="/">Generate Recipe</a></li>
                         <li><a href="/">Meal Prep</a></li>
                     </ul>

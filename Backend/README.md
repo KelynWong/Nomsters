@@ -200,12 +200,19 @@
   - `username` (string)
   - `password` (string)
   - `image` (blob)
+  - `diets` (array of strings)
     ```json
     {
         "userId": 1,
         "username": "username",
         "password": "password",
-        "image": "imageBlob"
+        "image": "imageBlob",
+        "diets": [
+          "gluten free",
+          "vegan",
+          "paleolithic",
+          "fodmap friendly"
+        ]
     }
   
 #### Success Example
@@ -219,7 +226,13 @@
         "userId": 1,
         "username": "kelyn",
         "password": "$2b$10$A01kjTpQiXJ1Mv63d6ATYerlQ1qm/YcKd3dGQF.MPMPrdZ0usDnUm",
-        "image": null
+        "image": null,
+        "diets": [
+          "gluten free",
+          "vegan",
+          "paleolithic",
+          "fodmap friendly"
+        ]
     }
 
 #### Error Example (user doesnt exist)
@@ -1141,7 +1154,8 @@
   - `cuisine` (string) - optional, multiple cuisines seperate by commas
   - `dishtype` (string) - optional, multiple dish types seperate by commas
   - `diet` (string) - optional, multiple diets seperate by commas
-  - `servings` (string) - optional, multiple servings seperate by commas
+  - `minServings` (float) - optional, if this is present then maxServings also has to be present
+  - `maxServings` (float) - optional, if this is present then minServings also has to be present
   - `minCalories` (float) - optional, if this is present then maxCalories also has to be present
   - `maxCalories` (float) - optional, if this is present then minCalories also has to be present
   - `minPrice` (float) - optional, if this is present then maxPrice also has to be present
