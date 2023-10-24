@@ -20,7 +20,7 @@
     <style>
         .bigdiv {
             position: relative;
-            padding-top:5%;
+            padding-top:10%;
         }
 
         #background {
@@ -106,7 +106,7 @@
             top: -150px;
             width: 6400px;
             height: 150px;
-            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+            animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
             transform: translate3d(0, 0, 0);
             }
 
@@ -194,9 +194,11 @@ function loginUser() {
     console.log(response.data);
     let token= response.data.token;
     let userId= response.data.userId;
-    const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('userId', userId);
 
-    window.location.href=homePageUrl
+    const homePageUrl = `./home.html`;
+    window.location.href = homePageUrl;
   })
   .catch(error => {
     if (error.response && error.response.data && error.response.data.message) {

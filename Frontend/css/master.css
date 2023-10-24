@@ -190,6 +190,10 @@ span {
     letter-spacing: .03em;
 }
 
+#app {
+    position: relative;
+}
+
 /* nav */
 #nav {
     width: 100%;
@@ -242,6 +246,91 @@ span {
     color: white;
     padding: 6px 12px;
     font-size: 13px;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+.decide-btn:hover {
+    border-radius: 8px;
+    border: none;
+    background: #b02a37;
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.random-recipe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.random-recipe .overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.random-recipe.active .overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.random-recipe.active .modal-box {
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 1;
+}
+
+.modal-box {
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 54px;
+    border-radius: 24px;
+    background-color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-box h3 {
+    font-family: 'Poppins';
+    font-size: 26px;
+    text-align: center;
+}
+
+.modal-box a {
+    color: #fff;
+}
+
+.modal-box .container-listing {
+    margin: 36px !important;
+    width: 380px;
+}
+
+.modal-box .container-listing .recipe-img {
+    height: 230px;
+}
+
+.modal-box .decide-btn {
+    padding: 10px 18px;
+    margin: 0 12px;
 }
 
 .profile {
@@ -360,6 +449,7 @@ span {
 
 .container-listing h6 {
     font-size: 16px;
+    line-height: 1.4em;
 }
 
 .container-listing .recipe-img {

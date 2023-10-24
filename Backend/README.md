@@ -200,12 +200,19 @@
   - `username` (string)
   - `password` (string)
   - `image` (blob)
+  - `diets` (array of strings)
     ```json
     {
         "userId": 1,
         "username": "username",
         "password": "password",
-        "image": "imageBlob"
+        "image": "imageBlob",
+        "diets": [
+          "gluten free",
+          "vegan",
+          "paleolithic",
+          "fodmap friendly"
+        ]
     }
   
 #### Success Example
@@ -219,7 +226,13 @@
         "userId": 1,
         "username": "kelyn",
         "password": "$2b$10$A01kjTpQiXJ1Mv63d6ATYerlQ1qm/YcKd3dGQF.MPMPrdZ0usDnUm",
-        "image": null
+        "image": null,
+        "diets": [
+          "gluten free",
+          "vegan",
+          "paleolithic",
+          "fodmap friendly"
+        ]
     }
 
 #### Error Example (user doesnt exist)

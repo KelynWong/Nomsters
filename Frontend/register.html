@@ -108,7 +108,7 @@
          html, body { height: 100%; }
             body {
             overflow: hidden;
-            background-image: url('src/img/login.png');
+            background-image: url('img/login.png');
             background-size: cover;
             }
 
@@ -122,7 +122,7 @@
             }
 
             .wave {
-            background: url('src/img/waveRed.svg') repeat-x; 
+            background: url('img/waveRed.svg') repeat-x; 
             position: absolute;
             top: -150px;
             width: 6400px;
@@ -213,13 +213,16 @@
                                 "image": document.getElementById('formFile').files[0]
                                 })
                                 .then(response => {
-                                let token= response.data.token;
-                                let userId= response.data.userId;
-                                const homePageUrl = `http://localhost:5173/home.html?token=Bearer%20${token}&userId=${userId}`;
+                                    let token= response.data.token;
+                                    let userId= response.data.userId;
+                                    sessionStorage.setItem('token', token);
+                                    sessionStorage.setItem('userId', userId);
 
-                                window.location.href=homePageUrl
+                                    const homePageUrl = `./home.html`;
+                                    window.location.href = homePageUrl;
+                                    })
+
                                 
-                                })
                                 .catch(error => {
                                     if (error.response && error.response.data && error.response.data.message) {
                                     // Extract and display the error message from the response
