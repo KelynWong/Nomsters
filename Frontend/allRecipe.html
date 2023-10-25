@@ -167,9 +167,9 @@
             },
             data() {
                 return {
-                    selectedOption: 'Recipe Name',
+                    selectedOption: 'Recipe Title',
                     options: [
-                        { label: 'Recipe Name', value: 'title' },
+                        { label: 'Recipe Title', value: 'title' },
                         { label: 'Popularity', value: 'aggregateLikes' },
                         { label: 'Healthiness', value: 'healthScore' },
                     ],
@@ -204,7 +204,6 @@
             mounted() {
                 this.fetchAllRecipes();
                 this.fetchMinMax();
-                
                 this.fetchCuisines();
                 this.fetchDishTypes();
             },
@@ -323,10 +322,9 @@
                                     option.checked = true;
                                 }
                             });
-
-                        this.searchRecipes()
                     }).catch( error => {
-
+                    }).finally(() =>{
+                        this.searchRecipes()
                     });
                 },
                 fetchUserFav(){
