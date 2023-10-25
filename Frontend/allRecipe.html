@@ -407,7 +407,9 @@
                 },
             }, 
             watch: {
-                sortDirection: 'searchRecipes', 
+                sortDirection() {
+                    this.searchRecipes();
+                }
             }
         });
 

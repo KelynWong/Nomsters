@@ -84,11 +84,11 @@
                 </div>
                 <div class="subtitle">
                     <div class="subtitle-wrapper">
-                        <p class="subtext">Prep Time</p>
+                        <p class="subtext">Cook Time</p>
                         <p>30 Mins</p>
                     </div>
                     <div class="subtitle-wrapper middle">
-                        <p class="subtext">Servings</p>
+                        <p class="subtext">Serving</p>
                         <p>4 people</p>
                     </div>
                     <div class="subtitle-wrapper middle">
@@ -128,7 +128,9 @@
                                     room temperature</li>
                             </ul>
                         </div>
-                        <div class="nutrition-facts">
+
+                        <img v-if="nutritionImg != null" :src="nutritionImg" class="nutrition-img" />
+                        <div v-else class="nutrition-facts">
                             <h3>Nutrition Facts</h3>
                             <div class="nutrition">
                                 <p class="grey">Calories</p>
@@ -164,6 +166,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="content-right">
                         <div class="instructions-section">
                             <h3>Instructions</h3>
@@ -184,8 +187,62 @@
                                     before serving.</li>
                             </ol>
                         </div>
+                        <div v-if="tasteImg != null" class="taste-wrapper">
+                            <img :src="tasteImg" class="taste-img" />
+                            <p style="text-align: center;">Visualize a recipe's taste information</p>
+                        </div>
                     </div>
                 </div>
+                
+                <h3>Recipe Cost</h3>
+                <img v-if="recipeCostImg != null" :src="recipeCostImg" class="cost-img" />
+                <div v-else class="cost-wrapper">
+                    <div class="cost-header">
+                        <h6>Total Cost: ${{ recipeCost.totalCost }}</h6>
+                        <h6>Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</h6>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- i nvr return img bec its j "image": "blueberries.jpg" -->
+                            <tr v-for="(ing, index) in recipeCost.ingredients" >
+                                <th scope="row">{{ index+1 }}</th>
+                                <td>{{ ing.name }}</td>
+                                <td v-if='ing.amount.metric.unit == "" && ing.amount.us.unit == ""'>{{ ing.amount.metric.value }}</td>
+                                <td v-else-if='ing.amount.metric.unit == ing.amount.us.unit'>{{ ing.amount.metric.value }}{{ ing.amount.metric.unit }}</td>
+                                <td v-else>{{ ing.amount.metric.value }}{{ ing.amount.metric.unit }} ({{ ing.amount.us.value }} {{ ing.amount.us.unit }})</td>
+                                <td>${{ ing.price.toFixed(2) }}</td>
+                            </tr>
+                            <!-- <tr>
+                                <th></th>
+                                <td></td>
+                                <td></td>
+                                <td col-span="2">Total Cost: ${{ recipeCost.totalCost }}</td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td></td>
+                                <td></td>
+                                <td col-span="2">Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- <h3>Similar recipes</h3>
+                <div class="similar-wrapper">
+                    <similar-listing></similar-listing>
+                    <similar-listing></similar-listing>
+                    <similar-listing></similar-listing>
+                    <similar-listing></similar-listing>
+                </div> -->
             </div>
         </div>
         <app-footer></app-footer>
@@ -207,6 +264,7 @@
         const app = Vue.createApp({
             components: {
                 'app-footer': footer,
+                'similar-listing': listing.template
             },
             data() {
                 return {
@@ -225,7 +283,166 @@
                     sugar: 8.27,
                     cholesterol: 2.87,
                     sodium: 0,
-                    protein: 15.17
+                    protein: 15.17,
+                    //nutritionImg: "img/nutritionImg.jpeg",
+                    // recipeCostImg: "img/pricebreakdown.png",
+                    //tasteImg: "img/taste.png",
+                    recipeCost: {
+                        "ingredients": [
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "g",
+                                        "value": 222.0
+                                    },
+                                    "us": {
+                                        "unit": "cups",
+                                        "value": 1.5
+                                    }
+                                },
+                                "image": "blueberries.jpg",
+                                "name": "blueberries",
+                                "price": 174.43
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "",
+                                        "value": 1.0
+                                    },
+                                    "us": {
+                                        "unit": "",
+                                        "value": 1.0
+                                    }
+                                },
+                                "image": "egg-white.jpg",
+                                "name": "egg white",
+                                "price": 18.21
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "Tbsps",
+                                        "value": 2.0
+                                    },
+                                    "us": {
+                                        "unit": "Tbsps",
+                                        "value": 2.0
+                                    }
+                                },
+                                "image": "flour.png",
+                                "name": "flour",
+                                "price": 2.0
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "g",
+                                        "value": 150.0
+                                    },
+                                    "us": {
+                                        "unit": "cup",
+                                        "value": 0.75
+                                    }
+                                },
+                                "image": "sugar-in-bowl.png",
+                                "name": "granulated sugar",
+                                "price": 20.67
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "tsp",
+                                        "value": 1.0
+                                    },
+                                    "us": {
+                                        "unit": "tsp",
+                                        "value": 1.0
+                                    }
+                                },
+                                "image": "lemon-juice.jpg",
+                                "name": "fresh lemon juice",
+                                "price": 3.39
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "pinch",
+                                        "value": 1.0
+                                    },
+                                    "us": {
+                                        "unit": "pinch",
+                                        "value": 1.0
+                                    }
+                                },
+                                "image": "ground-nutmeg.jpg",
+                                "name": "nutmeg",
+                                "price": 7.39
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "",
+                                        "value": 2.0
+                                    },
+                                    "us": {
+                                        "unit": "",
+                                        "value": 2.0
+                                    }
+                                },
+                                "image": "pie-crust.jpg",
+                                "name": "pie dough round",
+                                "price": 364.29
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "Tbsps",
+                                        "value": 2.0
+                                    },
+                                    "us": {
+                                        "unit": "Tbsps",
+                                        "value": 2.0
+                                    }
+                                },
+                                "image": "tapioca-pearls.png",
+                                "name": "quick cooking tapioca",
+                                "price": 50.89
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "g",
+                                        "value": 305.0
+                                    },
+                                    "us": {
+                                        "unit": "cups",
+                                        "value": 2.5
+                                    }
+                                },
+                                "image": "rhubarb.jpg",
+                                "name": "trimmed rhubarb",
+                                "price": 185.18
+                            },
+                            {
+                                "amount": {
+                                    "metric": {
+                                        "unit": "Tbsps",
+                                        "value": 0.5
+                                    },
+                                    "us": {
+                                        "unit": "Tbsps",
+                                        "value": 0.5
+                                    }
+                                },
+                                "image": "butter-sliced.jpg",
+                                "name": "unsalted butter",
+                                "price": 6.0
+                            }
+                        ],
+                        "totalCost": 832.45,
+                        "totalCostPerServing": 104.06
+                    },
                 }
             },
             mounted() {
