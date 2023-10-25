@@ -159,29 +159,8 @@
         app.component('app-footer', footer);
         app.mount('#app');
 
-        gsap.from("#countRecipe", {
-            textContent: 0,
-            duration: 4,
-            ease: "power1.in",
-            snap: { textContent: 1 }
-        });
 
-        const buttons = document.querySelectorAll(".topRecipe");
-
-        buttons.forEach(function (button) {
-            button.addEventListener("click", function () {
-                buttons.forEach(function (btn) {
-                    btn.classList.remove("btn-danger");
-                    btn.classList.add("btn-outline-secondary");
-
-                    var rmv = document.getElementById(btn.getAttribute("data-value"));
-                    rmv.style.display = 'none';
-                });
-
-                var content = document.getElementById(event.target.getAttribute("data-value"));
-                content.style.display = 'block';
-            });
-        });
+       
 
     </script>
 </body>
