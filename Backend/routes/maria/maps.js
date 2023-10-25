@@ -12,7 +12,7 @@ router.get('/grocers', async (req, res) => {
   const urlWithParams = `${placesUrl}?` +
     `keyword=grocery&` +
     `location=${encodeURIComponent(location)}&` + // Encode the location
-    `radius=1000&` +
+    `radius=400&` +
     `rankby=prominence&` +
     `key=${apiKey}`;
 
