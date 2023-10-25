@@ -331,6 +331,20 @@
 
                     });
                 },
+                fetchUserFav(){
+                    axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                        headers:headers,
+                    }).then(response => {
+                        response.data.forEach(favRecipe => {
+                            const favedRecipe = this.recipes.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                                if (favedRecipe) {
+                                    favedRecipe.fav = 1;
+                                }
+                            });
+                    }).catch( error => {
+
+                    });
+                },
                 searchRecipes(titleQuery){
                     if (titleQuery === "DESC" || titleQuery === "ASC"){
                         titleQuery = "";
@@ -363,6 +377,12 @@
                         } else {
                             this.titlequery = "All Recipes";
                         }
+
+                        this.recipes.forEach((recipe) => {
+                            recipe.fav = 0; 
+                        });
+
+                        this.fetchUserFav();
                     }).catch( error => {
                         this.errorMessage = error.response.data.message;
                         if (this.errorMessage === "Invalid Token") window.location.href = './index.html';
@@ -469,8 +489,25 @@
                 prevPage() {
                     this.pageNumber--;
                 },
-                changeColor() {
-                    this.fav = this.fav === 0 ? 1 : 0;
+                changeColor(recipe) {
+                    console.log(recipe)
+                    recipe.fav = recipe.fav === 0 ? 1 : 0;
+                    if (recipe.fav === 1){
+                        axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})
+                        .then(response => {
+                            console.log("success")
+                        }).catch( error => {
+    
+                        });
+                    } else {
+                        axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
+                        {recipeIds: recipe.recipeId.toString()}, {headers})
+                        .then(response => {
+                            console.log("success")
+                        }).catch( error => {
+    
+                        });
+                    }
                 }
     
             },
