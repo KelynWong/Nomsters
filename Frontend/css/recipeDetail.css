@@ -107,7 +107,7 @@
     margin: 44px auto;
 }
 
-.recipe-content h3 {
+h3 {
     font-size: 28px;
 }
 
@@ -164,10 +164,16 @@ li {
     text-decoration: line-through;
 }
 
+.nutrition-img {
+    width: 75% !important;
+    margin: 32px 0px 12px;
+}
+
 .nutrition-facts {
     border-radius: 8px;
     background: #F9F9F9;
     padding: 28px;
+    /* width: 100%; */
     width: 75%;
     margin: 32px 0px 12px;
 }
@@ -230,4 +236,55 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.row2 .content-left {
+    width: 60%;
+    padding-right: 54px;
+}
+
+.row2 .content-right {
+    width: 40%;
+}
+
+.cost-img {
+    margin: 18px 0;
+}
+
+.cost-wrapper {
+    margin: 18px 0;
+}
+
+.cost-wrapper h6 {
+    margin-right: 48px;
+}
+
+.cost-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.table, .cost-img {
+    margin: 9px 0;
+    width: 70% !important;
+}
+
+.notes-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 32px 0px 12px;
+}
+
+.w-44 {
+    margin-left: 6%;
+    width: 44%;
+}
+
+.taste-img {
+    width: 70% !important;
+    margin: 0 auto;
 }
