@@ -552,7 +552,12 @@
                         });
                     } else {
                         axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
-                        {recipeIds: recipe.recipeId.toString()}, {headers})
+                        {
+                            headers, 
+                            data: {
+                                recipeIds: recipe.recipeId.toString()
+                            }
+                        })
                         .then(response => {
                             console.log("success")
                         }).catch( error => {
