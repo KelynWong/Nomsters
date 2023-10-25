@@ -34,6 +34,7 @@
         <h4 class="text-center" v-html="titleQueryParts"></h4>
         <div class="recipeContent">
             <div class="dropdown d-flex justify-content-end">
+                <span>Sort By: </span>
                 <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ selectedOption}}
                 </button>
@@ -166,8 +167,9 @@
             },
             data() {
                 return {
-                    selectedOption: 'Sort by',
+                    selectedOption: 'Recipe Name',
                     options: [
+                        { label: 'Recipe Name', value: 'title' },
                         { label: 'Popularity', value: 'aggregateLikes' },
                         { label: 'Healthiness', value: 'healthScore' },
                     ],
