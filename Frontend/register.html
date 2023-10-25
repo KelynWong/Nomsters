@@ -177,8 +177,8 @@
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
                         </div>
                         <!-- <div class="text mb-3">hi</div> -->
-                        <div class="mb-2 text-center">
-                            <label for="form-control" class="form-label chooseprofilepic" style="color:black; text-align: start !important;">Choose Profile Picture</label>
+                        <div class="mb-2">
+                            <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
                             <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
                             <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
                             
@@ -197,40 +197,81 @@
                                 document.getElementById('formFile').value = null;
                                 frame.src = "";
                             }
-                            function registerUser(){
-                                event.preventDefault();
-                                var password = document.getElementById('exampleInputPassword1').value;
-                                var confirmPassword = document.getElementById('exampleInputPassword2').value;
-                                if(password != confirmPassword){
-                                    alert("Passwords do not match.");
-                                    return;
-                                }
+                            function registerUser(event) {
+    event.preventDefault();
+    let password = document.getElementById('exampleInputPassword1').value;
+    let confirmPassword = document.getElementById('exampleInputPassword2').value;
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
 
-                                else{
-                                axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+    var file = document.getElementById('formFile').files[0];
+
+    if (file) {
+        readAndUploadFile(file)
+            .then((fileData) => {
+                axios
+                    .post('https://leaptron2.dscloud.me:3000/api/signup', {
+                        "username": document.getElementById('exampleInputUsername1').value,
+                        "password": document.getElementById('exampleInputPassword1').value,
+                        "image": fileData
+                    })
+                    .then((response) => {
+                        let token = response.data.token;
+                        let userId = response.data.userId;
+                        sessionStorage.setItem('token', token);
+                        sessionStorage.setItem('userId', userId);
+                        // Redirect to another page or perform other actions here
+                        window.location.href = './home.html';
+                    })
+                    .catch((error) => {
+                        if (error.response && error.response.data && error.response.data.message) {
+                            // Extract and display the error message from the response
+                            alert(error.response.data.message);
+                        }
+                    });
+            })
+            .catch((error) => {
+                // Handle file reading error
+                console.error(error);
+            });
+    } else {
+        // Handle the case where no file is selected
+        axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
                                 "username": document.getElementById('exampleInputUsername1').value,
                                 "password": document.getElementById('exampleInputPassword1').value,
-                                "image": document.getElementById('formFile').files[0]
+                                "image": ''
                                 })
                                 .then(response => {
                                     let token= response.data.token;
                                     let userId= response.data.userId;
                                     sessionStorage.setItem('token', token);
                                     sessionStorage.setItem('userId', userId);
-
+                                    
                                     const homePageUrl = `./home.html`;
                                     window.location.href = homePageUrl;
                                     })
+    }
+}
 
-                                
-                                .catch(error => {
-                                    if (error.response && error.response.data && error.response.data.message) {
-                                    // Extract and display the error message from the response
-                                    alert(error.response.data.message);}
-                                ;});
-                                }
+function readAndUploadFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-                            }
+        reader.onload = function (e) {
+            const fileData = e.target.result; // This contains the file data
+            console.log("File data:", fileData);
+            resolve(fileData);
+        };
+
+        reader.onerror = function (error) {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
                         </script>
                         
 
