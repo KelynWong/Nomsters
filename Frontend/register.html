@@ -229,7 +229,7 @@
                         if (error.response && error.response.data && error.response.data.message) {
                             // Extract and display the error message from the response
                             alert(error.response.data.message);
-                        }
+                        }else{alert('Image too large, please select an image that is <50kb')}
                     });
             })
             .catch((error) => {

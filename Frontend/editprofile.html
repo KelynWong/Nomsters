@@ -60,91 +60,94 @@
         </h2>
         <form>
 
-        <div class="container rounded bg-white mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img id="frame" :src="image"
-                            class="img-fluid mx-auto"></div>
-                    <div class="mb-2 text-center">
-                        <label for="form-control" class="form-label chooseprofilepic"
-                            style="color:black; text-align: start !important;">Edit Profile Picture</label>
-                        <input class="form-control" type="file" id="formFile" onchange="preview()"
-                            placeholder="upload profile pic">
-                        <button onclick="clearImage()" class="btn btn-secondary mt-3 clear shadow-sm">Clear
-                            Image</button>
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-3 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img id="frame"
+                                :src="image" class="img-fluid mx-auto"></div>
+                        <div class="mb-2 text-center">
+                            <label for="form-control" class="form-label chooseprofilepic"
+                                style="color:black; text-align: start !important;">Edit Profile Picture</label>
+                            <input class="form-control" type="file" id="formFile" onchange="preview()"
+                                placeholder="upload profile pic">
+                            <button onclick="clearImage()" class="btn btn-secondary mt-3 clear shadow-sm">Clear
+                                Image</button>
 
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-5 border-right">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profile Settings</h4>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Display Name</label><input type="text"
-                                    class="form-control" :placeholder=name  id="exampleInputUsername1"></div>
-                        </div>
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Profile Settings</h4>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Display Name</label><input type="text"
+                                        class="form-control" :placeholder=name id="exampleInputUsername1"></div>
+                            </div>
 
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Change Password</label><input type="password"
-                                    class="form-control" placeholder="Enter new password"  id="exampleInputPassword1"></div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Change Password</label><input
+                                        type="password" class="form-control" placeholder="Enter new password"
+                                        id="exampleInputPassword1"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Confirm Password</label><input
+                                        type="password" class="form-control" placeholder="Confirm Password"
+                                        id="exampleInputPassword2"></div>
+                            </div>
+                            <div class="mt-5 text-center"><button class="btn btn-danger shadow-sm"
+                                    style='font-weight:lighter' type="submit" onclick=" updateUser(event)">Save
+                                    Profile</button></div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password"
-                                    class="form-control" placeholder="Confirm Password"  id="exampleInputPassword2"></div>
-                        </div>
-                        <div class="mt-5 text-center"><button class="btn btn-danger shadow-sm"
-                                style='font-weight:lighter' type="submit" onclick=" updateUser(event)">Save Profile</button></div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center experience">
-                            <h4>Edit Diet</h4>
-                        </div><br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="vegetarian" id="">
-                            <label class="form-check-label" for="">
-                                Vegetarian
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="vegan" id="">
-                            <label class="form-check-label" for="">
-                                Vegan
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="glutenFree" id="">
-                            <label class="form-check-label" for="">
-                                Gluten Free
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="dairyFree" id="">
-                            <label class="form-check-label" for="">
-                                Dairy Free
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="veryHealthy" id="">
-                            <label class="form-check-label" for="">
-                                Healthy
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="cheap" id="">
-                            <label class="form-check-label" for="">
-                                Cheap
-                            </label>
+                    <div class="col-md-4">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center experience">
+                                <h4>Edit Diet</h4>
+                            </div><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="vegetarian" id="">
+                                <label class="form-check-label" for="">
+                                    Vegetarian
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="vegan" id="">
+                                <label class="form-check-label" for="">
+                                    Vegan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="glutenFree" id="">
+                                <label class="form-check-label" for="">
+                                    Gluten Free
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="dairyFree" id="">
+                                <label class="form-check-label" for="">
+                                    Dairy Free
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="veryHealthy" id="">
+                                <label class="form-check-label" for="">
+                                    Healthy
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="cheap" id="">
+                                <label class="form-check-label" for="">
+                                    Cheap
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </form>
     </div>
-   
+
     <app-footer></app-footer>
 
     <!-- script for image preview -->
@@ -323,37 +326,56 @@
         }
         function updateUser(event) {
             event.preventDefault();
+            let username = document.getElementById('exampleInputUsername1').value;
             let password = document.getElementById('exampleInputPassword1').value;
             let confirmPassword = document.getElementById('exampleInputPassword2').value;
             if (password !== confirmPassword) {
                 alert("Passwords do not match.");
                 return;
             }
-
+            if (password == '' || confirmPassword == '') {
+                alert("Please enter a password.");
+                return;
+            }
+            if (password == '' || confirmPassword == '') {
+                alert("Please enter a password.");
+                return;
+            }
+            if (username == '') {
+                alert("Please enter a username.");
+                return;
+            }
+            axios.get('https://leaptron2.dscloud.me:3000/api/user/' + userId, {
+                headers: headers
+            }).then(response => {
+                var dataArray = response.data.image.data
+                if (dataArray.length > 0) {
+                    const image = dataArray
+                }
+            }).catch(error => {
+                this.isError = true;
+            });
             var file = document.getElementById('formFile').files[0];
 
             if (file) {
                 readAndUploadFile(file)
                     .then((fileData) => {
-                        axios
-                            .post('https://leaptron2.dscloud.me:3000/api/signup', {
-                                "username": document.getElementById('exampleInputUsername1').value,
-                                "password": document.getElementById('exampleInputPassword1').value,
-                                "image": fileData
+                        const headers = {
+                            Authorization: `Bearer ${token}`,
+                        };
+                        axios.put(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+                            "username": document.getElementById('exampleInputUsername1').value,
+                            "password": document.getElementById('exampleInputPassword1').value,
+                            "image": fileData
+                        }, {
+                            headers: headers
+                        })
+                            .then(response => {
+                                window.location.href = './profile.html';
                             })
-                            .then((response) => {
-                                let token = response.data.token;
-                                let userId = response.data.userId;
-                                sessionStorage.setItem('token', token);
-                                sessionStorage.setItem('userId', userId);
-                                // Redirect to another page or perform other actions here
-                                window.location.href = './home.html';
-                            })
-                            .catch((error) => {
-                                if (error.response && error.response.data && error.response.data.message) {
-                                    // Extract and display the error message from the response
-                                    alert(error.response.data.message);
-                                }
+                            .catch(error => {
+                                alert("Image is too large")
+                                // Handle errors here
                             });
                     })
                     .catch((error) => {
@@ -361,21 +383,39 @@
                         console.error(error);
                     });
             } else {
-                // Handle the case where no file is selected
-                axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
-                    "username": document.getElementById('exampleInputUsername1').value,
-                    "password": document.getElementById('exampleInputPassword1').value,
-                    "image": ''
-                })
-                    .then(response => {
-                        let token = response.data.token;
-                        let userId = response.data.userId;
-                        sessionStorage.setItem('token', token);
-                        sessionStorage.setItem('userId', userId);
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                };
 
-                        const homePageUrl = `./home.html`;
-                        window.location.href = homePageUrl;
-                    })
+                // Use axios.put to send the request
+                
+                axios.get('https://leaptron2.dscloud.me:3000/api/user/' + userId, {
+            headers: headers
+        }).then(response => {
+            var dataArray = response.data.image.data;
+            console.log(dataArray);
+            if (dataArray.length > 0) {
+                const currentImage = dataArray;}
+                var uint8Array = new Uint8Array(dataArray);
+                console.log(uint8Array)
+                var binaryString = String.fromCharCode.apply(null, uint8Array);
+                axios.put(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+                    "username": username,
+                    "password": password,
+                    "image": binaryString // Set the current image data
+                }, {
+                    headers: headers
+                })
+                .then(response => {
+                    window.location.href = './profile.html';
+                })
+                .catch(error => {
+                    // Handle errors here
+                });
+            
+        }).catch(error => {
+            // Handle errors here
+        });
             }
         }
 
