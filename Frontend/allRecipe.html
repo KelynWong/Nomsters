@@ -347,9 +347,44 @@
                     if (urlParams.has('search')) {
                         this.title = urlParams.get('search')
                         urlParams.delete('search');
-                        const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + urlParams.toString();
-                        window.history.pushState({}, '', newUrl);
+                    } else if (urlParams.has('cuisine')){
+                        const cuisineValues = urlParams.get('cuisine');
+                        const cuisines = cuisineValues.split(',');
+
+                        cuisines.forEach(cuisine => {
+                            const matchingCuisine = this.cuisines.find(item => item.value === cuisine);
+                            if (matchingCuisine) {
+                                matchingCuisine.checked = true;
+                            }
+                        });
+
+                        urlParams.delete('cuisine');
+                    } else if (urlParams.has('dishtype') || urlParams.has('maxcalories')){
+                        const dishTypeValue = urlParams.get('dishtype');
+    
+                        this.dishtypes = this.dishtypes.map(item => ({
+                            value: item.value,
+                            checked: item.value === dishTypeValue, 
+                        }));
+                        this.selectedMaxCalories = urlParams.get('maxcalories');
+                        urlParams.delete('dishtype');
+
+                        urlParams.delete('maxcalories');
+                    } else if (urlParams.has('maxmins')) { // dk why this not working for now
+                        const maxMins = urlParams.get('maxmins');
+                        console.log('maxMins from URL:', maxMins); 
+                        if (maxMins === '30' || maxMins === '60' || maxMins === '120') {
+                            this.selectedMaxReadyInMinutes = maxMins;
+                            console.log('selectedMaxReadyInMinutes:', this.selectedMaxReadyInMinutes); 
+                        } else if (maxMins === '121') {
+                            this.selectedMinReadyInMinutes = maxMins;
+                            console.log('selectedMinReadyInMinutes:', this.selectedMinReadyInMinutes); 
+                        }
+                        urlParams.delete('maxmins');
                     }
+
+                    const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + urlParams.toString();
+                    window.history.pushState({}, '', newUrl);
                     if (titleQuery === "DESC" || titleQuery === "ASC"){
                         titleQuery = "";
                     }
