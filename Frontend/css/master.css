@@ -240,6 +240,7 @@ span {
 }
 
 .decide-btn {
+    font-family: Poppins;
     border-radius: 8px;
     border: none;
     background: #DE352A;
@@ -253,13 +254,19 @@ span {
 }
 
 .decide-btn:hover {
-    border-radius: 8px;
-    border: none;
     background: #b02a37;
     color: white;
-    padding: 6px 12px;
-    font-size: 13px;
 }
+
+.generate {
+    font-size: 16px !important;
+    font-weight: normal !important;
+}
+
+.generate:hover {
+    font-size: 14px !important;
+}
+
 
 .random-recipe {
     position: absolute;

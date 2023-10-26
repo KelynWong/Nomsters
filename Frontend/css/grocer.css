@@ -1,5 +1,14 @@
-h3 {
-    text-align: center;
+.width-80 h3, .width-80 h6 {
+  text-align: center;
+}
+
+.width-80 h6 {
+  color: #5E5E5E;
+  margin-top: 24px;
+}
+
+.width-80 .container {
+  margin: 54px auto;
 }
 
 #map {
