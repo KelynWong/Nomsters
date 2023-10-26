@@ -15,92 +15,7 @@
 
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/home.css">
-
-    <style>
-        .bigdiv {
-            position: relative;
-            padding-top:5%;
-        }
-
-        #background {
-            width: 100%;
-        }
-
-        .container {
-            position: absolute;
-            /* top: 40%; */
-            left: 70px;
-            right: 70px;
-            width: 50%;
-            height:fit-content;
-            margin: auto !important;
-            font-size: 24px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-            .icon {
-                margin: auto;
-                text-align: center;
-                color: black;
-            }
-
-            #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
-                margin-top: 10px;
-                width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .btn {
-                background-color: #DE352A;
-                outline-style: none;
-                margin-bottom: 1cm;
-                margin-top: 10px;
-                width: 35%;
-                border-style: none !important;
-            }
-
-            .clear {
-                background-color: grey;
-                outline-style: none;
-                margin-bottom: 1cm;
-                margin-top: 10px;
-                width: 25%;
-                border-style: none !important;
-            }
-
-            a {
-                color: #DE352A;
-            }
-
-            .signup {
-                color:black;
-                font-size: small;
-            }
-
-            .logo {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                width: 70%;
-                
-            }
-
-            #frame {
-                max-width: 100px;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .chooseprofilepic {
-                text-align: left !important;
-                font-size: 18px;
-                
-            }
-    </style>
+    <link rel="stylesheet" href="css/register.css">
 
     <style>
          /* code for the wave */
@@ -153,124 +68,135 @@
 
 </head>
 
-    <div class="bigdiv">
-        
-        <div class="container col-3">
-           
+<div class="container-fluid mt-5 mb-5">
+    <div class="row">
+
+        <!-- left column -->
+        <div class="col-4">
+            <div class="text-center">
+                <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
+                <img id="frame" src="" class="img-fluid" />
+                <input class="form-control fileinput" type="file" id="formFile" onchange="preview()">
+                <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
+                
+            </div>
+        </div>
+
+        <!-- center column -->
+        <div class="col-4">
             <div class="row">
                 <div class="form">
-                    <!-- <div class="icon">nomsters icon goes here</div> -->
-                    <img src="img/logo.png" alt="logo" class="logo mx-auto" />
-                    <img id="frame" src="" class="img-fluid" />
+                    
+                    <div class="logo-container">
+                        <img src="img/logo.png" alt="logo" class="logo" />
+                    </div>
 
                     <form>
                         
                         <div class="mb-3">
-                          <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                        <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
                         </div>
 
                         <div class="mb-3">
-                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
 
                         <div class="mb-3">
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
                         </div>
-                        <!-- <div class="text mb-3">hi</div> -->
-                        <div class="mb-2">
-                            <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
-                            <input class="form-control" type="file" id="formFile" onchange="preview()" placeholder="upload profile pic">
-                            <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
-                            
-                        </div>
+                        
                         <div class="text-center">
                             <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
                         </div>
 
-                        
-            
-                        <script>
-                            function preview() {
-                                frame.src = URL.createObjectURL(event.target.files[0]);
-                            }
-                            function clearImage() {
-                                document.getElementById('formFile').value = null;
-                                frame.src = "";
-                            }
-    function registerUser(event) {
-    event.preventDefault();
-    let password = document.getElementById('exampleInputPassword1').value;
-    let confirmPassword = document.getElementById('exampleInputPassword2').value;
-    if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+ </div>
+
+ <script>
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
     }
+    function clearImage() {
+        document.getElementById('formFile').value = null;
+        frame.src = "";
+    }
+    function registerUser(event) {
+event.preventDefault();
+let password = document.getElementById('exampleInputPassword1').value;
+let confirmPassword = document.getElementById('exampleInputPassword2').value;
+if (password !== confirmPassword) {
+alert("Passwords do not match.");
+return;
+}
 
     var file = document.getElementById('formFile').files[0];
 
-    if (file) {
-        readAndUploadFile(file)
-            .then((fileData) => {
-                axios
-                    .post('https://leaptron2.dscloud.me:3000/api/signup', {
-                        "username": document.getElementById('exampleInputUsername1').value,
-                        "password": document.getElementById('exampleInputPassword1').value,
-                        "image": fileData
-                    })
-                    .then((response) => {
-                        let token = response.data.token;
-                        let userId = response.data.userId;
-                        sessionStorage.setItem('token', token);
-                        sessionStorage.setItem('userId', userId);
-                        // Redirect to another page or perform other actions here
-                        window.location.href = './home.html';
-                    })
-                    .catch((error) => {
-                        if (error.response && error.response.data && error.response.data.message) {
-                            // Extract and display the error message from the response
-                            alert(error.response.data.message);
-                        }else{alert('Image too large, please select an image that is <50kb')}
-                    });
+if (file) {
+readAndUploadFile(file)
+.then((fileData) => {
+axios
+.post('https://leaptron2.dscloud.me:3000/api/signup', {
+"username": document.getElementById('exampleInputUsername1').value,
+"password": document.getElementById('exampleInputPassword1').value,
+"image": fileData
+})
+.then((response) => {
+let token = response.data.token;
+let userId = response.data.userId;
+sessionStorage.setItem('token', token);
+sessionStorage.setItem('userId', userId);
+// Redirect to another page or perform other actions here
+window.location.href = './home.html';
+})
+.catch((error) => {
+if (error.response && error.response.data && error.response.data.message) {
+    // Extract and display the error message from the response
+    alert(error.response.data.message);
+}else{alert('Image too large, please select an image that is <50kb')}
+});
+})
+.catch((error) => {
+// Handle file reading error
+console.error(error);
+});
+} else {
+// Handle the case where no file is selected
+axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+        "username": document.getElementById('exampleInputUsername1').value,
+        "password": document.getElementById('exampleInputPassword1').value,
+        "image": ''
+        })
+        .then(response => {
+            let token= response.data.token;
+            let userId= response.data.userId;
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('userId', userId);
+            
+            const homePageUrl = `./home.html`;
+            window.location.href = homePageUrl;
             })
-            .catch((error) => {
-                // Handle file reading error
-                console.error(error);
-            });
-    } else {
-        // Handle the case where no file is selected
-        axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
-                                "username": document.getElementById('exampleInputUsername1').value,
-                                "password": document.getElementById('exampleInputPassword1').value,
-                                "image": ''
-                                })
-                                .then(response => {
-                                    let token= response.data.token;
-                                    let userId= response.data.userId;
-                                    sessionStorage.setItem('token', token);
-                                    sessionStorage.setItem('userId', userId);
-                                    
-                                    const homePageUrl = `./home.html`;
-                                    window.location.href = homePageUrl;
-                                    })
-    }
+}
 }
 
 function readAndUploadFile(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+return new Promise((resolve, reject) => {
+const reader = new FileReader();
 
-        reader.onload = function (e) {
-            const fileData = e.target.result; // This contains the file data
-            console.log("File data:", fileData);
-            resolve(fileData);
-        };
+reader.onload = function (e) {
+const fileData = e.target.result; // This contains the file data
+console.log("File data:", fileData);
+resolve(fileData);
+};
 
-        reader.onerror = function (error) {
-            reject(error);
-        };
+reader.onerror = function (error) {
+reject(error);
+};
 
-        reader.readAsDataURL(file);
-    });
+reader.readAsDataURL(file);
+});
 }
                         </script>
                         
@@ -291,3 +217,88 @@ function readAndUploadFile(file) {
     </div>
 
  </div>
+
+ <script>
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+    function clearImage() {
+        document.getElementById('formFile').value = null;
+        frame.src = "";
+    }
+    function registerUser(event) {
+event.preventDefault();
+let password = document.getElementById('exampleInputPassword1').value;
+let confirmPassword = document.getElementById('exampleInputPassword2').value;
+if (password !== confirmPassword) {
+alert("Passwords do not match.");
+return;
+}
+
+var file = document.getElementById('formFile').files[0];
+
+if (file) {
+readAndUploadFile(file)
+.then((fileData) => {
+axios
+.post('https://leaptron2.dscloud.me:3000/api/signup', {
+"username": document.getElementById('exampleInputUsername1').value,
+"password": document.getElementById('exampleInputPassword1').value,
+"image": fileData
+})
+.then((response) => {
+let token = response.data.token;
+let userId = response.data.userId;
+sessionStorage.setItem('token', token);
+sessionStorage.setItem('userId', userId);
+// Redirect to another page or perform other actions here
+window.location.href = './home.html';
+})
+.catch((error) => {
+if (error.response && error.response.data && error.response.data.message) {
+    // Extract and display the error message from the response
+    alert(error.response.data.message);
+}
+});
+})
+.catch((error) => {
+// Handle file reading error
+console.error(error);
+});
+} else {
+// Handle the case where no file is selected
+axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+        "username": document.getElementById('exampleInputUsername1').value,
+        "password": document.getElementById('exampleInputPassword1').value,
+        "image": ''
+        })
+        .then(response => {
+            let token= response.data.token;
+            let userId= response.data.userId;
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('userId', userId);
+            
+            const homePageUrl = `./home.html`;
+            window.location.href = homePageUrl;
+            })
+}
+}
+
+function readAndUploadFile(file) {
+return new Promise((resolve, reject) => {
+const reader = new FileReader();
+
+reader.onload = function (e) {
+const fileData = e.target.result; // This contains the file data
+console.log("File data:", fileData);
+resolve(fileData);
+};
+
+reader.onerror = function (error) {
+reject(error);
+};
+
+reader.readAsDataURL(file);
+});
+}
+</script>

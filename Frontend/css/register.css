@@ -1,0 +1,91 @@
+.bigdiv {
+    padding-top:5%;
+    display:block;
+}
+
+#background {
+    width: 100%;
+}
+
+    .icon {
+        margin: auto;
+        text-align: center;
+        color: black;
+    }
+
+    #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
+        margin-top: 10px;
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        background-color: #DE352A;
+        outline-style: none;
+        margin-bottom: 1cm;
+        margin-top: 10px;
+        width: 35%;
+        border-style: none !important;
+    }
+
+    .clear {
+        background-color: grey;
+        outline-style: none;
+        margin-bottom: 1cm;
+        margin-top: 10px;
+        width: 30%;
+        border-style: none !important;
+    }
+
+    a {
+        color: #DE352A;
+    }
+
+    .signup {
+        color:black;
+        font-size: small;
+    }
+
+    .logo {
+        margin-left: auto;
+        margin-right: auto;
+        width: 15cm;
+        
+    }
+
+    #frame {
+        max-width: 100px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .chooseprofilepic {
+        text-align: left !important;
+        font-size: 18px;
+        margin-top: 40%;
+        
+    }
+
+    .border-right {
+        border-right: 1px solid #dee2e6 !important;
+    }
+
+    .container-fluid {
+        padding-top: 5%;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .fileinput {
+        max-width: 75%;
+    }
+
+    .rightcol {
+        margin-left:20px;
+    }

@@ -16,71 +16,7 @@
 
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/home.css">
-
-    <style>
-        .bigdiv {
-            position: relative;
-            padding-top:10%;
-        }
-
-        #background {
-            width: 100%;
-        }
-
-        .container {
-            position: absolute;
-            /* top: 40%; */
-            left: 70px;
-            right: 70px;
-            width: 50%;
-            height:fit-content;
-            margin: auto !important;
-            font-size: 24px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-            .icon {
-                margin: auto;
-                text-align: center;
-                color: black;
-            }
-
-            #exampleInputUsername1, #exampleInputPassword1 {
-                margin-top: 10px;
-                width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .btn {
-                background-color: #DE352A;
-                outline-style: none;
-                margin-bottom: 1cm;
-                margin-top: 10px;
-                width: 35%;
-                border-style:none;
-            }
-
-            a {
-                color: #DE352A;
-            }
-
-            .signup {
-                color:black;
-                font-size: small;
-            }
-
-            .logo {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                width: 70%;
-                
-            }
-    </style>
-
+    <link rel="stylesheet" href="css/index.css">
     <style>
          /* code for the wave */
 
@@ -106,7 +42,7 @@
                 top: -150px;
                 width: 6400px;
                 height: 150px;
-                animation: wave 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+                animation: wave 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
                 transform: translate3d(0, 0, 0);
             
                 /*animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;*/
@@ -116,11 +52,8 @@
                 0% {
                     transform: translateX(0);
                 }
-                50% {
-                    transform: translateX(-800px);
-                }
                 100% {
-                    transform: translateX(-1600px);
+                    transform: translate(-100%);
                 }
             }
             
@@ -142,7 +75,7 @@
 
     <div class="bigdiv">
         
-        <div class="container col-6">
+        <div class="container">
            
             <div class="row">
                 <div class="form">

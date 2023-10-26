@@ -11,40 +11,12 @@
 
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/mealprep.css">
+
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
 </head>
-
-<style>
-    .add, .remove {
-        /* margin-top: 5px; */
-        margin-right: 5px;
-        padding-top: 5px;
-    }
-
-    #formfield, #textbox, #formfield2, #textbox2 {
-        margin-bottom: 5px;
-    }
-
-    .img-fluid {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 50%;
-    }
-
-    .banner {
-        height: 100px;
-        text-align: center;
-        margin-top: au50to;
-    }
-
-    .card-img-top {
-        max-height: 250px ;
-        max-width:none;
-    }
-</style>
 
 <body>
     
@@ -58,21 +30,29 @@
     <div class="container col-8">
         <!-- numeric -->
     <div class="row p-5">
-        <div class="form-outline col-6">
+        <div class="form-outline col-6 mt-2">
             <label class="form-label" for="typeNumber">Number of Meals per Day</label>
-            <input type="number" id="typeNumber" value="mealsPerDay" class="form-control" placeholder="3"/>
+            <input type="number" id="typeNumber" value="mealsPerDay" class="form-control" placeholder="2" min="2" max="5" required/>
+            <small class="form-text text-muted">Please enter a number between 2 and 5.</small>
         </div>
-        <div class="form-outline col-6">
+        <div class="form-outline col-6 mt-2">
+            <label class="form-label" for="typeNumber">Number of Snacks per Day</label>
+            <input type="number" id="typeNumber" value="mealsPerDay" class="form-control" placeholder="max 2" max="2"/>
+            <small class="form-text text-muted">Please enter a maximum value of 2.</small>
+        </div>
+        <div class="form-outline col-6 mt-2">
             <label class="form-label" for="typeNumber">Calorie Goal per Day</label>
-            <input type="number" id="typeNumber" value="calories" class="form-control" placeholder="3000"/>
+            <input type="number" id="typeNumber" value="calories" class="form-control" placeholder="3000" max="3500"/>
+            <small class="form-text text-muted">Please enter a maximum value of 3500.</small>
         </div>
-        <div class="form-outline col-6">
+        <div class="form-outline col-6 mt-2">
             <label class="form-label" for="typeNumber">Protein Intake per Day</label>
             <input type="number" id="typeNumber" value="calories" class="form-control" placeholder="3000"/>
         </div>
-        <div class="form-outline col-6">
+        <div class="form-outline col-12 mt-2">
             <label class="form-label" for="typeNumber">Budget per Day ($)</label>
-            <input type="number" id="typeNumber" value="budget" class="form-control" placeholder="eg. $2"/>
+            <input type="number" id="typeNumber" value="budget" class="form-control" placeholder="eg. 12"/>
+            <small class="form-text text-muted">Please set a budget of at least $12.</small>
         </div>
     </div>
       
@@ -91,7 +71,7 @@
         <div class="row">
             <div class="col-4">
               <div class="card">
-                <img src="img/acai.jpeg" class="card-img-top" alt="...">
+                <!-- <img src="img/acai.jpeg" class="card-img-top" alt="..."> -->
                 <div class="card-body">
                   <h5 class="card-title">Recipe Name</h5>
                   <p class="card-text p-2">~ Description ~</p>

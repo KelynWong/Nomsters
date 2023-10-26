@@ -11,64 +11,11 @@
 
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/profile.css">
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
-
-<style>
-    .add,
-    .remove {
-        margin-right: 5px;
-        padding-top: 5px;
-    }
-
-    #formfield,
-    #textbox,
-    #formfield2,
-    #textbox2 {
-        margin-bottom: 5px;
-    }
-
-    .img-fluid {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 50%;
-    }
-
-    .border-right {
-        border-right: 1px solid #dee2e6 !important;
-    }
-
-    .profilepic {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 200px;    
-        z-index: 1000;
-        margin-top: -100px;  
-        }
-
-
-
-    .banner {
-        color: #ffffff; /* Text color */
-        /* padding: 20px; */
-        text-align: center;
-        height: 200px;
-        background-color: #DE352A;
-    }
-
-    h2 {
-        margin-top: -10px;
-    }
-
-    .username {
-        font-size: 30px;
-    }
-
-</style>
 
 <body>
 
@@ -95,13 +42,17 @@
 
         <div class="mt-5 mb-5 text-center"><a href="./editprofile.html"><button class="btn rounded btn-danger shadow-sm" style='font-weight:lighter' type="button">Edit Profile</button></a></div>
 
-        <div id="section6 p-3">
-            <div class="section-head p-3 bg-light">
-              <h3>Recipes <span class="red">Shared</span></h3>
+        <div class="row">
+          <div class="col-2"></div>
+          <!-- <div id="col-8 p-3"> -->
+            <div class="container rounded section-head p-3 bg-light col-8">
+              <h3 class="ml-2">Recipes <span class="red">Shared</span></h3>
               <recipe-listing :recipe="indexes"></recipe-listing>
             </div>
-          
+          <!-- </div> -->
+          <div class="col-2"></div>
         </div>
+        
         <app-footer></app-footer>
 
     </div>
