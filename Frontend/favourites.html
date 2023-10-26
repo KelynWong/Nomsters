@@ -38,7 +38,7 @@
         <span><h3>Favourites</h3></span>
       </div>
       <div class="subhead flex">
-        <p style="font-style: italic;">18 Recipes</p>
+        <p style="font-style: italic;">{{recipes.length}} Recipes</p>
         <div class="select-fav flex" @click="selectFav" :class="{ 'red': isSelected }" style="cursor:pointer">
           <svg v-if="!isSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 27" fill="none">
             <g clip-path="url(#clip0_285_1392)">
@@ -133,10 +133,27 @@
         }
       }, 
       mounted() {
+          this.fetchUserFavRecipes();
           this.fetchAllRecipes();
           this.searchRecipes();
       },
       methods: {
+        fetchUserFavRecipes(){
+            axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                headers:headers
+            }).then(response => {
+                console.log(response.data)
+                this.recipes = response.data
+                this.recipes.forEach(favRecipe => favRecipe.fav = 1)
+                this.allRecipeIds = response.data.map(item => item.recipeId);
+                console.log(this.recipes)
+            }).catch( error => {
+                console.log(error.response.data.message);
+                this.errorMessage = error.response.data.message;
+                this.allrecipes = [];
+                this.isError = true;
+            });
+        },
         fetchAllRecipes(){
             axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
                 headers:headers
@@ -151,17 +168,17 @@
                 this.isError = true;
             });
         },
-        searchRecipes() {
-          axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
-              headers:headers
-          }).then(response => {
-              console.log(response.data)
-              this.recipes = response.data;
-              this.allRecipeIds = response.data.map(item => item.recipeId);
-          }).catch( error => {
-              console.log(error.message);
-          });
-        },
+        // searchRecipes() {
+        //   axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+        //       headers:headers
+        //   }).then(response => {
+        //       console.log(response.data)
+        //       this.recipes = response.data;
+        //       this.allRecipeIds = response.data.map(item => item.recipeId);
+        //   }).catch( error => {
+        //       console.log(error.message);
+        //   });
+        // },
         selectFav() {
           if (this.isSelected === false) {
             this.isSelected = true;
@@ -267,14 +284,39 @@
           }
       },
       methods:{
+        changeColor(recipe) {
+                    console.log(recipe)
+                    recipe.fav = recipe.fav === 0 ? 1 : 0;
+                    if (recipe.fav === 1){
+                        axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})
+                        .then(response => {
+                            console.log("success")
+                        }).catch( error => {
+    
+                        });
+                    } else {
+                        axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
+                        {
+                            headers, 
+                            data: {
+                                recipeIds: recipe.recipeId.toString()
+                            }
+                        })
+                        .then(response => {
+                            console.log("success")
+                            console.log(this.recipes)
+                            this.recipes = this.recipes.filter(item => item.recipeId !== recipe.recipeId);
+                            console.log(this.recipes)
+                        }).catch( error => {
+                          console.log(error)
+                        });
+                    }
+        },
         nextPage() {
           this.pageNumber++;
         },
         prevPage() {
           this.pageNumber--;
-        },
-        changeColor() {
-            this.fav = this.fav === 0 ? 1 : 0;
         },
         toggleSelect(index) {
           const isExists = this.selectedListings.indexOf(index);
