@@ -87,7 +87,7 @@
           </svg>
           <p>All</p>
         </div>
-        <div class="delete-fav flex" @click="" style="cursor:pointer">
+        <div class="delete-fav flex" @click="deleteRecipes" style="cursor:pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M10 15L10 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
             <path d="M14 15L14 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="container-listing-wrap">
-        <recipe-listing :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+        <recipe-listing @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
       </div>
     </div>
     <app-footer></app-footer>
@@ -130,6 +130,7 @@
             allRecipeIds: [],
             isSelected: false,
             isAllSelected: false,
+            selectedRecipes: [],
         }
       }, 
       mounted() {
@@ -195,6 +196,31 @@
             this.isAllSelected = false;
           }
         },
+        deletedRecipe(recipe){
+          this.recipes = this.recipes.filter(item => item.recipeId !== recipe.recipeId);
+        },
+        deleteRecipes(){
+          axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
+                        {
+                            headers, 
+                            data: {
+                                recipeIds: this.selectedRecipes.join(", ")
+                            }
+                        })
+                        .then(response => {
+                            console.log("success")
+                            this.recipes = this.recipes.filter(recipe => !this.selectedRecipes.includes(recipe.recipeId));
+                            this.selectedRecipes = []
+                        }).catch( error => {
+    
+                        });
+        },
+        selectedRecipe(recipeId){
+          this.selectedRecipes.push(recipeId)
+        },
+        unselectedRecipe(recipeId){
+          this.selectedRecipes = this.selectedRecipes.filter(item => item !== recipeId);
+        }
       },
     });
 
@@ -283,6 +309,7 @@
               default: 16
           }
       },
+      emits: ['deleted', 'selected', 'unselected'],
       methods:{
         changeColor(recipe) {
                     console.log(recipe)
@@ -304,9 +331,7 @@
                         })
                         .then(response => {
                             console.log("success")
-                            console.log(this.recipes)
-                            this.recipes = this.recipes.filter(item => item.recipeId !== recipe.recipeId);
-                            console.log(this.recipes)
+                            this.$emit('deleted', recipe)
                         }).catch( error => {
                           console.log(error)
                         });
@@ -318,20 +343,22 @@
         prevPage() {
           this.pageNumber--;
         },
-        toggleSelect(index) {
-          const isExists = this.selectedListings.indexOf(index);
+        toggleSelect(recipeId) {
+          const isExists = this.selectedListings.indexOf(recipeId);
           if (isExists > -1) {
             this.selectedListings.splice(isExists, 1); // Remove the item if it exists
+            this.$emit('unselected', recipeId)
           } else {
-            this.selectedListings.push(index); // Add the item if it does not exist
+            this.selectedListings.push(recipeId); // Add the item if it does not exist
+            this.$emit('selected', recipeId)
           }
         },
-        toggleAll(index) {
-          const isExists = this.allSelected.indexOf(index);
+        toggleAll(recipeId) {
+          const isExists = this.allSelected.indexOf(recipeId);
           if (isExists > -1) {
             this.allSelected.splice(isExists, 1); // Remove the item if it exists
           } else {
-            this.allSelected.push(index); // Add the item if it does not exist
+            this.allSelected.push(recipeId); // Add the item if it does not exist
           }
         },
         /*
