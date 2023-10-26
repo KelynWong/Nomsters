@@ -136,5 +136,32 @@ const listing = {
                 <h6>{{random.title}} {{ random.ind }}</h6>
             </div>
         `,
+        methods: {
+            changeColor(recipe) {
+                    console.log(recipe)
+                    recipe.fav = recipe.fav === 0 ? 1 : 0;
+                    if (recipe.fav === 1){
+                        axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})
+                        .then(response => {
+                            console.log("success")
+                        }).catch( error => {
+    
+                        });
+                    } else {
+                        axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
+                        {
+                            headers, 
+                            data: {
+                                recipeIds: recipe.recipeId.toString()
+                            }
+                        })
+                        .then(response => {
+                            console.log("success")
+                        }).catch( error => {
+    
+                        });
+                    }
+                }
+            }
 };
    
