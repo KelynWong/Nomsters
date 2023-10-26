@@ -310,6 +310,21 @@
             }).then(response => {
                 console.log(response.data)
                 this.allrecipes = response.data
+                this.allrecipes.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+                axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                        headers:headers,
+                    }).then(response => {
+                        response.data.forEach(favRecipe => {
+                            const favedRecipe = this.allrecipes.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                                if (favedRecipe) {
+                                    favedRecipe.fav = 1;
+                                }
+                            });
+                    }).catch( error => {
+
+                    });
                 console.log(this.allrecipes)
             }).catch( error => {
                 console.log(error.response.data.message);
@@ -385,6 +400,7 @@
           localrecipe:[],
         }
       },
+      methods: {...listing.methods},
       computed:{
         recipeData() {
           return this.localrecipe;
@@ -419,6 +435,9 @@
           .then(response => {
             // Assuming the response contains recipe data
             this.localrecipe.push(response.data[0])
+            this.localrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })
         }
         
@@ -442,6 +461,7 @@
           fastrecipe:[],
         }
       },
+      methods: {...listing.methods},
       computed:{
         recipeData() {
           return this.fastrecipe;
@@ -474,6 +494,21 @@
               console.log(responsetwo.data[0])
               // Assuming the response contains recipe data
               this.fastrecipe.push(responsetwo.data[0])
+              this.fastrecipe.forEach((recipe) => {
+                recipe.fav = 0; 
+              });
+              axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                        headers:headers,
+                    }).then(response => {
+                        response.data.forEach(favRecipe => {
+                            const favedRecipe = this.fastrecipe.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                                if (favedRecipe) {
+                                    favedRecipe.fav = 1;
+                                }
+                            });
+                    }).catch( error => {
+
+                    });
             })
           }
         })
@@ -548,6 +583,9 @@
             console.log(responsetwo.data[0])
             // Assuming the response contains recipe data
             this.popularrecipe.push(responsetwo.data[0])
+            this.popularrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })}
         }
       })
@@ -623,6 +661,9 @@
             console.log(responsetwo.data[0])
             // Assuming the response contains recipe data
             this.popularrecipe.push(responsetwo.data[0])
+            this.popularrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })}
         }
       })
@@ -697,6 +738,9 @@
             console.log(responsetwo.data[0])
             // Assuming the response contains recipe data
             this.popularrecipe.push(responsetwo.data[0])
+            this.popularrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })}
         }
       })
@@ -771,6 +815,9 @@
             console.log(responsetwo.data[0])
             // Assuming the response contains recipe data
             this.popularrecipe.push(responsetwo.data[0])
+            this.popularrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })}
         }
       })
@@ -846,6 +893,9 @@
             console.log(responsetwo.data[0])
             // Assuming the response contains recipe data
             this.popularrecipe.push(responsetwo.data[0])
+            this.popularrecipe.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
           })}
         }
       })
