@@ -98,7 +98,10 @@
         </div>
       </div>
       <div class="container-listing-wrap">
-        <recipe-listing @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+        <recipe-listing v-if="!isError" @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+        <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
+          <p>{{errorMessage}}</p>
+        </div>
       </div>
     </div>
     <app-footer></app-footer>
@@ -131,6 +134,7 @@
             isSelected: false,
             isAllSelected: false,
             selectedRecipes: [],
+            isError: false,
         }
       }, 
       mounted() {
