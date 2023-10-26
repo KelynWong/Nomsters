@@ -4,17 +4,16 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="https://unpkg.com/vue@next"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script defer src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
-    <style>
-      #map {
-        height: 400px;
-        width: 100%;
-      }
-    </style>
+    <title>Recipe Detail</title>
 
+    <script src="https://unpkg.com/vue@next"></script>
+    <script defer src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/grocer.css">
   </head>
   <body>
     <script>
@@ -26,27 +25,130 @@
           window.location.href = './index.html';
       } 
     </script>
-    <h3>Grocers Nearby</h3>
-    <div class="container">
-      <div class="row">
-        <div class="col-3" style="background-color: grey">
-          <!--Place where the forloop adds the location data-->
-          <ul id="locations"></ul>
+
+    <div id="app">
+      <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
+      <div class="width-80">
+        <h3>Grocers Nearby</h3>
+        <div class="container">
+          <div class="row">
+            <div class="col-3" style="background-color: grey">
+              <!--Place where the forloop adds the location data-->
+              <ul id="locations"></ul>
+            </div>
+            <div class="col-6">
+              <!--The div element for the map -->
+              <div id="map"></div>
+            </div>
+            <!--Place where the extra infomation is added on marker click-->
+            <div
+              class="col-3"
+              id="extra_info"
+              style="background-color: lightcoral"
+            ></div>
+          </div>
         </div>
-        <div class="col-6">
-          <!--The div element for the map -->
-          <div id="map"></div>
-        </div>
-        <!--Place where the extra infomation is added on marker click-->
-        <div
-          class="col-3"
-          id="extra_info"
-          style="background-color: lightcoral"
-        ></div>
       </div>
+      <app-footer></app-footer>
     </div>
 
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+    <script src="component/navbar.js"></script>
+    <script src="component/listing.js"></script>
+    <script src="component/footer.js"></script>
+
     <script>
+      const headers = {
+        Authorization: `BEARER ${token}`
+      }
+
+      const app = Vue.createApp({
+          components: {
+              'app-footer': footer
+          },
+          data() {
+              return {
+                allrecipes: []
+              }
+          },
+          mounted() {
+            this.fetchAllRecipes();
+          },
+          methods: {
+              searchRecipes(titleQuery){
+                  window.location.href = `allRecipe.html?search=${titleQuery}`;
+              },
+              fetchAllRecipes(){
+                  axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+                      headers:headers
+                  }).then(response => {
+                      console.log(response.data)
+                      this.allrecipes = response.data
+                      console.log(this.allrecipes)
+                  }).catch( error => {
+                      console.log(error.response.data.message);
+                      this.errorMessage = error.response.data.message;
+                      this.allrecipes = [];
+                      this.isError = true;
+                  });
+              }
+          }
+      });
+      
+      app.component('app-nav', {
+          data() {
+              return {
+                  showIsActive: false,
+                  random: []
+              }
+          },
+          props: {
+              allrecipes: {
+                  type: Array,
+                  required: true
+              }
+          },
+          methods: {
+              showHideModal() {
+                  this.showIsActive = !this.showIsActive;
+  
+                  this.generateRandomRecipe();
+              },
+              generateRandomRecipe() {
+                  if (this.allrecipes.length > 0) {
+                      const length = this.allrecipes.length;
+                      const r = this.allrecipes[Math.floor(Math.random() * length)];
+          
+                      console.log(this.random);
+                      this.random = r;
+                  }
+              },
+              closeModal() {
+                  this.showIsActive = !this.showIsActive;
+              },
+          },
+          template: navbar.template + `
+              <div class="random-recipe" :class="{active: showIsActive}">
+                  <div class="overlay" @click="closeModal"></div>
+                  <div class="modal-box">
+                      <h3>Random Recipe Generator</h3>
+                      ${listing.single}
+                      <div class="buttons">
+                          <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
+                          <button class="btn decide-btn" @click="generateRandomRecipe">Regenerate</button>
+                          <button class="btn decide-btn"><a href="recipeDetail.html?">Go to Recipe</a></button>
+                      </div>
+                  </div>
+              </div>
+          `,
+      });
+
+      app.mount('#app');
+
+      // google maps
       //Initialise variables
       var location = "";
       var infoWindow = null;
@@ -470,16 +572,7 @@
         });
       }
     </script>
-  ]
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"
-    ></script>
-    <script
-    defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk&callback=initMap"
-  ></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk&callback=initMap"></script>
   
   </body>
 </html>
