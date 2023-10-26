@@ -34,7 +34,7 @@
         <h4 class="text-center" v-html="titleQueryParts"></h4>
         <div class="recipeContent">
             <div class="dropdown d-flex justify-content-end">
-                <span>Sort By: </span>
+                <span>Sort By:</span>
                 <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ selectedOption}}
                 </button>
@@ -534,38 +534,13 @@
                 }
             },
             methods:{
+                ...listing.methods,
                 nextPage() {
                     this.pageNumber++;
                 },
                 prevPage() {
                     this.pageNumber--;
                 },
-                changeColor(recipe) {
-                    console.log(recipe)
-                    recipe.fav = recipe.fav === 0 ? 1 : 0;
-                    if (recipe.fav === 1){
-                        axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})
-                        .then(response => {
-                            console.log("success")
-                        }).catch( error => {
-    
-                        });
-                    } else {
-                        axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
-                        {
-                            headers, 
-                            data: {
-                                recipeIds: recipe.recipeId.toString()
-                            }
-                        })
-                        .then(response => {
-                            console.log("success")
-                        }).catch( error => {
-    
-                        });
-                    }
-                }
-    
             },
             computed: {
                 pageCount() {
