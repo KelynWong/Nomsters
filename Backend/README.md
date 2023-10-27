@@ -44,6 +44,7 @@
 - [Get Diets](#get-diets) 
 - [Get Cuisines](#get-cuisines) 
 - [Get Recipes](#get-recipes) 
+- [Get User Recipes](#get-user-recipes) 
 - [Add Recipe](#add-recipe) 
 - [Delete Recipe](#delete-recipe) 
 
@@ -716,6 +717,7 @@
     - `dishtypes` (array of strings)
     - `diets` (array of strings)
     - `cuisines` (array of strings)
+    - `createdById` (int)
     ```json
     [
       {
@@ -759,6 +761,7 @@
         "cholesterol": 2.87,
         "sodium": 0,
         "protein": 15.17,
+        "createdById": 1,
         "dishtypes": [
           "beverage",
           "drink"
@@ -823,6 +826,7 @@
         "cholesterol": 2.87,
         "sodium": 0,
         "protein": 15.17,
+        "createdById": 1,
         "dishtypes": [
           "beverage",
           "drink"
@@ -1209,6 +1213,7 @@
     - `dishtypes` (array of strings)
     - `diets` (array of strings)
     - `cuisines` (array of strings)
+    - `createdById` (int)
     ```json
     [
         {
@@ -1252,6 +1257,7 @@
             "cholesterol": 2.87,
             "sodium": 0,
             "protein": 15.17,
+            "createdById": 1,
             "dishtypes": [
                 "beverage",
                 "drink"
@@ -1316,6 +1322,212 @@
             "cholesterol": 2.87,
             "sodium": 0,
             "protein": 15.17,
+            "createdById": 1,
+            "dishtypes": [
+                "beverage",
+                "drink"
+            ],
+            "diets": [
+                "gluten free",
+                "dairy free",
+                "lacto ovo vegetarian",
+                "fodmap friendly",
+                "vegan"
+            ],
+            "cuisines": null
+        }
+    ]
+
+#### Error Example (no recipe(s) found)
+- **Example request:**
+  - url: /recipe
+  - Params:
+    - title = pasta
+    - diet = gluten free, pescatarian
+    - dishtype = beverage
+
+- **Example response:**
+  - status code: `400`
+    ```json
+    {
+	    "message": "No recipes found"
+    }
+
+### Get User Recipes
+- **URL:** `/recipe/user/:userId`
+- **Method:** `GET`
+- **Description:** 
+- **Params:**
+  - `userId` (int)
+  - `title` (string) - optional
+  - `cuisine` (string) - optional, multiple cuisines seperate by commas
+  - `dishtype` (string) - optional, multiple dish types seperate by commas
+  - `diet` (string) - optional, multiple diets seperate by commas
+  - `minServings` (float) - optional, if this is present then maxServings also has to be present
+  - `maxServings` (float) - optional, if this is present then minServings also has to be present
+  - `minCalories` (float) - optional, if this is present then maxCalories also has to be present
+  - `maxCalories` (float) - optional, if this is present then minCalories also has to be present
+  - `minPrice` (float) - optional, if this is present then maxPrice also has to be present
+  - `maxPrice` (float) - optional, if this is present then minCalories also has to be present
+  - `minReadyInMinutes` (float) - optional, if this is present then maxReadyInMinutes also has to be present
+  - `maxReadyInMinutes` (float) - optional, if this is present then minReadyInMinutes also has to be present
+  - `sort` (string) - optional, must be a field that exists in recipe (recommended fields to sort by: "healthScore", "pricePerServing", "readyInMinutes", "servings", "calories")
+  - `order` (string) - optional, only either "ASC" or "DESC" (if blank, default is ASC)
+- **Response:**
+  - Array: 
+    - `recipeId` (int)
+    - `vegetarian` (tinyint)
+    - `vegan` (tinyint)
+    - `glutenFree` (tinyint)
+    - `dairyFree` (tinyint)
+    - `veryHealthy` (tinyint)
+    - `cheap` (tinyint)
+    - `veryPopular` (tinyint)
+    - `sustainable` (tinyint)
+    - `lowFodMap` (tinyint)
+    - `weightWatcherSmartPoints` (int)
+    - `gaps` (string)
+    - `preparationMinutes` (int)
+    - `cookingMinutes` (int)
+    - `aggregateLikes` (int)
+    - `healthScore` (int)
+    - `creditsText` (string)
+    - `license` (string)
+    - `sourceName` (string)
+    - `pricePerServing` (float)
+    - `id` (int)
+    - `title` (string)
+    - `readyInMinutes` (int)
+    - `servings` (int)
+    - `sourceUrl` (string)
+    - `image` (string)
+    - `image2` (blob)
+    - `imageType` (string)
+    - `summary` (string)
+    - `instructions` (string)
+    - `originalId` (string)
+    - `spoonacularSourceUrl` (string)
+    - `calories` (float)
+    - `fat` (float)
+    - `saturatedFat` (float)
+    - `carbohydrates` (float)
+    - `sugar` (float)
+    - `cholesterol` (float)
+    - `sodium` (float)
+    - `protein` (float)
+    - `dishtypes` (array of strings)
+    - `diets` (array of strings)
+    - `cuisines` (array of strings)
+    - `createdById` (int)
+    ```json
+    [
+        {
+            "recipeId": 161,
+            "vegetarian": 1,
+            "vegan": 1,
+            "glutenFree": 1,
+            "dairyFree": 1,
+            "veryHealthy": 0,
+            "cheap": 0,
+            "veryPopular": 0,
+            "sustainable": 0,
+            "lowFodMap": 1,
+            "weightWatcherSmartPoints": 0,
+            "gaps": "no",
+            "preparationMinutes": -1,
+            "cookingMinutes": -1,
+            "aggregateLikes": 3,
+            "healthScore": 36,
+            "creditsText": "Foodista.com – The Cooking Encyclopedia Everyone Can Edit",
+            "license": "CC BY 3.0",
+            "sourceName": "Foodista",
+            "pricePerServing": 87.85,
+            "id": "631913",
+            "title": "A Refreshing Drink To Welcome You All",
+            "readyInMinutes": 45,
+            "servings": 6,
+            "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+            "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+            "image2": null,
+            "imageType": "jpg",
+            "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
+            "originalId": null,
+            "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
+            "calories": 42.6,
+            "fat": 0.47,
+            "saturatedFat": 0.08,
+            "carbohydrates": 12.49,
+            "sugar": 8.27,
+            "cholesterol": 2.87,
+            "sodium": 0,
+            "protein": 15.17,
+            "createdById": 1,
+            "dishtypes": [
+                "beverage",
+                "drink"
+            ],
+            "diets": [
+                "gluten free",
+                "dairy free",
+                "lacto ovo vegetarian",
+                "fodmap friendly",
+                "vegan"
+            ],
+            "cuisines": null
+        }
+    ]
+  
+#### Success Example
+- **Example request:**
+  - url: /recipe
+
+- **Example response:**
+    - status code: `200`
+    ```json
+    [
+        {
+            "recipeId": 161,
+            "vegetarian": 1,
+            "vegan": 1,
+            "glutenFree": 1,
+            "dairyFree": 1,
+            "veryHealthy": 0,
+            "cheap": 0,
+            "veryPopular": 0,
+            "sustainable": 0,
+            "lowFodMap": 1,
+            "weightWatcherSmartPoints": 0,
+            "gaps": "no",
+            "preparationMinutes": -1,
+            "cookingMinutes": -1,
+            "aggregateLikes": 3,
+            "healthScore": 36,
+            "creditsText": "Foodista.com – The Cooking Encyclopedia Everyone Can Edit",
+            "license": "CC BY 3.0",
+            "sourceName": "Foodista",
+            "pricePerServing": 87.85,
+            "id": "631913",
+            "title": "A Refreshing Drink To Welcome You All",
+            "readyInMinutes": 45,
+            "servings": 6,
+            "sourceUrl": "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+            "image": "https://spoonacular.com/recipeImages/631913-556x370.jpg",
+            "image2": null,
+            "imageType": "jpg",
+            "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
+            "originalId": null,
+            "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
+            "calories": 42.6,
+            "fat": 0.47,
+            "saturatedFat": 0.08,
+            "carbohydrates": 12.49,
+            "sugar": 8.27,
+            "cholesterol": 2.87,
+            "sodium": 0,
+            "protein": 15.17,
+            "createdById": 1,
             "dishtypes": [
                 "beverage",
                 "drink"
@@ -1347,9 +1559,11 @@
     }
 
 ### Add recipe
-- **URL:** `/recipe`
+- **URL:** `/recipe/user/:userId`
 - **Method:** `POST`
 - **Description:** 
+- **Params:**
+  - `userId` (int)
 - **Json body request:**
   - `title` (string)
   - `servings` (int)
