@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/register.css">
+    <script src="https://unpkg.com/vue@next"></script>
+
 
     <style>
          /* code for the wave */
@@ -74,102 +76,95 @@
 
 </head>
 
+<div id="app">
 <div class="container-fluid mt-5 mb-5">
     <div class="row">
-
-        <!-- left column -->
-        <div class="col-4">
-            <div class="text-center">
-                <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
-                <img id="frame" src="" class="img-fluid" />
-                <input class="form-control fileinput" type="file" id="formFile" onchange="preview()">
-                <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
-                
-            </div>
-        </div>
-
-        <!-- center column -->
-        <div class="col-4">
-            <div class="row">
-                <div class="form">
+            <!-- left column -->
+            <div class="col-4">
+                <div class="text-center">
+                    <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
+                    <img id="frame" src="" class="img-fluid" />
+                    <input class="form-control fileinput" type="file" id="formFile" onchange="preview()">
+                    <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
                     
-                    <div class="logo-container">
-                        <img src="img/logo.png" alt="logo" class="logo" />
+                </div>
+            </div>
+    
+            <!-- center column -->
+            <div class="col-4">
+                <div class="row">
+                    <div class="form">
+                        
+                        <div class="logo-container">
+                            <img src="img/logo.png" alt="logo" class="logo" />
+                        </div>
+    
+                        <form>
+                            
+                            <div class="mb-3">
+                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                            </div>
+    
+                            <div class="mb-3">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+    
+                            <div class="mb-3">
+                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
+                            </div>
+                        </form>
                     </div>
-
-                    <form>
-                        
-                        <div class="mb-3">
-                        <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                </div>
+            </div>
+    
+            <div class="filler col-1"></div>
+            <!-- right column -->
+            <div class="col-2 rightcol">
+                <div class="p-3 py-5 mt-5"><br><br>
+                    <div class="d-flex justify-content-between align-items-center"><h4>Special Diet</h4></div><br>
+                    
+                        <div v-for="diet in diets" class="form-check">
+                            <input v-model="diet.checked" class="form-check-input" type="checkbox" v-bind:value="diet.value" id="">
+                            <label class="form-check-label" for="">
+                              {{diet.value}}
+                            </label>
                         </div>
-
-                        <div class="mb-3">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
-                        </div>
-                        
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
-
-        <div class="filler col-1"></div>
-        <!-- right column -->
-        <div class="col-2 rightcol">
-            <div class="p-3 py-5 mt-5"><br><br>
-                <div class="d-flex justify-content-between align-items-center"><h4>Special Diet</h4></div><br>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="vegetarian" id="">
-                    <label class="form-check-label" for="">
-                      Vegetarian
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="vegan" id="">
-                    <label class="form-check-label" for="">
-                      Vegan
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="glutenFree" id="">
-                    <label class="form-check-label" for="">
-                    Gluten Free
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="dairyFree" id="">
-                    <label class="form-check-label" for="">
-                        Dairy Free
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="veryHealthy" id="">
-                    <label class="form-check-label" for="">
-                        Healthy
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="cheap" id="">
-                    <label class="form-check-label" for="">
-                        Cheap
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="wave"></div>
-        <div class="wave"></div>
     </div>
-
- </div>
+</div>
 
  <script>
+    const app = Vue.createApp({
+            data() {
+                return {
+                    diets: [],
+                };
+            },
+            mounted() {
+                this.fetchDiets();
+            },
+            methods: {
+                fetchDiets(){
+                    axios.get('https://leaptron2.dscloud.me:3000/api/diet').then(response => {
+                        this.diets = response.data.map(item => ({
+                            id: item.name.replace(/\s+/g, '_').toLowerCase(),
+                            value: item.name,
+                            checked: false
+                        }))
+                    }).catch( error => {
+
+                    });
+                }
+            }
+        });
+        app.mount('#app');
+
     function preview() {
         frame.src = URL.createObjectURL(event.target.files[0]);
     }
