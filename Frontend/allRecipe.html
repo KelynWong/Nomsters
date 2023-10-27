@@ -423,7 +423,7 @@
                         console.log(this.selectedDiets)
                         console.log(error)
                         this.errorMessage = error.response.data.message;
-                        if (this.errorMessage === "Invalid Token") window.location.href = './index.html';
+                        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                         this.recipes = [];
                         this.isError = true;
                         this.displayText()
@@ -460,7 +460,6 @@
                         if (this.selectedDiets && this.selectedDiets.length > 0) {
                             titleQueryParts.push(`Diets: '${this.selectedDiets}'`);
                         }
-                        
 
                         if (this.selectedMinServings !== null && this.selectedMaxServings !== null) {
                             titleQueryParts.push(`Servings: ${this.selectedMinServings}-${this.selectedMaxServings}`);

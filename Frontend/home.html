@@ -294,7 +294,9 @@
           recipecount:844,
           recipecategoriecount:32,
           recipedishtypecount:27,
-          allrecipes: []
+          allrecipes: [],
+          errorMessage: "",
+          isError: false
         };
       },
       mounted() {
@@ -323,12 +325,13 @@
                                 }
                             });
                     }).catch( error => {
-
+                      
                     });
                 console.log(this.allrecipes)
             }).catch( error => {
                 console.log(error.response.data.message);
                 this.errorMessage = error.response.data.message;
+                if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                 this.allrecipes = [];
                 this.isError = true;
             });
@@ -443,7 +446,9 @@
         
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;
       }); 
   }
     });
@@ -514,6 +519,9 @@
         })
         .catch(error => {
           console.error('Error:', error);
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
         });
       }
     });
@@ -590,7 +598,9 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;
       });
   }
     });
@@ -668,7 +678,9 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;
       });
   }
     });
@@ -745,7 +757,9 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;
       });
   }
     });
@@ -822,7 +836,9 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;
       });
   }
     });
@@ -900,7 +916,9 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        this.errorMessage = error.response.data.message;
+        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+        this.isError = true;console.error('Error:', error);
       });
   }
     });
