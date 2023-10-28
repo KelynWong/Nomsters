@@ -255,7 +255,7 @@
   - `id` (int)
 - **Json body request:**
   - `username` (string)
-  - `password` (string)
+  - `password` (string) - optional
   - `image` (blob) - optional
     ```json
     {
