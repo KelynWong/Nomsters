@@ -32,7 +32,7 @@
               <input class="search-field loc" type="search" placeholder="Search for Grocer...">
             </div>
 
-            <div class="tile" id="nav-slider">
+            <div id="nav-slider">
 
               <!-- nav tabs -->
               <ul class="nav nav-tabs justify-content-center" role="tablist">
@@ -116,7 +116,7 @@
 
       //Makes the map with how zoomed in it is using google map api
       var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
+        zoom: 16,
         center: currentLocation,
         mapId: "c076fb2f221a8a39",
       });
@@ -176,6 +176,7 @@
 
             let line = document.createElement("div");
             line.classList.add("location-info");
+            line.id = place_id;
 
             //name is appened to h5 element
             let name_element = document.createElement("h6");
@@ -260,7 +261,6 @@
 
             //Append everything to locations
             document.getElementById("locations").appendChild(line);
-
             //Creates info window to show on click for grocery store
             // infoWindow = new google.maps.InfoWindow({});
 
@@ -287,20 +287,41 @@
             var previousMarker = null;
             //If someone clicks on the marker, make all the side info appear
             marker.addListener("click", ({ }) => {
-              if (previousMarker == marker) {
-                document.getElementById("display_info").classList.remove("active");
-                document.getElementById("map").classList.remove("active");
+              const locationDivs = document.querySelectorAll('.location-info');
+
+              if (previousMarker === marker) {
+                document.getElementById("display_info").classList.toggle("active");
+                document.getElementById("map").classList.toggle("active");
+
+                locationDivs.forEach(div => {
+                  if (div.getAttribute("id") == place_id) {
+                    div.classList.toggle('active');
+                  }
+                });
               } else {
                 document.getElementById("display_info").classList.add("active");
                 document.getElementById("map").classList.add("active");
-              }
 
+                locationDivs.forEach(div => {
+                  div.classList.remove('active');
+
+                  if (div.getAttribute("id") == place_id) {
+                    div.classList.add('active');
+                  }
+                });
+              }
+            
               document.getElementById("close").addEventListener("click", () => {
+                previousMarker = null;
                 document.getElementById("display_info").classList.remove("active");
                 document.getElementById("map").classList.remove("active");
+
+                locationDivs.forEach(div => {
+                  div.classList.remove('active');
+                });
               });
 
-              previousMarker = marker;
+              previousMarker = previousMarker === marker ? null : marker;
 
               var detailsurl = "https://leaptron2.dscloud.me:3000/api/maps/details";
               //second call to location api with place_id to get more specific details on click
@@ -489,19 +510,205 @@
             });
           
           }
+        
+          var previousDiv = null;
+          const locationDivs = document.querySelectorAll('.location-info');
+          locationDivs.forEach(div => {
+            div.addEventListener('click', function() {
+              if (previousDiv && previousDiv !== div) {
+                previousDiv.classList.remove('active');
+                document.getElementById("display_info").classList.remove("active");
+                document.getElementById("map").classList.remove("active");
+              }
+    
+              div.classList.toggle('active');
+              document.getElementById("display_info").classList.toggle("active");
+              document.getElementById("map").classList.toggle("active");
+              previousDiv = div;
+
+              var detailsurl = "https://leaptron2.dscloud.me:3000/api/maps/details";
+              //second call to location api with place_id to get more specific details on click
+
+              //Inititalise variables
+              phone_number = "";
+              var timing_text = "No timings avaliable";
+              var location_photo = "";
+              //If a div already exists, remove it, this is so that when you click multiple markers it dosent just show both info.
+              if (document.getElementById("Extra_details_div")) {
+                let toremove = document.getElementById("Extra_details_div");
+                toremove.remove()
+              }
+
+              //Div containing all the extra details, will be appened to id=extrainfo div
+              var Extra_details_div = document.createElement("div");
+              Extra_details_div.id = "Extra_details_div";
+
+              //Display open or closed based on boolean
+              let openboolean = false;
+              openboolean = div.getElementsByTagName("p")[1].innerText;;
+
+              if (openboolean == true) {
+                openboolean = "Open";
+              } else {
+                openboolean = "Closed";
+              }
+
+              name = div.getElementsByTagName("h6")[0].innerText;
+              address = div.getElementsByTagName("p")[0].innerText;
+
+              //Creates a link to google maps for the grocery store
+              let mapLink = document.createElement("a");
+              mapLink.classList.add("map-link");
+              mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                name
+              )}`;
+              mapLink.innerText = "View on Google Maps";
+
+              //name is appened to h5 element
+              let name_element = document.createElement("h5");
+              name_element.innerText = name;
+
+              //address is appened to text 2
+              let address_text = document.createElement("p");
+              address_text.innerText = address;
+
+              //Creates green or red text for open or closed depending on the status
+              let open_text = document.createElement("p");
+              open_text.innerText = openboolean;
+              if (openboolean == "Open") {
+                open_text.style.color = "green";
+              } else {
+                open_text.style.color = "red";
+              }
+
+              //append text, addreess, open status and phone number
+              Extra_details_div.appendChild(name_element);
+              Extra_details_div.appendChild(address_text);
+
+              let star = document.createElement("div");
+              star.classList.add("star-rating");
+
+              //Get the rating of grocer, if 0 means not rated
+              let rating = document.createElement("p");
+              var grocer_rating = div.getElementsByTagName("p")[2].innerText
+              var rating_int = grocer_rating;
+              rating.innerText = rating_int;
+              if (grocer_rating == "0") {
+                rating.style.fontStyle = "italic";
+                grocer_rating = "No rating yet";
+              }
+              //Rating text eg. 4.5
+              rating.innerText = grocer_rating + " ";
+
+              star.appendChild(rating);
+              Extra_details_div.appendChild(star);
+
+
+              let star_imgs = document.createElement("div");
+              star_imgs.classList.add("star-imgs");
+
+              while (rating_int >= 0.5) {
+                if (rating_int >= 1) {
+                  //If remainjg rating is 1 or more, append full star
+                  var star_img = document.createElement("img");
+                  star_img.src = fullstar;
+                  star_img.width = 20;
+                  star_img.height = 20;
+                  star_imgs.appendChild(star_img);
+                  rating_int = rating_int - 1;
+                } else {
+                  //If remaining rating is less than 1 but more than 0.5 eg. 0.7, append half star
+                  var star_img = document.createElement("img");
+                  star_img.src = halfstar;
+                  star_img.width = 20;
+                  star_img.height = 20;
+                  star_imgs.appendChild(star_img);
+                  rating_int = rating_int - 1;
+                }
+              }
+              //append empty stars as necessary
+              for (let i = 0.5; i < 5 - Math.round(grocer_rating); i++) {
+                var star_img = document.createElement("img");
+                star_img.src = empty_star;
+                star_img.width = 20;
+                star_img.height = 20;
+                star_imgs.appendChild(star_img);
+              }
+
+              star.appendChild(star_imgs);
+              let place_id = div.getAttribute("id");
+
+              //Axios call to get specific details of the selected grocery store
+              axios
+                .get(detailsurl, {
+                  params: { place_id: place_id },
+                })
+                .then(async (response) => {
+                  console.log(response.data.result)
+                  //Phone number Avaliable
+                  phone_number = response.data.result.international_phone_number;
+                  phone_para = document.createElement("p");
+
+                  if (phone_number) {
+                    phone_para.innerText = 'Contact Number: ';
+                    var telLink = document.createElement("a");
+                    telLink.href = `tel:${phone_number}`;
+                    telLink.innerText = phone_number;
+                    phone_para.appendChild(telLink);
+                  }
+                  else { //No phone number avaliable
+                    phone_para.innerText = "No phone number avaliable";
+                  }
+
+                  Extra_details_div.appendChild(phone_para);
+                  Extra_details_div.appendChild(open_text);
+
+                  let opening_hrs = document.createElement("div");
+                  opening_hrs.classList.add("opening_hrs");
+                  //Paragraph showing opening times eg. monday: 10am-11pm
+                  if (response.data.result.current_opening_hours) {
+                    timing_text = response.data.result.current_opening_hours.weekday_text;
+                    for (days of timing_text) {
+                      let timing_list = document.createElement("div");
+                      let timing_text_element = document.createTextNode(days);
+                      timing_list.appendChild(timing_text_element);
+                      opening_hrs.appendChild(timing_list);
+                    }
+                    Extra_details_div.appendChild(opening_hrs);
+                  }
+                  Extra_details_div.appendChild(mapLink);
+
+                  let imagediv = document.createElement("div");
+                  imagediv.classList.add("image-div");
+                  //Call place photos api to see if theres any available photos
+                  if (response.data.result.photos) {
+                    photo_reference =
+                      response.data.result.photos[0].photo_reference;
+                    
+                      location_photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${photo_reference}&key=AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk`;
+                      imagediv.style.backgroundImage = "url("+ location_photo + ")";
+                  }
+
+                  Extra_details_div.appendChild(imagediv);
+                });
+
+              //Append everything to locations
+              document.getElementById("display_info").appendChild(Extra_details_div);
+            });
+        
+            document.getElementById("close").addEventListener("click", () => {
+              previousDiv = null;
+              document.getElementById("display_info").classList.remove("active");
+              document.getElementById("map").classList.remove("active");
+              div.classList.remove('active');
+            });
+          });
         })
+
         .catch((error) => {
           // Handle any errors here
           console.error(error);
         });
-
-      // Add event listener to map object to close info window on click
-      /*map.addListener("click", () => {
-        if (infoWindow) {
-          infoWindow.close();
-        }
-      });
-      */
     }
 
     // only triggered once all the HTML content, including images, scripts, and stylesheets, has finished loading
