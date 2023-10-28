@@ -112,10 +112,12 @@ router.get('/', (req, res) => {
 
     // Sorting
     const sort = req.query.sort;
-    const order = req.query.order === 'ASC' ? 'ASC' : 'DESC';
+    const order = (req.query.order) ? req.query.order : 'ASC';
 
     if (sort) {
         sql += ` ORDER BY ${sort} ${order}`;
+    } else {
+        sql += ` ORDER BY title ${order}`;
     }
 
     db.query(sql)
@@ -132,6 +134,7 @@ router.get('/', (req, res) => {
 
                 row.recipeId = Number(row.recipeId);
                 row.id = Number(row.id);
+                row.createdById = Number(row.createdById);
             });
 
             res.json(rows);
@@ -142,7 +145,45 @@ router.get('/', (req, res) => {
         });
 });
 
-router.post('/', async (req, res) => {
+router.get('/user/:userId', (req, res) => {
+    const userId = req.params.userId;
+
+    let sql = `
+        SELECT
+        recipe.*,
+        (SELECT JSON_ARRAYAGG(name) FROM dishtypes WHERE dishtypes.recipeId = recipe.recipeId) AS dishtypes,
+        (SELECT JSON_ARRAYAGG(name) FROM diets WHERE diets.recipeId = recipe.recipeId) AS diets,
+        (SELECT JSON_ARRAYAGG(name) FROM cuisines WHERE cuisines.recipeId = recipe.recipeId) AS cuisines
+        FROM recipe WHERE createdById = ?
+    `;
+
+    db.query(sql, [userId])
+        .then((rows) => {
+            if (rows.length === 0) {
+                res.status(404).json({ message: 'No recipes found' });
+                return;
+            }
+
+            rows.forEach((row) => {
+                row.dishtypes = row.dishtypes;
+                row.diets = row.diets;
+                row.cuisines = row.cuisines;
+
+                row.recipeId = Number(row.recipeId);
+                row.id = Number(row.id);
+                row.createdById = Number(row.createdById);
+            });
+
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({ error: err.message });
+        });
+});
+
+router.post('/user/:userId', async (req, res) => {
+    const userId = req.params.userId;
     const info = req.body;
 
     if (!info.title || !info.servings || !info.ingredients || !info.instructions || !info.image) {
@@ -164,7 +205,7 @@ router.post('/', async (req, res) => {
         const recipeData = response.data;
 
         // SQL query to insert data into the 'recipe' table
-        const recipeSql = `INSERT INTO nomsters.recipe (vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodMap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, license, sourceName, pricePerServing, id, title, readyInMinutes, servings, sourceUrl, image, image2, imageType, summary, instructions, originalId, spoonacularSourceUrl, calories, fat, saturatedFat, carbohydrates, sugar, cholesterol, sodium, protein) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const recipeSql = `INSERT INTO nomsters.recipe (vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodMap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, license, sourceName, pricePerServing, id, title, readyInMinutes, servings, sourceUrl, image, image2, imageType, summary, instructions, originalId, spoonacularSourceUrl, calories, fat, saturatedFat, carbohydrates, sugar, cholesterol, sodium, protein, createdById) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         var recipeId;
         db.query(recipeSql, [
@@ -207,6 +248,7 @@ router.post('/', async (req, res) => {
             recipeData.nutrition.nutrients[5].amount,
             recipeData.nutrition.nutrients[6].amount,
             recipeData.nutrition.nutrients[7].amount,
+            userId
         ])
         .then((recipeInsertResults) => {
             if (recipeInsertResults.affectedRows === 0) {
@@ -326,6 +368,7 @@ router.get('/random', (req, res) => {
                     rows.forEach((row) => {
                         row.recipeId = Number(row.recipeId);
                         row.id = Number(row.id);
+                        row.createdById = Number(row.createdById);
                     });
         
                     res.json(rows);
@@ -344,6 +387,23 @@ router.get('/count', (req, res) => {
             res.json(rows[0]);
         })
         .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+});
+
+
+router.get('/minMax', (req, res) => {
+    let sql = `
+    SELECT MIN(calories) AS minCalories, MAX(calories) AS maxCalories, MIN(servings) AS minServings, MAX(servings) AS maxServings,
+    MIN(pricePerServing) AS minPrice, MAX(pricePerServing) AS maxPrice FROM recipe
+    `;
+
+    db.query(sql)
+        .then((rows) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log(err)
             res.status(500).json({ error: err.message });
         });
 });

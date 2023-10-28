@@ -191,7 +191,7 @@
                     selectedSort: "",
                     sortDirection: "ASC",
                     recipes: [],
-                    selectedMinReadyInMinutes: Number.MIN_SAFE_INTEGER,
+                    selectedMinReadyInMinutes: 0,
                     selectedMaxReadyInMinutes: Number.MAX_SAFE_INTEGER,
                     isError: false,
                     errorMessage: "",
@@ -423,7 +423,7 @@
                         console.log(this.selectedDiets)
                         console.log(error)
                         this.errorMessage = error.response.data.message;
-                        if (this.errorMessage === "Invalid Token") window.location.href = './index.html';
+                        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                         this.recipes = [];
                         this.isError = true;
                         this.displayText()
@@ -437,7 +437,7 @@
                     this.searchRecipes()
                 },
                 setMinNumber(){
-                    this.selectedMinReadyInMinutes = Number.MIN_SAFE_INTEGER
+                    this.selectedMinReadyInMinutes = 0
                     this.searchRecipes()
                 },
                 changeColor() {
@@ -460,7 +460,6 @@
                         if (this.selectedDiets && this.selectedDiets.length > 0) {
                             titleQueryParts.push(`Diets: '${this.selectedDiets}'`);
                         }
-                        
 
                         if (this.selectedMinServings !== null && this.selectedMaxServings !== null) {
                             titleQueryParts.push(`Servings: ${this.selectedMinServings}-${this.selectedMaxServings}`);
@@ -475,7 +474,7 @@
                         }
 
                         if (this.selectedMinReadyInMinutes !== null && this.selectedMaxReadyInMinutes !== null) {
-                            titleQueryParts.push(`Ready In: ${(this.selectedMinReadyInMinutes === Number.MIN_SAFE_INTEGER) ? 0 : this.selectedMinReadyInMinutes}-${(this.selectedMaxReadyInMinutes === Number.MAX_SAFE_INTEGER) ? 'max' : this.selectedMaxReadyInMinutes} minutes`);
+                            titleQueryParts.push(`Ready In: ${this.selectedMinReadyInMinutes}-${(this.selectedMaxReadyInMinutes === Number.MAX_SAFE_INTEGER) ? 'max' : this.selectedMaxReadyInMinutes} minutes`);
                         }
 
                         if (this.selectedSort) {

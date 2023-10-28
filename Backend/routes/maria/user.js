@@ -204,6 +204,7 @@ router.get('/:id/recipe', (req, res) => {
 
                         row.recipeId = Number(row.recipeId);
                         row.id = Number(row.id);
+                        row.createdById = Number(row.createdById);
                     });
 
                     res.json(rows);
