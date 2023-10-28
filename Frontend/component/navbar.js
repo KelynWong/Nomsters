@@ -8,12 +8,13 @@ const navbar = {
     template: `
         <div id="nav">
             <div class="very-top-nav">
-                <div class="search-bar">
+            <div class="search-bar">
                     <img class="search-icon" src="img/icon/search.png" alt="search-icon">
                     <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
-                </div>
-                <button type="button" class="decide-btn" @click="showHideModal">Can't decide?</button>
-                <a href="./profile.html"><img src="img/icon/profile.png" class="profile" /></a>
+                    </div>
+                    <button type="button" class="decide-btn" @click="showHideModal">Can't decide?</button>
+                    <a href="./profile.html"><img src="img/icon/profile.png" class="profile" /></a>
+                    <button type="button" class="decide-btn" @click="logout">Log out</button>
             </div>
             <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>
             <div class="nav-main">
@@ -32,4 +33,11 @@ const navbar = {
             </div>
         </div>
     `,
+    methods: {
+        logout(){
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('userId');
+            window.location.href='./index.html';
+        }
+    }
 };
