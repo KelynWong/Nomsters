@@ -103,7 +103,7 @@ const listing = {
             </a>
         `,
         templatetwo:`
-            <a href="./recipedetail.html" class="col top-recipe" v-for="r in recipeData">
+            <a :href="'recipeDetail.html?id=' + r.recipeId" class="col top-recipe" v-for="r in recipeData">
                 <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
                 <h5>{{r.title}}</h5>
                 <p>{{r.summary}}...</p>

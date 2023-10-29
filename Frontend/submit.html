@@ -475,7 +475,7 @@
                     <div class="buttons">
                         <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
                         <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                        <button class="btn decide-btn generate"><a href="recipeDetail.html?">Go to Recipe</a></button>
+                        <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
                     </div>
                 </div>
             </div>
