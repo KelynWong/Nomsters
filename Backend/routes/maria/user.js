@@ -25,14 +25,17 @@ router.put('/:id', (req, res) => {
     const userId = req.params.id;
     const { username, password, image } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'Please provide username and password' });
+    if (!username) {
+        return res.status(400).json({ message: 'Please provide a username' });
     }
 
     const saltRounds = 10;
-    const passwordHash = bcrypt.hashSync(password, saltRounds);
+    let passwordHash = null;
+    if (password) {
+        passwordHash = bcrypt.hashSync(password, saltRounds);
+    }
 
-    const sql = 'UPDATE user SET username = ?, password = ?, image = ? WHERE userId = ?';
+    const sql = 'UPDATE user SET username = ?, password = IFNULL(?, password), image = IFNULL(?, image) WHERE userId = ?';
     db.query(sql, [username, passwordHash, image, userId])
         .then((result) => {
             if (result.affectedRows === 0) {

@@ -255,7 +255,7 @@
   - `id` (int)
 - **Json body request:**
   - `username` (string)
-  - `password` (string)
+  - `password` (string) - optional
   - `image` (blob) - optional
     ```json
     {
@@ -750,6 +750,7 @@
         "image2": null,
         "imageType": "jpg",
         "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+        "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
         "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
         "originalId": null,
         "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -815,6 +816,7 @@
         "image2": null,
         "imageType": "jpg",
         "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+        "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
         "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
         "originalId": null,
         "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -1246,6 +1248,7 @@
             "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
             "originalId": null,
             "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -1311,6 +1314,7 @@
             "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
             "originalId": null,
             "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -1451,6 +1455,7 @@
             "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
             "originalId": null,
             "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -1516,6 +1521,7 @@
             "image2": null,
             "imageType": "jpg",
             "summary": "A Refreshing Drink To Welcome You All is a beverage that serves 6. One serving contains <b>43 calories</b>, <b>2g of protein</b>, and <b>0g of fat</b>. For <b>88 cents per serving</b>, this recipe <b>covers 7%</b> of your daily requirements of vitamins an",
+            "ingredients": "1 lb boneless, skinless chicken breasts; cut into strips, 2 cups broccoli floret; 1 red bell pepper, sliced; 3 cloves garlic, minced; 2 Tbsps soy sauce",
             "instructions": "Pick the mint leaves and wash it in running water.\nClean and grate the ginger.\nHeat water in a vessel and add sugar to it. Let the sugar dissolve; filter the sugar syrup with a thin muslin cloth.\nBoil it further on medium heat till the syrup becomes a bit",
             "originalId": null,
             "spoonacularSourceUrl": "https://spoonacular.com/a-refreshing-drink-to-welcome-you-all-631913",
@@ -1567,25 +1573,16 @@
 - **Json body request:**
   - `title` (string)
   - `servings` (int)
-  - `ingredients` (array of strings)
+  - `ingredients` (string) - note: multiple ingrediens are delimiter by `";"`
   - `instructions` (string)
   - `image` (blob)
     ```json
     {
       "title": "Chicken Stir-Fry",
       "servings": 4,
-      "ingredients": [
-          "1 lb boneless, skinless chicken breasts, cut into strips",
-          "2 cups broccoli florets",
-          "1 red bell pepper, sliced",
-          "3 cloves garlic, minced",
-          "2 Tbsps soy sauce",
-          "1 Tbsp oyster sauce",
-          "2 tsp cornstarch",
-          "1/2 tsp red pepper flakes",
-          "2 Tbsps vegetable oil",
-          "Cooked rice for serving"
-      ],
+      "ingredients": 
+          "1 lb boneless, skinless chicken breasts, cut into strips; 2 cups broccoli florets; 1 red bell pepper, sliced; 3 cloves garlic, minced;2 Tbsps soy sauce; 1 Tbsp oyster sauce; 2 tsp cornstarch; 1/2 tsp red pepper flakes; 2 Tbsps vegetable oil; Cooked rice for serving"
+      ,
       "instructions": "In a small bowl, mix together soy sauce, oyster sauce, cornstarch, and red pepper flakes. Heat vegetable oil in a large skillet or wok over medium-high heat. Add chicken and stir-fry until cooked through. Remove chicken from the skillet. In the same skillet, add a bit more oil if needed and stir-fry broccoli, bell pepper, and garlic until tender. Return chicken to the skillet and pour the sauce mixture over. Stir-fry for a couple of minutes until the sauce thickens. Serve hot over cooked rice.",
       "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0"
     }
@@ -1604,18 +1601,9 @@
     {
       "title": "Chicken Stir-Fry",
       "servings": 4,
-      "ingredients": [
-          "1 lb boneless, skinless chicken breasts, cut into strips",
-          "2 cups broccoli florets",
-          "1 red bell pepper, sliced",
-          "3 cloves garlic, minced",
-          "2 Tbsps soy sauce",
-          "1 Tbsp oyster sauce",
-          "2 tsp cornstarch",
-          "1/2 tsp red pepper flakes",
-          "2 Tbsps vegetable oil",
-          "Cooked rice for serving"
-      ],
+      "ingredients": 
+          "1 lb boneless, skinless chicken breasts, cut into strips; 2 cups broccoli florets; 1 red bell pepper, sliced; 3 cloves garlic, minced;2 Tbsps soy sauce; 1 Tbsp oyster sauce; 2 tsp cornstarch; 1/2 tsp red pepper flakes; 2 Tbsps vegetable oil; Cooked rice for serving"
+      ,
       "instructions": "In a small bowl, mix together soy sauce, oyster sauce, cornstarch, and red pepper flakes. Heat vegetable oil in a large skillet or wok over medium-high heat. Add chicken and stir-fry until cooked through. Remove chicken from the skillet. In the same skillet, add a bit more oil if needed and stir-fry broccoli, bell pepper, and garlic until tender. Return chicken to the skillet and pour the sauce mixture over. Stir-fry for a couple of minutes until the sauce thickens. Serve hot over cooked rice.",
       "image": "0xFFD8FFE000104A46494600010100000100010000FFDB0043000403030404040405050405050906060509080A0A09080A0A0A0D0F120C0F0A0B0E0B0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0A0"
     }

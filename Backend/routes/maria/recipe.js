@@ -190,12 +190,13 @@ router.post('/user/:userId', async (req, res) => {
         return res.status(400).json({ message: 'Please provide all recipe information' });
     }
 
+    let ingredientsArray = info.ingredients.split('; ');
     try {
         const response = await axios.post(`https://api.spoonacular.com/recipes/analyze?language=en&includeNutrition=true`,
             {
                 "title": info.title,
                 "servings": info.servings,
-                "ingredients": info.ingredients,
+                "ingredients": ingredientsArray,
                 "instructions": info.instructions
             },
             {
@@ -205,7 +206,7 @@ router.post('/user/:userId', async (req, res) => {
         const recipeData = response.data;
 
         // SQL query to insert data into the 'recipe' table
-        const recipeSql = `INSERT INTO nomsters.recipe (vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodMap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, license, sourceName, pricePerServing, id, title, readyInMinutes, servings, sourceUrl, image, image2, imageType, summary, instructions, originalId, spoonacularSourceUrl, calories, fat, saturatedFat, carbohydrates, sugar, cholesterol, sodium, protein, createdById) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const recipeSql = `INSERT INTO nomsters.recipe (vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodMap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, license, sourceName, pricePerServing, id, title, readyInMinutes, servings, sourceUrl, image, image2, imageType, summary, ingredients, instructions, originalId, spoonacularSourceUrl, calories, fat, saturatedFat, carbohydrates, sugar, cholesterol, sodium, protein, createdById) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         var recipeId;
         db.query(recipeSql, [
@@ -237,6 +238,7 @@ router.post('/user/:userId', async (req, res) => {
             info.image,
             recipeData.imageType,
             recipeData.summary,
+            info.ingredients,
             recipeData.instructions,
             recipeData.originalId,
             recipeData.spoonacularSourceUrl,

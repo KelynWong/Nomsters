@@ -31,7 +31,6 @@
     <div id="app">
         <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>    
         <h2>{{titlequery}}</h2>
-        <h4 class="text-center" v-html="titleQueryParts"></h4>
         <div class="recipeContent">
             <div class="dropdown d-flex justify-content-end">
                 <span>Sort By:</span>
@@ -201,6 +200,7 @@
                     allrecipes: [],
                     titlequery: "All Recipes",
                     titleQueryParts: "",
+                    totalNoRecipe: 0,
                 };
             },
             mounted() {
@@ -208,6 +208,7 @@
                 this.fetchMinMax();
                 this.fetchCuisines();
                 this.fetchDishTypes();
+                this.fetchTotalRecipe();
             },
             computed: {
                 selectedDishtypes() {
@@ -343,6 +344,15 @@
 
                     });
                 },
+                fetchTotalRecipe(){
+                    axios.get(`https://leaptron2.dscloud.me:3000/api/recipe`, {
+                        headers:headers,
+                    }).then(response => {
+                        this.totalNoRecipe = response.data.length
+                    }).catch( error => {
+
+                    });
+                },
                 searchRecipes(titleQuery){
                     console.log("titleQuery: " + titleQuery)
                     const urlParams = new URLSearchParams(window.location.search);
@@ -415,7 +425,12 @@
                         this.recipes = response.data;
                         console.log(this.recipes)
 
-                        this.displayText()
+                        if(this.recipes.length < this.totalNoRecipe){
+                            this.titlequery = `Showing ${this.recipes.length} of ${this.totalNoRecipe} recipes`;
+                        } else {
+                            this.titlequery = "All Recipes";
+                        }
+
                         this.recipes.forEach((recipe) => {
                             recipe.fav = 0; 
                         });
@@ -428,7 +443,6 @@
                         if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                         this.recipes = [];
                         this.isError = true;
-                        this.displayText()
                     });
                 },
                 toggleSortDirection() {
@@ -444,51 +458,6 @@
                 },
                 changeColor() {
                     this.fav = this.fav === 0 ? 1 : 0;
-                },
-                displayText(){
-                    let titleQueryParts = [];
-                    if (this.title && this.title.length > 0) {
-                            titleQueryParts.push(`Title: '${this.title}'`);
-                        }
-
-                        if (this.selectedCuisines && this.selectedCuisines.length > 0) {
-                            titleQueryParts.push(`Cuisines: '${this.selectedCuisines}'`);
-                        }
-
-                        if (this.selectedDishtypes && this.selectedDishtypes.length > 0) {
-                            titleQueryParts.push(`Dish Types: '${this.selectedDishtypes}'`);
-                        }
-                        
-                        if (this.selectedDiets && this.selectedDiets.length > 0) {
-                            titleQueryParts.push(`Diets: '${this.selectedDiets}'`);
-                        }
-
-                        if (this.selectedMinServings !== null && this.selectedMaxServings !== null) {
-                            titleQueryParts.push(`Servings: ${this.selectedMinServings}-${this.selectedMaxServings}`);
-                        }
-
-                        if (this.selectedMinCalories !== null && this.selectedMaxCalories !== null) {
-                            titleQueryParts.push(`Calories: ${Math.round(this.selectedMinCalories)}-${Math.round(this.selectedMaxCalories)}`);
-                        }
-
-                        if (this.selectedMinPrice !== null && this.selectedMaxPrice !== null) {
-                            titleQueryParts.push(`Price: ${Math.round(this.selectedMinPrice)}-${Math.round(this.selectedMaxPrice)}`);
-                        }
-
-                        if (this.selectedMinReadyInMinutes !== null && this.selectedMaxReadyInMinutes !== null) {
-                            titleQueryParts.push(`Ready In: ${this.selectedMinReadyInMinutes}-${(this.selectedMaxReadyInMinutes === Number.MAX_SAFE_INTEGER) ? 'max' : this.selectedMaxReadyInMinutes} minutes`);
-                        }
-
-                        if (this.selectedSort) {
-                            titleQueryParts.push(`Sorted by: ${this.selectedSort} (${this.sortDirection})`);
-                        }
-
-                        if (titleQueryParts.length > 0) {
-                            this.titlequery = "Showing recipes for";
-                            this.titleQueryParts = titleQueryParts.join("<br>")
-                        } else {
-                            this.titlequery = "All Recipes";
-                        }
                 }
             }, 
             watch: {
@@ -517,6 +486,7 @@
                 }
             },
             methods: {
+                ...navbar.methods,
                 showHideModal() {
                     this.showIsActive = !this.showIsActive;
 
