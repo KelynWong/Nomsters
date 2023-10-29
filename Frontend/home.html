@@ -401,7 +401,6 @@
           axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
             headers:headers,})
             .then(response => {
-              console.log('Aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
               console.log(response.data)
               var image = response.data.image
               if(image != null){

@@ -197,7 +197,9 @@
        data() {
            return {
                showIsActive: false,
-               random: []
+               random: [],
+               profileImage:"img/icon/profile.png",
+
            }
        },
        props: {
@@ -243,6 +245,18 @@
                </div>
            </div>
          `,
+         mounted(){
+          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+            headers:headers,})
+            .then(response => {
+              console.log(response.data)
+              var image = response.data.image
+              if(image != null){
+          var uint8Array = new Uint8Array(image.data);
+          var binaryString = String.fromCharCode.apply(null, uint8Array);
+          this.profileImage = binaryString
+              } 
+              })}
        });
  
      app.component('app-footer',footer);
