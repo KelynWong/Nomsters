@@ -61,7 +61,7 @@
 
       <div class="mb-2 text-center">
         <label for="formFile" class="form-label chooseprofilepic" style="color: black; text-align: start !important;">Choose Recipe Photo</label>
-        <input v-model="formData.image" type="file" class="form-control" id="formFile" onchange="preview()" placeholder="upload profile pic">
+        <input type="file" class="form-control" id="formFile" @change="handleImageChange" placeholder="upload profile pic" >
         <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
       </div>
 
@@ -104,10 +104,43 @@
       </div>
 
       <!-- Checkboxes -->
-      <div class="form-check" v-for="option in options" :key="option.value">
-        <input v-model="formData[option.value]" class="form-check-input" type="checkbox" :value="true">
-        <label class="form-check-label">{{ option.label }}</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.vegetarian">
+        <label class="form-check-label" for="vegetarian">
+          Vegetarian
+        </label>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.vegan">
+        <label class="form-check-label" for="vegan">
+          Vegan
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.glutenFree">
+        <label class="form-check-label" for="glutenFree">
+          Gluten Free
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.dairyFree">
+        <label class="form-check-label" for="dairyFree">
+          Dairy Free
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.veryHealthy">
+        <label class="form-check-label" for="veryHealthy">
+          Healthy
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.cheap">
+        <label class="form-check-label" for="cheap">
+          Cheap
+        </label>
+      </div>
+
 
       <div class="text-center">
         <button type="submit" class="btn btn-danger" style="font-weight:lighter">Submit Recipe</button>
@@ -139,15 +172,7 @@
     </script>
 
     <!-- script for image preview -->
-    <script>
-      function preview() {
-                  frame.src = URL.createObjectURL(event.target.files[0]);
-              }
-              function clearImage() {
-                  document.getElementById('formFile').value = null;
-                  frame.src = "";
-              }
-    </script>
+ 
 
 
     <!-- Bootstrap Bundle with Popper -->
@@ -178,14 +203,14 @@
           direction: [''], // for recipe directions
           ingredient: [''], // for ingredients
           // Add other form fields here and initialize them
-          options: [
-          { label: 'Vegetarian', value: 'vegetarian' },
-          { label: 'Vegan', value: 'vegan' },
-          { label: 'Gluten Free', value: 'glutenFree' },
-          { label: 'Dairy Free', value: 'dairyFree' },
-          { label: 'Healthy', value: 'veryHealthy' },
-          { label: 'Cheap', value: 'cheap' },
-        ],
+          checkboxes: {
+        vegetarian: false,
+        vegan: false,
+        glutenFree: false,
+        dairyFree: false,
+        veryHealthy: false,
+        cheap: false,
+      },
         },
 
         
@@ -222,25 +247,48 @@
 
       removeRecipe(index) {
       // Remove the recipe step at the specified index
-      this.formData.direction.splice(index, 1);
+      this.formData.direction.pop();
     },
     addIngredient() {
       this.formData.ingredient.push('');
     },
     removeIngredient(index) {
       // Remove the recipe step at the specified index
-      this.formData.ingredient.splice(index, 1);
+      this.formData.ingredient.pop();
     },
     submitRecipe() {
       console.log(this.formData);
     },
+    handleImageChange(event) {
+    
+    
+    const selectedImage = event.target.files[0];
+
+    // Now, you can do something with the selectedImage, such as previewing it or storing it in your form data.
+    // For example, you can set it in your formData.image property.
+    this.formData.image = selectedImage;
+
+    // Optionally, you can also preview the selected image.
+    this.preview(selectedImage);
+  },preview(selectedImage) {
+    // Implement your image preview logic here.
+    // You can set the image source in your preview frame.
+    frame.src = URL.createObjectURL(selectedImage);
+  },clearImage() {
+    // Clear the selected image and reset the file input field.
+    this.formData.image = null;
+    document.getElementById('formFile').value = null;
+    frame.src = '';
+  }
       },computed:{formDataWithCheckboxes() {
     const data = { ...this.formData };
     for (const option of this.options) {
       data[option.value] = false;
     }
     return data;
-  },}
+  },
+
+}
       });
       
       app.component('app-nav', {
@@ -262,6 +310,7 @@
             }
         },
         methods: {
+          ...navbar.methods,
             showHideModal() {
                 this.showIsActive = !this.showIsActive;
 
