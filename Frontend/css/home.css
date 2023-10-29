@@ -31,7 +31,7 @@
 }
 
 #section2 h3 {
-    width: 32%;
+    width: 36%;
 }
 
 .countWrapper {
@@ -141,7 +141,7 @@
     background: #000000;
 }
 
-.container-cuisine-wrap, .top-recipe-wrap, .calorie-wrapper {
+.top-recipe-wrap, .calorie-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -150,15 +150,20 @@
     margin: 20px 0 28px;
 }
 
+.container-cuisine-wrap {
+    margin: 20px 0 28px;
+}
+
 .cuisine, .top-recipe {    
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 14px;
+    margin: 20px 0;
+    /* margin: 20px 14px; */
     text-align: center;
 }
 
-.cuisine:first-child, .top-recipe:first-child {
+/* .cuisine:first-child, .top-recipe:first-child {
     margin-left: 0px;
     margin-right: 14px;
 }
@@ -166,7 +171,7 @@
 .cuisine:last-child, .top-recipe:last-child {
     margin-left: 14px;
     margin-right: 0px;
-}
+} */
 
 .cuisine .img, .top-recipe .img, .calorie {
     border-radius: 50%;
@@ -243,7 +248,7 @@
 }
 
 .top-recipe {
-    width: 250px;
+    margin: 20px 14px;
 }
 
 .top-recipe .img {
@@ -254,6 +259,7 @@
 
 .top-recipe h5 {
     margin: 24px 0 12px !important;
+    line-height: 1.4em;
 }
 
 .top-recipe p {

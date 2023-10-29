@@ -1,6 +1,6 @@
 const listing = {
         template: `
-            <a :href="'recipeDetail.html?id=' + r.recipeId" class="container-listing" v-for="r in recipeData" >
+            <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-md-6 col-lg-4 container-listing" v-for="r in recipeData" >
                 <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }">
                     <div v-if="select">
                         <!-- not selected -->
@@ -103,13 +103,11 @@ const listing = {
             </a>
         `,
         templatetwo:`
-            <div class="top-recipe" v-for="r in recipeData">
-                <a href="./recipedetail.html">
-                    <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
-                    <h5>{{r.title}}</h5>
-                    <p>{{r.summary}}...</p>
-                </a>
-            </div>
+            <a href="./recipedetail.html" class="col top-recipe" v-for="r in recipeData">
+                <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
+                <h5>{{r.title}}</h5>
+                <p>{{r.summary}}...</p>
+            </a>
         `,
         single: `
             <div class="container-listing" >

@@ -66,7 +66,7 @@
       </button>
     </div>
 
-    <div class="width-75">
+    <div class="width-80">
       <div id="section2">
         <h3>Our numbers tell <br />more about us</h3>
         <div class="countWrapper">
@@ -100,53 +100,58 @@
             </svg></a>
         </div>
 
-        <div class="container-listing-wrap">
-          <!-- TO BE LINK WITH DATABASE -->
-          <!-- <app-listing></app-listing>
-          <app-listing></app-listing>
-          <app-listing></app-listing> -->
-          <recipe-listing :recipe="indexes"></recipe-listing>
+
+        <div class="container container-listing-wrap">
+          <div class="row">
+            <!-- TO BE LINK WITH DATABASE -->
+            <!-- <app-listing></app-listing>
+            <app-listing></app-listing>
+            <app-listing></app-listing> -->
+            <fastrecipe-listing :recipe="indexes"></recipe-listing>
+          </div>
         </div>
       </div>
 
       <div id="section4">
         <h3>Popular Cuisines</h3>
-        <div class="container-cuisine-wrap">
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Korean">
-            <div class="img kor"></div>
-            <h6>Korean</h6>
+        <div class="container container-cuisine-wrap">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Korean">
+              <div class="img kor"></div>
+              <h6>Korean</h6>
+              </a>
+            </div>
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Chinese">
+              <div class="img chi"></div>
+              <h6>Chinese</h6>
             </a>
-          </div>
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Chinese">
-            <div class="img chi"></div>
-            <h6>Chinese</h6>
-          </a>
-          </div>
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Indian">
-            <div class="img indian"></div>
-            <h6>Indian</h6>
+            </div>
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Indian">
+              <div class="img indian"></div>
+              <h6>Indian</h6>
+              </a>
+            </div>
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Vietnamese">
+              <div class="img viet"></div>
+              <h6>Vietnamese</h6>
+              </a>
+            </div>
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Japanese">
+              <div class="img jap"></div>
+              <h6>Japanese</h6>
             </a>
-          </div>
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Vietnamese">
-            <div class="img viet"></div>
-            <h6>Vietnamese</h6>
-            </a>
-          </div>
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Japanese">
-            <div class="img jap"></div>
-            <h6>Japanese</h6>
-          </a>
-          </div>
-          <div class="cuisine">
-            <a href="./allRecipe.html?cuisine=Italian">
-            <div class="img italian"></div>
-            <h6>Italian</h6>
-            </a>
+            </div>
+            <div class="col cuisine">
+              <a href="./allRecipe.html?cuisine=Italian">
+              <div class="img italian"></div>
+              <h6>Italian</h6>
+              </a>
+            </div>
           </div>
         </div>
         <div class="button"><a href="./allRecipe.html?cuisine=Korean,Chinese,Indian,Vietnamese,Japanese,Italian">
@@ -172,8 +177,8 @@
         </div>
 
         <!-- TO BE LINK WITH DATABASE -->
-        <div class="content-section5" id="breakfast" style="display: block">
-          <div class="top-recipe-wrap">
+        <div class="container content-section5" id="breakfast" style="display: block">
+          <div class="row top-recipe-wrap">
             <popular-listing :recipe="indexes"></popular-listing>
           </div>
         </div>
@@ -217,8 +222,10 @@
             </svg></a>
         </div>
 
-        <div class="container-listing-wrap">
-          <fastrecipe-listing :recipe="indexes"></recipe-listing>
+        <div class="container container-listing-wrap">
+          <div class="row">
+            <fastrecipe-listing :recipe="indexes"></recipe-listing>
+          </div>
         </div>
       </div>
 

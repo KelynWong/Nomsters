@@ -129,8 +129,10 @@
                         <div class="legend" style="margin-top: 14px;"><div>${{Math.round(minPrice)}}</div><div>${{Math.round(maxPrice)}}</div></div>
                     </div>
                 </div>
-                <div class="container-listing-wrap">
-                    <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
+                <div class="container container-listing-wrap">
+                    <div class="row">
+                        <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
+                    </div>
                     <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
                         <p>{{errorMessage}}</p>
                     </div>
