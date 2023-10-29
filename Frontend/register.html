@@ -73,281 +73,180 @@
         }
             /* end of wave code */
     </style>
-
 </head>
 
-<div id="app">
-<div class="container-fluid mt-5 mb-5">
-    <div class="row">
-            <!-- left column -->
-            <div class="col-4">
-                <div class="text-center">
-                    <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
-                    <img id="frame" src="" class="img-fluid" />
-                    <input class="form-control fileinput" type="file" id="formFile" onchange="preview()">
-                    <button onclick="clearImage()" class="btn btn-secondary mt-3 clear">Clear Image</button>
-                    
+<body>
+    <div id="app">
+        <div class="container-fluid mt-5 mb-5">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-4">
+                    <div class="text-center">
+                        <label for="form-control" class="form-label chooseprofilepic" style="color:black">Choose Profile Picture</label>
+                        <img id="frame" :src="imagePreview" class="img-fluid" />
+                        <input class="form-control fileinput" type="file" id="formFile" @change="previewImage" ref="fileInput" required />
+                        <button @click="clearImage" class="btn btn-secondary mt-3 clear">Clear Image</button>
+                    </div>
                 </div>
-            </div>
-    
-            <!-- center column -->
-            <div class="col-4">
-                <div class="row">
-                    <div class="form">
-                        
-                        <div class="logo-container">
-                            <img src="img/logo.png" alt="logo" class="logo" />
+
+                <!-- center column -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="form">
+                            <div class="logo-container">
+                                <img src="img/logo.png" alt="logo" class="logo" />
+                            </div>
+                            <form @submit.prevent="registerUser">
+                                <div class="mb-3">
+                                    <input v-model="username" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input v-model="confirmPassword" type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;">Register</button>
+                                </div>
+                            </form>
                         </div>
-    
-                        <form>
-                            
-                            <div class="mb-3">
-                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
-                            </div>
-    
-                            <div class="mb-3">
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-    
-                            <div class="mb-3">
-                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
-                            </div>
-                            
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-danger" style="font-weight:lighter; position: relative;z-index: 9999;" onclick="registerUser(event)">Register</button>
-                            </div>
-                        </form>
+                    </div>
+                </div>
+
+                <div class="filler col-1"></div>
+                <!-- right column -->
+                <div class="col-2 rightcol">
+                    <div class="p-3 py-5 mt-5"><br><br>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Special Diet</h4>
+                        </div><br>
+                        <div v-for="diet in diets" class="form-check" :key="diet.id">
+                            <input v-model="selectedDiets" class="form-check-input" type="checkbox" :value="diet.value" :id="diet.id">
+                            <label class="form-check-label" :for="diet.id">{{diet.value}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
-    
-            <div class="filler col-1"></div>
-            <!-- right column -->
-            <div class="col-2 rightcol">
-                <div class="p-3 py-5 mt-5"><br><br>
-                    <div class="d-flex justify-content-between align-items-center"><h4>Special Diet</h4></div><br>
-                    
-                        <div v-for="diet in diets" class="form-check">
-                            <input v-model="diet.checked" class="form-check-input" type="checkbox" v-bind:value="diet.value" id="">
-                            <label class="form-check-label" for="">
-                              {{diet.value}}
-                            </label>
-                        </div>
-                </div>
-            </div>
         </div>
     </div>
-</div>
-
- <script>
-    const app = Vue.createApp({
-            data() {
-                return {
-                    diets: [],
-                };
-            },
-            mounted() {
-                this.fetchDiets();
-            },
-            methods: {
-                fetchDiets(){
-                    axios.get('https://leaptron2.dscloud.me:3000/api/diet').then(response => {
-                        this.diets = response.data.map(item => ({
-                            id: item.name.replace(/\s+/g, '_').toLowerCase(),
-                            value: item.name,
-                            checked: false
-                        }))
-                    }).catch( error => {
-
-                    });
-                }
-            }
-        });
-        app.mount('#app');
-
-    function preview() {
-        frame.src = URL.createObjectURL(event.target.files[0]);
-    }
-    function clearImage() {
-        document.getElementById('formFile').value = null;
-        frame.src = "";
-    }
-    function registerUser(event) {
-event.preventDefault();
-let password = document.getElementById('exampleInputPassword1').value;
-let confirmPassword = document.getElementById('exampleInputPassword2').value;
-if (password !== confirmPassword) {
-alert("Passwords do not match.");
-return;
-}
-
-    var file = document.getElementById('formFile').files[0];
-
-if (file) {
-readAndUploadFile(file)
-.then((fileData) => {
-axios
-.post('https://leaptron2.dscloud.me:3000/api/signup', {
-"username": document.getElementById('exampleInputUsername1').value,
-"password": document.getElementById('exampleInputPassword1').value,
-"image": fileData
-})
-.then((response) => {
-let token = response.data.token;
-let userId = response.data.userId;
-sessionStorage.setItem('token', token);
-sessionStorage.setItem('userId', userId);
-// Redirect to another page or perform other actions here
-window.location.href = './home.html';
-})
-.catch((error) => {
-if (error.response && error.response.data && error.response.data.message) {
-    // Extract and display the error message from the response
-    alert(error.response.data.message);
-}else{alert('Image too large, please select an image that is <50kb')}
-});
-})
-.catch((error) => {
-// Handle file reading error
-console.error(error);
-});
-} else {
-// Handle the case where no file is selected
-axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
-        "username": document.getElementById('exampleInputUsername1').value,
-        "password": document.getElementById('exampleInputPassword1').value,
-        "image": ''
-        })
-        .then(response => {
-            let token= response.data.token;
-            let userId= response.data.userId;
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('userId', userId);
-            
-            const homePageUrl = `./home.html`;
-            window.location.href = homePageUrl;
-            })
-}
-}
-
-function readAndUploadFile(file) {
-return new Promise((resolve, reject) => {
-const reader = new FileReader();
-
-reader.onload = function (e) {
-const fileData = e.target.result; // This contains the file data
-console.log("File data:", fileData);
-resolve(fileData);
-};
-
-reader.onerror = function (error) {
-reject(error);
-};
-
-reader.readAsDataURL(file);
-});
-}
-                        </script>
-                        
-
-                        
-
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
     <div class="ocean">
-
         <div class="wave"></div>
         <div class="wave"></div>
     </div>
+</body>
 
- </div>
+<script src="https://unpkg.com/vue@next"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
- <script>
-    function preview() {
-        frame.src = URL.createObjectURL(event.target.files[0]);
-    }
-    function clearImage() {
-        document.getElementById('formFile').value = null;
-        frame.src = "";
-    }
-    function registerUser(event) {
-event.preventDefault();
-let password = document.getElementById('exampleInputPassword1').value;
-let confirmPassword = document.getElementById('exampleInputPassword2').value;
-if (password !== confirmPassword) {
-alert("Passwords do not match.");
-return;
-}
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                username: "",
+                password: "",
+                confirmPassword: "",
+                imagePreview: "",
+                diets: [],
+                selectedDiets: [], 
+            };
+        },
+        mounted() {
+            this.fetchDiets();
+        },
+        methods: {
+            fetchDiets() {
+                axios.get('https://leaptron2.dscloud.me:3000/api/diet').then(response => {
+                    this.diets = response.data.map(item => ({
+                        id: item.name.replace(/\s+/g, '_').toLowerCase(),
+                        value: item.name,
+                        checked: false
+                    }))
+                }).catch(error => {
 
-var file = document.getElementById('formFile').files[0];
+                });
+            },
+            previewImage() {
+                this.imagePreview = URL.createObjectURL(this.$refs.fileInput.files[0]);
+            },
+            clearImage() {
+                this.imagePreview = "";
+                this.$refs.fileInput.value = null;
+            },
+            registerUser() {
+                if (this.password !== this.confirmPassword) {
+                    alert("Passwords do not match.");
+                    return;
+                }
 
-if (file) {
-readAndUploadFile(file)
-.then((fileData) => {
-axios
-.post('https://leaptron2.dscloud.me:3000/api/signup', {
-"username": document.getElementById('exampleInputUsername1').value,
-"password": document.getElementById('exampleInputPassword1').value,
-"image": fileData
-})
-.then((response) => {
-let token = response.data.token;
-let userId = response.data.userId;
-sessionStorage.setItem('token', token);
-sessionStorage.setItem('userId', userId);
-// Redirect to another page or perform other actions here
-window.location.href = './home.html';
-})
-.catch((error) => {
-if (error.response && error.response.data && error.response.data.message) {
-    // Extract and display the error message from the response
-    alert(error.response.data.message);
-}
-});
-})
-.catch((error) => {
-// Handle file reading error
-console.error(error);
-});
-} else {
-// Handle the case where no file is selected
-axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
-        "username": document.getElementById('exampleInputUsername1').value,
-        "password": document.getElementById('exampleInputPassword1').value,
-        "image": ''
-        })
-        .then(response => {
-            let token= response.data.token;
-            let userId= response.data.userId;
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('userId', userId);
-            
-            const homePageUrl = `./home.html`;
-            window.location.href = homePageUrl;
-            })
-}
-}
+                var file = this.$refs.fileInput.files[0];
 
-function readAndUploadFile(file) {
-return new Promise((resolve, reject) => {
-const reader = new FileReader();
+                if (file) {
+                    this.readAndUploadFile(file)
+                        .then((fileData) => {
+                            axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+                                "username": this.username,
+                                "password": this.password,
+                                "image": fileData
+                            })
+                            .then((response) => {
+                                let token = response.data.token;
+                                let userId = response.data.userId;
+                                sessionStorage.setItem('token', token);
+                                sessionStorage.setItem('userId', userId);
+                                const selectedDiets = this.selectedDiets;
+                                console.log(selectedDiets);
+                                console.log(wekofnowin)
+                                // Redirect to another page or perform other actions here
+                                //window.location.href = './home.html';
+                            })
+                            .catch((error) => {
+                                if (error.response && error.response.data && error.response.data.message) {
+                                    alert(error.response.data.message);
+                                } else {
+                                    alert('Image too large, please select an image that is <50kb');
+                                }
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                } else {
+                    axios.post('https://leaptron2.dscloud.me:3000/api/signup', {
+                        "username": this.username,
+                        "password": this.password,
+                        "image": ''
+                    })
+                    .then(response => {
+                        let token = response.data.token;
+                        let userId = response.data.userId;
+                        sessionStorage.setItem('token', token);
+                        sessionStorage.setItem('userId', userId);
 
-reader.onload = function (e) {
-const fileData = e.target.result; // This contains the file data
-console.log("File data:", fileData);
-resolve(fileData);
-};
+                        const homePageUrl = `./home.html`;
+                        window.location.href = homePageUrl;
+                    })
+                }
+            },
+            readAndUploadFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
 
-reader.onerror = function (error) {
-reject(error);
-};
+                    reader.onload = function (e) {
+                        const fileData = e.target.result;
+                        resolve(fileData);
+                    };
 
-reader.readAsDataURL(file);
-});
-}
+                    reader.onerror = function (error) {
+                        reject(error);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+    });
+    app.mount('#app');
 </script>
+
+</html>

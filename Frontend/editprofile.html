@@ -301,9 +301,9 @@
             headers:headers,})
             .then(response => {
               console.log(response.data)
-              var image = response.data.image
-              if(image != null){
-          var uint8Array = new Uint8Array(image.data);
+              var image = response.data.image.data
+              if(image.length>0){
+          var uint8Array = new Uint8Array(image);
           var binaryString = String.fromCharCode.apply(null, uint8Array);
           this.profileImage = binaryString
               } 
