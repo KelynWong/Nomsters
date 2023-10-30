@@ -89,8 +89,9 @@ h6.grocer {
 #nav-slider .nav-tabs .active {
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: #fff !important;
 }
+
 
 #locations {
   overflow-y: scroll;
