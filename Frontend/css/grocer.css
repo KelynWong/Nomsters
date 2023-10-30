@@ -12,7 +12,7 @@ h6.grocer {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.col-4, .col-8 {
+.col-lg-4, .col-lg-8 {
   padding: 0;
   position: relative;
   overflow: hidden;
@@ -217,4 +217,10 @@ h6.grocer {
   background-size: cover;
   background-position: left center;
   background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 991px) {
+  .grocer-container {
+    margin: 44px auto;
+  }
 }
