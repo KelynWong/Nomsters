@@ -3,22 +3,8 @@ const navbar = {
         return {
             searchQuery: "",
             profileImage: "img/icon/profile.png",
+            isChanged: true
         }
-    },
-    methods: {
-        addActiveClass() {
-          var btns = header.getElementsByClassName("nav-link");
-          for (var i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", function () {
-              var current = document.getElementsByClassName("active");
-              current[0].className = current[0].className.replace(" active", "");
-              this.className += " active";
-            });
-          }
-        },
-    },
-    mounted() {
-      this.addActiveClass();
     },
     emits: ['search'],
     template: `
@@ -69,14 +55,15 @@ const navbar = {
             </div>
         </div> 
 
-        <nav class="navbar navbar-expand-lg bg-light d-lg-none mb-5">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-light d-lg-none">
+            <div class="container-fluid" style="padding-right: 21px;">
                 <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <div class="menu-bar" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                         <li class="nav-item">
                             <a :class="{ active: active === 'home' }" class="nav-link" aria-current="page" href="./home.html">Home</a>
@@ -112,10 +99,6 @@ const navbar = {
                                 </svg>
                             </a>
                         </li>
-                        <div class="w-75 search-bar">
-                            <img class="search-icon" src="img/icon/search.png" alt="search-icon">
-                            <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
-                        </div>
 
                         <div class="d-flex align-items-center">
                             <button type="button" class="decide-btn" @click="showHideModal">Can't decide?</button>
@@ -124,6 +107,11 @@ const navbar = {
                         <div class="d-flex">
                             <a href="./profile.html"><img :src=profileImage class="profile" /></a>
                             <button type="button" class="decide-btn" @click="logout">Log out</button>
+                        </div>
+                        
+                        <div class="w-75 search-bar">
+                            <img class="search-icon" src="img/icon/search.png" alt="search-icon">
+                            <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
                         </div>
                     </ul>
                 </div>
