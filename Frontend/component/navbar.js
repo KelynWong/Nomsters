@@ -1,7 +1,8 @@
 const navbar = {
     data() {
         return {
-            searchQuery: ""
+            searchQuery: "",
+            profileImage: "img/icon/profile.png",
         }
     },
     emits: ['search'],
@@ -13,7 +14,7 @@ const navbar = {
                     <input v-model="searchQuery" class="search-field" type="search" placeholder="Search for Recipe..." @keyup.enter="this.$emit('search', searchQuery)">
                     </div>
                     <button type="button" class="decide-btn" @click="showHideModal">Can't decide?</button>
-                    <a href="./profile.html"><img src="img/icon/profile.png" class="profile" /></a>
+                    <a href="./profile.html"><img :src=profileImage class="profile" /></a>
                     <button type="button" class="decide-btn" @click="logout">Log out</button>
             </div>
             <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>

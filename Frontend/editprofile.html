@@ -248,7 +248,9 @@
             data() {
                 return {
                     showIsActive: false,
-                    random: []
+                    random: [],
+                    profileImage:"img/icon/profile.png",
+
                 }
             },
             props: {
@@ -289,11 +291,23 @@
                   ${listing.single}
                   <div class="buttons">
                       <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                      <button class="btn decide-btn generate"><a href="recipeDetail.html?">Go to Recipe</a></button>
+                      <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
                   </div>
               </div>
           </div>
         `,
+        mounted(){
+          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+            headers:headers,})
+            .then(response => {
+              console.log(response.data)
+              var image = response.data.image.data
+              if(image.length>0){
+          var uint8Array = new Uint8Array(image);
+          var binaryString = String.fromCharCode.apply(null, uint8Array);
+          this.profileImage = binaryString
+              } 
+              })}
         });
 
 
