@@ -16,8 +16,8 @@ const footer = {
 
                     <ul>
                         <li><a href="./submit.html">Submit Recipe</a></li>
-                        <li><a href="/">Generate Recipe</a></li>
-                        <li><a href="/">Meal Prep</a></li>
+                        <li><a href="./mealprep.html">Meal Prep</a></li>
+                        <li><a href="./profile.html">Profile</a></li>
                     </ul>
                 </div>
             </div>

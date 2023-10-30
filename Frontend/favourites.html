@@ -97,8 +97,10 @@
           <p>Delete</p>
         </div>
       </div>
-      <div class="container-listing-wrap">
-        <recipe-listing v-if="!isError" @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+      <div class="container">
+        <div v-if="!isError" class="row">
+          <recipe-listing @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+        </div>
         <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
           <p>{{errorMessage}}</p>
         </div>
@@ -238,7 +240,7 @@
               showIsActive: false,
               random: [],
               profileImage:"img/icon/profile.png",
-
+              active: "favourites"
           }
       },
       props: {
@@ -402,7 +404,7 @@
               return this.recipe.slice(start, end);
           },
       },
-      template: listing.template + `
+      template: listing.favtemplate + `
           <div class="m-4 d-flex align-items-center justify-content-end w-100">
               <p class="m-1">Total {{ pageCount }} pages</p>
               <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>

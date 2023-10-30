@@ -281,10 +281,13 @@
     margin: 20px 18px;
     position: relative;
     color: #fff;
-    background-position: bottom center;
+    background-position: center;
+    background-size: cover;
+    min-width: 250px;
+    min-height: 300px;
 } 
 
-.calorie:first-child {
+/* .calorie:first-child {
     margin-left: 0px;
     margin-right: 18px;
 }
@@ -292,7 +295,7 @@
 .calorie:last-child {
     margin-left: 18px;
     margin-right: 0px;
-}
+} */
 
 .calorie h3 {
     font-size: 26px;
@@ -303,6 +306,7 @@
     z-index: 10;
     position: relative;
     width: 18vw;
+    min-width: 200px;
 }
 
 .calorie:hover  {
