@@ -30,10 +30,10 @@
     
     <div id="app">
         <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>    
-        <h2>{{titlequery}}</h2>
-        <div class="recipeContent">
-            <div class="dropdown d-flex justify-content-end">
-                <span>Sort By:</span>
+        <h3>{{titlequery}}</h3>
+        <div class="container-fluid recipeContent">
+            <div class="dropdown d-flex justify-content-end align-items-center">
+                <span class="me-2">Sort By:</span>
                 <button class="btn dropdown-toggle border border-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ selectedOption}}
                 </button>
@@ -42,35 +42,34 @@
                         <div class="dropdown-item" @click="selectOption(option); searchRecipes()">{{ option.label }}</div>
                     </li>
                 </ul>
-                <button @click="toggleSortDirection" class="btn btn-light">
+                <button @click="toggleSortDirection" class="btn btn-light" style="background-color: #fff; border: none;">
                     <i v-if="sortDirection === 'ASC'" class="fas fa-chevron-up"></i>
                     <i v-else class="fas fa-chevron-down"></i>
                 </button>
             </div>
 
-            <div class="results">
-                <div class="filter">
+            <div class="row form results">
+                <div class="col-md-4 col-lg-3 filter">
                     <button type="button" class="collapsible filter-header">Dish Type <span>+</span></button>
                     <ul class="content col2">
                         <li v-for="dishtype in dishtypes">
-                            <input type="checkbox" :id="dishtype.id" name="dishtypes" :value="dishtype.value" @change="searchRecipes" v-model="dishtype.checked">
-                            <label :for="dishtype.id">{{ dishtype.value }}</label><br>
+                            <label :for="dishtype.id"><input type="checkbox" :id="dishtype.id" name="dishtypes" :value="dishtype.value" @change="searchRecipes" v-model="dishtype.checked">{{ dishtype.value }}</label><br>
                         </li>
                     </ul>
 
                     <button type="button" class="collapsible filter-header">Diet <span>+</span></button>
                     <ul class="content col2">
                         <li v-for="diet in diets">
-                            <input type="checkbox" :id="diet.id" name="diets" :value="diet.value" @change="searchRecipes" v-model="diet.checked">
-                            <label :for="diet.id">{{ diet.value }}</label><br>
+                            
+                            <label :for="diet.id"><input type="checkbox" :id="diet.id" name="diets" :value="diet.value" @change="searchRecipes" v-model="diet.checked">{{ diet.value }}</label><br>
                         </li>
                     </ul>
 
                     <button type="button" class="collapsible filter-header">Cuisine <span>+</span></button>
                     <ul class="content col2">
                         <li v-for="cuisine in cuisines">
-                            <input type="checkbox" :id="cuisine.id" name="cuisines" :value="cuisine.value" @change="searchRecipes" v-model="cuisine.checked">
-                            <label :for="cuisine.id">{{ cuisine.value }}</label><br>
+                            
+                            <label :for="cuisine.id"><input type="checkbox" :id="cuisine.id" name="cuisines" :value="cuisine.value" @change="searchRecipes" v-model="cuisine.checked">{{ cuisine.value }}</label><br>
                         </li>
                     </ul>
 
@@ -85,14 +84,10 @@
 
                     <button type="button" class="collapsible filter-header">Ready In Minutes <span>+</span></button>
                     <div class="content col2">
-                        <input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
-                        <label for="30">&lt;= 30mins</label><br>
-                        <input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
-                        <label for="60">&lt;= 1hr</label><br>
-                        <input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">
-                        <label for="120">&lt;= 2hr</label><br>
-                        <input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="setMaxNumber">
-                        <label for="121">&gt; 2hr</label><br>
+                        <label for="30"><input type="radio" id="30" name="readyInMinutes" value="30" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">&lt;= 30mins</label><br>
+                        <label for="60"><input type="radio" id="60" name="readyInMinutes" value="60" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">&lt;= 1hr</label><br>
+                        <label for="120"><input type="radio" id="120" name="readyInMinutes" value="120" v-model="selectedMaxReadyInMinutes" @change="setMinNumber">&lt;= 2hr</label><br>
+                        <label for="121"><input type="radio" id="121" name="readyInMinutes" value="120" v-model="selectedMinReadyInMinutes" @change="setMaxNumber">&gt; 2hr</label><br>
                     </div>
 
                     <div class="filter-header">Calories</div>
@@ -128,7 +123,7 @@
                         <div class="legend" style="margin-top: 14px;"><div>${{Math.round(minPrice)}}</div><div>${{Math.round(maxPrice)}}</div></div>
                     </div>
                 </div>
-                <div class="container container-listing-wrap">
+                <div class="col-md-8 col-lg-9">
                     <div class="row">
                         <recipe-listing :recipe="recipes" v-if="!isError"></recipe-listing>
                     </div>
@@ -561,7 +556,7 @@
                 }
             },
             template: listing.template + `
-                <div class="m-4 d-flex align-items-center justify-content-end w-100">
+                <div class="m-4 d-flex flex-wrap align-items-center justify-content-end w-100">
                     <p class="m-1">Total {{ pageCount }} pages</p>
                     <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
                     <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>

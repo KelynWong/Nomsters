@@ -1,7 +1,9 @@
 const listing = {
         template: `
             <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-md-6 col-lg-4 container-listing" v-for="r in recipeData" >
-                <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }">
+                <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
+                <div class="recipe-img">
+                    <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
                     <div v-if="select">
                         <!-- not selected -->
                         <svg v-if="this.selectedListings.indexOf(r.recipeId) <= -1" @click.prevent="toggleSelect(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
