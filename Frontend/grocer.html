@@ -28,8 +28,8 @@
         <div class="col-4">
           <div class="col-4-wrapper">
             <div class="search-bar loc">
-              <img class="search-icon loc" src="img/icon/search.png" alt="search-icon">
-              <input class="search-field loc" type="search" placeholder="Search for Grocer...">
+              <img class="search-icon loc" src="img/icon/search.png" alt="search-icon" onclick="searchLocation()">
+              <input id="locationSearch" class="search-field loc" type="search" placeholder="Search for Location..." onkeyup="handleKeyPress(event)">
             </div>
 
             <div id="nav-slider">
@@ -98,6 +98,42 @@
     // google maps
     // !! function is defined, but it is not executed immediately. It is executed when the event is triggered.
     var currentLocation=''
+    function handleKeyPress(event) {
+    if (event.key === "Enter") {
+    searchLocation();
+    }
+}
+
+    // Add this function to your script tag
+function searchLocation() {
+  // Get the search input value
+  const searchValue = document.getElementById("locationSearch").value;
+
+  // Use the Google Geocoding API to get the coordinates of the searched location
+  axios
+    .get("https://maps.googleapis.com/maps/api/geocode/json", {
+      params: {
+        address: searchValue,
+        key: "AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk",
+        components: "country:SG",
+      }
+    })
+    .then((response) => {
+      if (response.data.status === "OK" && response.data.results.length > 0) {
+        // Extract the coordinates of the first result
+        const location = response.data.results[0].geometry.location;
+
+        // Call the initMap function with the new location
+        initMap(location);
+      } else {
+        // Handle no results found
+        alert("Location not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error searching for location: ", error);
+    });
+}
 
     // Initialize and add the map
     async function initMap(currentLocation) {
@@ -119,7 +155,7 @@
      }
       //Makes the map with how zoomed in it is using google map api
       var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 14,
+        zoom: 15,
         center: currentLocation,
         mapId: "c076fb2f221a8a39",
       });
