@@ -16,9 +16,10 @@
 }
 
 .banner {
-    height: 100px;
+    /* height: 100px; */
     text-align: center;
     margin-top: auto;
+    margin: 54px auto 0;
 }
 
 .card-img-top {

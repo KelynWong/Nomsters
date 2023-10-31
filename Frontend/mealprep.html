@@ -32,31 +32,31 @@
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
       <div class="banner"> 
-        <h2 class="text-center p-4">Meal Prep Generator</h2>
+        <h3 class="text-center">Meal Prep Generator</h3>
       </div>
       <form @submit.prevent="submitForm">
         <div class="container col-8">
           <!-- numeric -->
           <div class="row p-5">
-              <div class="form-outline col-6 mt-2">
+              <div class="form-outline col-6 my-2">
                   <label class="form-label" for="typeNumber">Number of Meals per Day</label>
                   <input type="number" v-model="form.mealsPerDay" class="form-control" placeholder="2" min="2" max="5" required />
-                  <small class="form-text text-muted">Please enter a number between 2 and 5.</small>
+                  <small class="form-text text-muted fst-italic">Please enter a number between 2 and 5.</small>
               </div>
-              <div class="form-outline col-6 mt-2">
+              <div class="form-outline col-6 my-2">
                   <label class="form-label" for="typeNumber">Number of Snacks per Day</label>
                   <input type="number" v-model="form.snacksPerDay" class="form-control" placeholder="max 2" max="2" />
-                  <small class="form-text text-muted">Please enter a maximum value of 2.</small>
+                  <small class="form-text text-muted fst-italic">Please enter a maximum value of 2.</small>
               </div>
-              <div class="form-outline col-6 mt-2">
-                  <label class="form-label" for="typeNumber">~Calorie Goal per Day</label>
+              <div class="form-outline col-6 my-2">
+                  <label class="form-label" for="typeNumber">Estimated Calorie Goal per Day</label>
                   <input type="number" v-model="form.calorieGoal" class="form-control" placeholder="2000" min="1000" max="3500" />
-                  <small class="form-text text-muted">Please enter a number between 1000 and 3500.</small>
+                  <small class="form-text text-muted fst-italic">Please enter a number between 1000 and 3500.</small>
               </div>
-              <div class="form-outline col-12 mt-2">
+              <div class="form-outline col-12 my-2">
                   <label class="form-label" for="typeNumber">Budget per Day ($)</label>
                   <input type="number" v-model="form.budget" class="form-control" placeholder="eg. 10" min="10" />
-                  <small class="form-text text-muted">Please set a budget of at least $10.</small>
+                  <small class="form-text text-muted fst-italic">Please set a budget of at least $10.</small>
               </div>
           </div>
           
@@ -69,16 +69,16 @@
       <br>
 
       <div class="banner"> 
-          <h2 class="text-center p-4">Generated Meal Plan</h2>
+          <h3 class="text-center">Generated Meal Plan</h3>
       </div>
       <div class="row">
         <recipe-listing :recipe="indexes" :key="formSubmitted" v-if="formSubmitted > 0 " :form-data="form"></recipe-listing>
       </div>
 
       <div class="banner"> 
-          <h2 class="text-center p-4">Consolidated Stats:</h2>
+          <h3 class="text-center">Consolidated Stats:</h3>
       </div>
-      <div class="container col-4 p-4">
+      <div class="container col-4 p-5">
         <div class="card">
           <div class="card-header">
             Total Calories (per day) - {{consolidated_calories}}
