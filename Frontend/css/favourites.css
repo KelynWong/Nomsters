@@ -1,0 +1,76 @@
+.fav-head {
+    position: relative;
+    padding-bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
+.fav-head::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #EDEDED;
+}
+
+.fav-head h3 {
+    margin-left: 16px;
+}
+
+.subhead {
+    padding: 32px 0 16px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex p {
+    line-height: normal;
+}
+
+.flex svg {
+    margin-right: 8px;
+
+}
+
+.select-fav {
+    margin: 0 12px 0 24px;
+}
+
+.all-fav, .delete-fav {
+    margin: 0 12px;
+}
+
+.container-listing {
+    /* width: 22%;
+    margin: 0 36px 36px 0 !important; */
+}
+
+.container-listing .recipe-img {
+    /* height: 13vw; */
+}
+
+.btn {
+    font-family: "poppins";
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.red path {
+    fill: #DE352A;
+}
+
+.rounded-circle {
+    /* padding: 2px 8px; */
+    width: 2.5em;
+    height: 2.4em;
+    line-height: normal;
+    letter-spacing: normal;
+}

@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="icon" href="./img/nomstersicon.png" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="css/home.css">
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <script>
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+      
+    if (!token || !userId) {
+        // If 'token' or 'userId' doesn't exist, redirect to 'index.html'
+        window.location.href = './index.html';
+    } 
+  </script>
+
+  <div id="app">
+    <div :class="{onScroll: isScrolled}">
+      <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
+      <div id="section1" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#section1" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#section1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#section1" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="img/carousel/carou1.jpg" class="d-block w-100">
+            <div class="carousel-caption">
+              <h1>We have all the recipes you are looking for</h1>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="img/carousel/carou3.jpg" class="d-block w-100">
+            <div class="carousel-caption">
+              <h1>Your culinary journey begins now</h1>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="img/carousel/carou4.jpg" class="d-block w-100">
+            <div class="carousel-caption">
+              <h1>Experience a myriad of delightful recipies</h1>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#section1" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#section1" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="width-80">
+        <div id="section2" class="container-fluid text-center text-lg-start">
+          <div class="row flex-column flex-lg-row justify-content-between align-items-center">
+            <h3 class="col-lg-4 me-lg-3 me-xl-5">Our numbers tell more about us</h3>
+            <div class="col-lg-8 col-xl-7 row">
+              <div class="col mt-4 mt-lg-0">
+                <div class="countNum red">
+                  <span class="counter" id="countRecipe">{{recipecount}}</span>+
+                </div>
+                <h4>Recipes</h4>
+              </div>
+              <div class="col mt-4 mt-lg-0">
+                <div class="countNum red">
+                  <span class="counter" id="countRecipe">{{recipecategoriecount}}</span>+
+                </div>
+                <h4>Categories</h4>
+              </div>
+              <div class="col mt-4 mt-lg-0">
+                <div class="countNum red">
+                  <span class="counter" id="countRecipe">{{recipedishtypecount}}</span>+
+                </div>
+                <h4>Dish Types</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="section3">
+          <div class="section-head">
+            <h3>Just for <span class="red">you</span></h3>
+            <a href="./allRecipe.html" class="section-view">View All<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 19 19" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M16.5547 8.57488L9.88366 1.90388C9.73741 1.75763 9.49965 1.75763 9.3534 1.90388C9.20715 2.05013 9.20715 2.28789 9.3534 2.43414L15.4817 8.56236H2.11818C1.91118 8.56236 1.74316 8.73038 1.74316 8.93738C1.74316 9.14511 1.91118 9.31239 2.11818 9.31239H15.4449L9.35344 15.4039C9.20719 15.5501 9.20719 15.7879 9.35344 15.9341C9.50042 16.0811 9.73667 16.0804 9.8837 15.9341L16.5549 9.26363C16.575 9.24454 16.7222 9.0998 16.7042 8.88053C16.69 8.70759 16.5824 8.60083 16.5547 8.57488Z"
+                  fill="black" />
+              </svg></a>
+          </div>
+
+
+          <div class="container-fluid">
+            <div class="row">
+              <!-- TO BE LINK WITH DATABASE -->
+              <!-- <app-listing></app-listing>
+              <app-listing></app-listing>
+              <app-listing></app-listing> -->
+              <fastrecipe-listing :recipe="indexes"></recipe-listing>
+            </div>
+          </div>
+        </div>
+
+        <div id="section4">
+          <h3>Popular Cuisines</h3>
+          <div class="container-fluid container-cuisine-wrap">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 justify-content-center">
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Korean">
+                <div class="img kor"></div>
+                <h6>Korean</h6>
+                </a>
+              </div>
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Chinese">
+                <div class="img chi"></div>
+                <h6>Chinese</h6>
+              </a>
+              </div>
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Indian">
+                <div class="img indian"></div>
+                <h6>Indian</h6>
+                </a>
+              </div>
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Vietnamese">
+                <div class="img viet"></div>
+                <h6>Vietnamese</h6>
+                </a>
+              </div>
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Japanese">
+                <div class="img jap"></div>
+                <h6>Japanese</h6>
+              </a>
+              </div>
+              <div class="col cuisine">
+                <a href="./allRecipe.html?cuisine=Italian">
+                <div class="img italian"></div>
+                <h6>Italian</h6>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="button"><a href="./allRecipe.html?cuisine=Korean,Chinese,Indian,Vietnamese,Japanese,Italian">
+              <p>View All</p>
+            </a></div>
+        </div>
+
+        <div id="section5">
+          <h3>Super Delicious</h3>
+          <h6>Our All-Time Favorite Recipes for Every Hour!</h6>
+          <div class="d-flex flex-wrap justify-content-center my-4">
+            <button class="topRecipe btn btn-danger mx-2 my-2 rounded-pill px-4 py-3" type="button"
+              data-value="breakfast">Breakfast</button>
+            <button class="topRecipe btn btn-outline-secondary mx-2 my-2 rounded-pill px-4 py-3" type="button"
+              data-value="lunch">Lunch</button>
+            <button class="topRecipe btn btn-outline-secondary mx-2 my-2 rounded-pill px-4 py-3" type="button"
+              data-value="dinner">Dinner</button>
+            <button class="topRecipe btn btn-outline-secondary mx-2 my-2 rounded-pill px-4 py-3" type="button"
+              data-value="dessert">Dessert</button>
+            <button class="topRecipe btn btn-outline-secondary mx-2 my-2 rounded-pill px-4 py-3" type="button"
+              data-value="snack">Snack</button>
+          </div>
+
+          <!-- TO BE LINK WITH DATABASE -->
+          <div class="container-fluid content-section5" id="breakfast" style="display: block">
+            <div class="row top-recipe-wrap">
+              <popular-listing :recipe="indexes"></popular-listing>
+            </div>
+          </div>
+
+
+          <div class="container-fluid content-section5" id="lunch" style="display: none">
+            <div class="row top-recipe-wrap">
+              <popular-lunch-listing :recipe="indexes"></popular-listing>
+          </div>
+          </div>
+
+          <div class="container-fluid content-section5" id="dinner" style="display: none">
+            <div class="row top-recipe-wrap">
+              <popular-dinner-listing :recipe="indexes"></popular-listing>
+          </div>
+          </div>
+
+          <div class="container-fluid content-section5" id="dessert" style="display: none">
+            <div class="row top-recipe-wrap">
+              <popular-dessert-listing :recipe="indexes"></popular-listing>
+          </div>
+          </div>
+
+          <div class="container-fluid content-section5" id="snack" style="display: none">
+            <div class="row top-recipe-wrap">
+              <popular-snack-listing :recipe="indexes"></popular-listing>
+          </div>
+        </div>
+          
+
+        </div>
+
+        <div id="section6">
+          <div class="section-head">
+            <h3>Quick <span class="red">30-minute</span> Meals</h3>
+            <a href="./allRecipe.html?maxmins=30" class="section-view">View All<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 19 19" fill="white">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M16.5547 8.57488L9.88366 1.90388C9.73741 1.75763 9.49965 1.75763 9.3534 1.90388C9.20715 2.05013 9.20715 2.28789 9.3534 2.43414L15.4817 8.56236H2.11818C1.91118 8.56236 1.74316 8.73038 1.74316 8.93738C1.74316 9.14511 1.91118 9.31239 2.11818 9.31239H15.4449L9.35344 15.4039C9.20719 15.5501 9.20719 15.7879 9.35344 15.9341C9.50042 16.0811 9.73667 16.0804 9.8837 15.9341L16.5549 9.26363C16.575 9.24454 16.7222 9.0998 16.7042 8.88053C16.69 8.70759 16.5824 8.60083 16.5547 8.57488Z"
+                  fill="black" />
+              </svg></a>
+          </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <fastrecipe-listing :recipe="indexes"></recipe-listing>
+            </div>
+          </div>
+        </div>
+
+        <div id="section7">
+          <h3>Calories Energy Balance</h3>
+          <h6>On a diet? No worries, we got you! Featuring the top low calorie recipe</h6>
+
+          <div class="calorie-wrapper">
+              <a href="./allRecipe.html?dishtype=starter&maxcalories=300" class="section-view calorie starters">
+                <div class="overlay"></div>
+                <div class="section-head">
+                  <h3>Starters</h3>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 19 19" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M16.5547 8.57488L9.88366 1.90388C9.73741 1.75763 9.49965 1.75763 9.3534 1.90388C9.20715 2.05013 9.20715 2.28789 9.3534 2.43414L15.4817 8.56236H2.11818C1.91118 8.56236 1.74316 8.73038 1.74316 8.93738C1.74316 9.14511 1.91118 9.31239 2.11818 9.31239H15.4449L9.35344 15.4039C9.20719 15.5501 9.20719 15.7879 9.35344 15.9341C9.50042 16.0811 9.73667 16.0804 9.8837 15.9341L16.5549 9.26363C16.575 9.24454 16.7222 9.0998 16.7042 8.88053C16.69 8.70759 16.5824 8.60083 16.5547 8.57488Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </a>
+    
+              <a href="./allRecipe.html?dishtype=main dish&maxcalories=500" class="section-view calorie mains">
+                <div class="overlay"></div>
+                <div class="section-head">
+                  <h3>Mains</h3>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 19 19" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M16.5547 8.57488L9.88366 1.90388C9.73741 1.75763 9.49965 1.75763 9.3534 1.90388C9.20715 2.05013 9.20715 2.28789 9.3534 2.43414L15.4817 8.56236H2.11818C1.91118 8.56236 1.74316 8.73038 1.74316 8.93738C1.74316 9.14511 1.91118 9.31239 2.11818 9.31239H15.4449L9.35344 15.4039C9.20719 15.5501 9.20719 15.7879 9.35344 15.9341C9.50042 16.0811 9.73667 16.0804 9.8837 15.9341L16.5549 9.26363C16.575 9.24454 16.7222 9.0998 16.7042 8.88053C16.69 8.70759 16.5824 8.60083 16.5547 8.57488Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </a>
+    
+              <a href="./allRecipe.html?dishtype=soup&maxcalories=400" class="section-view calorie soups">
+                <div class="overlay"></div>
+                <div class="section-head">
+                  <h3>Soups</h3>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 19 19" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M16.5547 8.57488L9.88366 1.90388C9.73741 1.75763 9.49965 1.75763 9.3534 1.90388C9.20715 2.05013 9.20715 2.28789 9.3534 2.43414L15.4817 8.56236H2.11818C1.91118 8.56236 1.74316 8.73038 1.74316 8.93738C1.74316 9.14511 1.91118 9.31239 2.11818 9.31239H15.4449L9.35344 15.4039C9.20719 15.5501 9.20719 15.7879 9.35344 15.9341C9.50042 16.0811 9.73667 16.0804 9.8837 15.9341L16.5549 9.26363C16.575 9.24454 16.7222 9.0998 16.7042 8.88053C16.69 8.70759 16.5824 8.60083 16.5547 8.57488Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </a>
+          </div>
+        </div>
+      </div>
+      <div id="BackToTop" @click="scrollToTop">
+        <div class="btt-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
+            <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script src="component/navbar.js"></script>
+  <script src="component/listing.js"></script>
+  <script src="component/footer.js"></script>
+
+  <script>
+    const headers = {
+      Authorization: `BEARER ${token}`
+    }
+
+    const app = Vue.createApp({
+      components: {
+        'app-footer': footer,
+      },
+      data() {
+        return {
+          indexes: createIndex(),
+          recipecount:844,
+          recipecategoriecount:32,
+          recipedishtypecount:27,
+          allrecipes: [],
+          errorMessage: "",
+          isError: false,
+          isScrolled: false,
+        };
+      },
+      mounted() {
+        this.fetchAllRecipes();
+        window.addEventListener('scroll', this.handleScroll);
+      },
+      methods: {
+        handleScroll() {
+          let scrollAmount = window.scrollY;
+          let amountScrolled = 20;
+    
+          if (scrollAmount > amountScrolled) {
+            this.isScrolled = true;
+          } else {
+            this.isScrolled = false;
+          }
+        },
+        scrollToTop() {
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        },
+        searchRecipes(titleQuery){
+          window.location.href = `allRecipe.html?search=${titleQuery}`;
+        },
+        fetchAllRecipes(){
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+            headers:headers
+          })
+          .then(response => {
+            console.log(response.data)
+            this.allrecipes = response.data
+            this.allrecipes.forEach((recipe) => {
+              recipe.fav = 0; 
+            });
+
+            axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+              headers:headers,
+            })
+            .then(response => {
+              response.data.forEach(favRecipe => {
+                const favedRecipe = this.allrecipes.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                if (favedRecipe) {
+                    favedRecipe.fav = 1;
+                }
+              });
+            })
+            .catch( error => {  
+            });
+
+            console.log(this.allrecipes)
+          })
+          .catch( error => {
+            console.log(error.response.data.message);
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.allrecipes = [];
+            this.isError = true;
+          });
+        },
+      }
+    });
+    
+    app.component('app-nav', {
+      data() {
+        return {
+          showIsActive: false,
+          random: [],
+          profileImage:"img/icon/profile.png",
+          active: "home"
+        }
+      },
+      props: {
+        allrecipes: {
+          type: Array,
+          required: true
+        },
+        size: {
+          type: Number,
+          required: false,
+          default: 12
+        }
+      },
+      methods: {
+        ...navbar.methods,
+        showHideModal() {
+          this.showIsActive = !this.showIsActive;
+          this.generateRandomRecipe();
+        },
+        generateRandomRecipe() {
+          if (this.allrecipes.length > 0) {
+            const length = this.allrecipes.length;
+            const r = this.allrecipes[Math.floor(Math.random() * length)];
+
+            console.log(this.random);
+            this.random = r;
+          }
+        },
+        closeModal() {
+          this.showIsActive = !this.showIsActive;
+        },
+      },
+      template: navbar.template + `
+        <div class="random-recipe" :class="{active: showIsActive}">
+          <div class="overlay" @click="closeModal"></div>
+          <div class="modal-box">
+            <h3>Random Recipe Generator</h3>
+            ${listing.single}
+            <div class="buttons">
+                <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+                <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
+            </div>
+          </div>
+        </div>
+      `,
+      mounted(){
+        axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+          headers:headers,
+        })
+        .then(response => {
+          console.log(response.data)
+          var image = response.data.image.data
+          if (image.length > 0) {
+            var uint8Array = new Uint8Array(image);
+            var binaryString = String.fromCharCode.apply(null, uint8Array);
+            this.profileImage = binaryString  
+          }
+        })
+      }
+    });
+
+// FOR BACKEND
+    app.component('recipe-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          localrecipe:[],
+        }
+      },
+      methods: {...listing.methods},
+      computed:{
+        recipeData() {
+          return this.localrecipe;
+        }
+      },
+      template: listing.template ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+        console.log(token)
+        const id = sessionStorage.getItem('userId');
+
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+
+        //to add in logic to get user diet
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
+          headers: headers
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          for(recipes of response.data){
+            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+              headers: headers,
+              params:{title: recipes.title}
+            })
+            .then(response => {
+              // Assuming the response contains recipe data
+              this.localrecipe.push(response.data[0])
+              this.localrecipe.forEach((recipe) => {
+                recipe.fav = 0; 
+              });
+            })
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        }); 
+      }
+    });
+
+    app.component('fastrecipe-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          fastrecipe:[],
+        }
+      },
+      methods: {...listing.methods},
+      computed:{
+        recipeData() {
+          return this.fastrecipe;
+        }
+      },
+      template: listing.template ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
+          headers: headers
+        }).then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          for(responses of response.data){
+            console.log(responses.title)
+            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+              headers: headers,
+              params: {
+                title: responses.title
+              }
+            })
+            .then(responsetwo => {
+              console.log(responsetwo.data[0])
+              // Assuming the response contains recipe data
+              this.fastrecipe.push(responsetwo.data[0])
+              this.fastrecipe.forEach((recipe) => {
+                recipe.fav = 0; 
+              });
+              axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                 headers:headers,
+              }).then(response => {
+                response.data.forEach(favRecipe => {
+                  const favedRecipe = this.fastrecipe.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                  if (favedRecipe) {
+                      favedRecipe.fav = 1;
+                  }
+                });
+              }).catch( error => {
+              });
+            })
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        });
+      }
+    });
+
+    app.component('popular-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          popularrecipe:[],
+          selectedButton: 'breakfast'
+        }
+      },
+      methods:{
+        cleansummary(summary){
+          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+        },
+        handleButtonClick(value){
+          this.selectedButton = value;
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.popularrecipe.map((recipe)=>({
+            ...recipe,
+            summary: this.cleansummary(recipe.summary)
+          }));
+        }
+      },
+      template: listing.templatetwo ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+          headers: headers,
+          params:{
+            dishtype: this.selectedButton,
+            sort: 'aggregateLikes',
+          }
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          let count = 0;
+          for (responses of response.data) {
+            if (count < 4) {
+              count++;
+              console.log(responses.title)
+              console.log(this.selectedButton)
+
+              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                headers: headers,
+                params: {
+                  title: responses.title,
+                }
+              })
+              .then(responsetwo => {
+                console.log(responsetwo.data[0])
+                // Assuming the response contains recipe data
+                this.popularrecipe.push(responsetwo.data[0])
+                this.popularrecipe.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+              })
+            }
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        });
+      }
+    });
+
+    app.component('popular-lunch-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          popularrecipe:[],
+          selectedButton: 'lunch'
+        }
+      },
+      methods:{
+        cleansummary(summary){
+          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+        },
+        handleButtonClick(value){
+          this.selectedButton = value;
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.popularrecipe.map((recipe)=>({
+            ...recipe,
+            summary: this.cleansummary(recipe.summary)
+          }));
+        }
+      },
+      template: listing.templatetwo ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+          headers: headers,
+          params: {
+            dishtype: "lunch",
+            sort: 'aggregateLikes',
+            order:'ASC'
+          }
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          let count = 0;
+          for (responses of response.data) {
+            if (count < 4) {
+              count++;
+            console.log(responses.title)
+            console.log(this.selectedButton)
+            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+              headers: headers,
+              params: {
+                title: responses.title,
+              }
+            })
+            .then(responsetwo => {
+              console.log(responsetwo.data[0])
+              // Assuming the response contains recipe data
+              this.popularrecipe.push(responsetwo.data[0])
+              this.popularrecipe.forEach((recipe) => {
+                recipe.fav = 0; 
+              });
+            })}
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        });
+      }
+    });
+
+    app.component('popular-dinner-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          popularrecipe:[],
+          selectedButton: 'dinner'
+        }
+      },
+      methods:{
+        cleansummary(summary){
+          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+        },
+        handleButtonClick(value){
+          this.selectedButton = value;
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.popularrecipe.map((recipe)=>({
+            ...recipe,
+            summary: this.cleansummary(recipe.summary)
+          }));
+        }
+      },
+      template: listing.templatetwo ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+          headers: headers,
+          params: {
+            dishtype: 'dinner',
+            sort: 'aggregateLikes'
+          }
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          let count = 0;
+          for (responses of response.data) {
+            if (count < 4) {
+              count++;
+
+              console.log(responses.title)
+              console.log(this.selectedButton)
+              
+              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                headers: headers,
+                params: {
+                  title: responses.title,
+                }
+              })
+              .then(responsetwo => {
+                console.log(responsetwo.data[0])
+                // Assuming the response contains recipe data
+                this.popularrecipe.push(responsetwo.data[0])
+                this.popularrecipe.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+              })
+            }
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        });
+      }
+    });
+
+    app.component('popular-dessert-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          popularrecipe:[],
+          selectedButton: 'dessert'
+        }
+      },
+      methods:{
+        cleansummary(summary){
+          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+        },
+        handleButtonClick(value){
+          this.selectedButton = value;
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.popularrecipe.map((recipe)=>({
+            ...recipe,
+            summary: this.cleansummary(recipe.summary)
+          }));
+        }
+      },
+      template: listing.templatetwo ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+          headers: headers,
+          params: {
+            dishtype: 'dessert',
+            sort: 'aggregateLikes'
+          }
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          let count = 0;
+          for (responses of response.data) {
+            if (coun < 4) {
+              count++;
+
+              console.log(responses.title)
+              console.log(this.selectedButton)
+
+              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                headers: headers,
+                params: {
+                  title: responses.title,
+                }
+              })
+              .then(responsetwo => {
+                console.log(responsetwo.data[0])
+                // Assuming the response contains recipe data
+                this.popularrecipe.push(responsetwo.data[0])
+                this.popularrecipe.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+              })
+            }
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;
+        });
+      }
+    });
+
+    app.component('popular-snack-listing', {
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        }
+      },
+      data(){
+        return{
+          popularrecipe:[],
+          selectedButton: 'snack'
+        }
+      },
+      methods:{
+        cleansummary(summary){
+          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+        },
+        handleButtonClick(value){
+          this.selectedButton = value;
+        }
+      },
+      computed:{
+        recipeData() {
+          return this.popularrecipe.map((recipe)=>({
+            ...recipe,
+            summary: this.cleansummary(recipe.summary)
+          }));
+        }
+      },
+      template: listing.templatetwo ,  
+      created() {
+        // This code is executed when the component is created.
+        
+        // Example Axios GET request
+        const token = sessionStorage.getItem('token');
+      
+        // to add in session logic
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+          headers: headers,
+          params: {
+            dishtype: 'snack',
+            sort: 'aggregateLikes',
+            order:'ASC'
+          }
+        })
+        .then(response => {
+          console.log(response)
+          // Assuming the response contains recipe data
+          let count=0;
+
+          for (responses of response.data) {
+            if (count < 4) {
+              count++;
+
+              console.log(responses.title)
+              console.log(this.selectedButton)
+              
+              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                headers: headers,
+                params: {
+                  title: responses.title,
+                }
+              })
+              .then(responsetwo => {
+                console.log(responsetwo.data[0])
+                // Assuming the response contains recipe data
+                this.popularrecipe.push(responsetwo.data[0])
+                this.popularrecipe.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+              })
+            }
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message;
+          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+          this.isError = true;console.error('Error:', error);
+        });
+      }
+    });
+  
+    function createIndex() {
+      let index = [];
+      for (let i = 1; i < 4; i++) {
+        index.push({ ind: '#' + i });
+      }
+      return index;
+    }
+
+    app.mount('#app');
+
+    gsap.from("#countRecipe", {
+      textContent: 0,
+      duration: 4,
+      ease: "power1.in",
+      snap: { textContent: 1 }
+    });
+
+    const buttons = document.querySelectorAll(".topRecipe");
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        buttons.forEach(function (btn) {
+          btn.classList.remove("btn-danger");
+          btn.classList.add("btn-outline-secondary");
+          var rmv = document.getElementById(btn.getAttribute("data-value"));
+          rmv.style.display = 'none';
+        });
+
+        var content = document.getElementById(event.target.getAttribute("data-value"));
+        content.style.display = 'block';
+      });
+    });
+
+  </script>
+  
+</body>
+
+</html>

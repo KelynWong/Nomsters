@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favourites</title>
+  <link rel="icon" href="./img/nomstersicon.png" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="css/favourites.css">
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <script>
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+      
+      if (!token || !userId) {
+          // If 'token' or 'userId' doesn't exist, redirect to 'index.html'
+          window.location.href = './index.html';
+      } 
+  </script>
+
+  <div id="app">
+    <div :class="{onScroll: isScrolled}">
+      <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
+      <div class="width-80">
+        <div class="fav-head">
+          <svg width="48" height="45" viewBox="0 0 48 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="23.7449" cy="22.4119" rx="23.2732" ry="22.3776" fill="#DE352A"/>
+            <path d="M15.4608 15.1875C13.1732 17.4752 13.1732 21.1842 15.4608 23.4718L23.0548 31.0657C23.436 31.447 24.0542 31.447 24.4355 31.0657L32.0294 23.4718C34.317 21.1842 34.317 17.4752 32.0294 15.1875C29.7418 12.8999 26.0328 12.8999 23.7451 15.1875C21.4575 12.8999 17.7485 12.8999 15.4608 15.1875Z" fill="white"/>
+          </svg>
+          <span><h3>Favourites</h3></span>
+        </div>
+
+        <div class="subhead flex">
+          <p style="font-style: italic;">{{recipes.length}} Recipes</p>
+          <div class="select-fav flex" @click="selectFav" :class="{ 'red': isSelected }" style="cursor:pointer">
+            <svg v-if="!isSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 27" fill="none">
+              <g clip-path="url(#clip0_285_1392)">
+              <path d="M19.4997 4.5H6.49967C5.30801 4.5 4.33301 5.5125 4.33301 6.75V20.25C4.33301 21.4875 5.30801 22.5 6.49967 22.5H19.4997C20.6913 22.5 21.6663 21.4875 21.6663 20.25V6.75C21.6663 5.5125 20.6913 4.5 19.4997 4.5ZM19.4997 20.25H6.49967V6.75H19.4997V20.25Z" fill="black"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_285_1392">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <g clip-path="url(#clip0_278_1385)">
+              <path d="M19 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.11 21 21 20.1 21 19V5C21 3.9 20.11 3 19 3ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="black"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_278_1385">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+            <p>Select</p>
+          </div>
+
+          <div v-if="isSelected" class="all-fav flex" @click="allSelect" :class="{ 'red': isAllSelected }" style="cursor:pointer">
+            <svg v-if="!isAllSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <g clip-path="url(#clip0_278_1379)">
+              <path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="black"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_278_1379">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <g clip-path="url(#clip0_278_1382)">
+              <path d="M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="black"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_278_1382">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+            <p>All</p>
+          </div>
+
+          <div class="delete-fav flex" @click="deleteRecipes" style="cursor:pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M10 15L10 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 15L14 12" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+              <path d="M3 7H21V7C20.0681 7 19.6022 7 19.2346 7.15224C18.7446 7.35523 18.3552 7.74458 18.1522 8.23463C18 8.60218 18 9.06812 18 10V16C18 17.8856 18 18.8284 17.4142 19.4142C16.8284 20 15.8856 20 14 20H10C8.11438 20 7.17157 20 6.58579 19.4142C6 18.8284 6 17.8856 6 16V10C6 9.06812 6 8.60218 5.84776 8.23463C5.64477 7.74458 5.25542 7.35523 4.76537 7.15224C4.39782 7 3.93188 7 3 7V7Z" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+              <path d="M10.0681 3.37059C10.1821 3.26427 10.4332 3.17033 10.7825 3.10332C11.1318 3.03632 11.5597 3 12 3C12.4403 3 12.8682 3.03632 13.2175 3.10332C13.5668 3.17033 13.8179 3.26427 13.9319 3.37059" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p>Delete</p>
+          </div>
+        </div>
+
+        <div class="container">
+          <div v-if="!isError" class="row">
+            <recipe-listing @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+          </div>
+          <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
+            <p>{{errorMessage}}</p>
+          </div>
+        </div>
+      </div>
+      <div id="BackToTop" @click="scrollToTop">
+        <div class="btt-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
+            <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+
+  <script src="component/navbar.js"></script>
+  <script src="component/listing.js"></script>
+  <script src="component/footer.js"></script>
+
+  <script>
+    const headers = {
+      Authorization: `BEARER ${token}`
+    }
+
+    const app = Vue.createApp({
+      components: {
+        'app-footer': footer,
+      },
+      data() {
+        return {
+          recipes: [],
+          allrecipes: [],
+          allRecipeIds: [],
+          isSelected: false,
+          isAllSelected: false,
+          selectedRecipes: [],
+          isError: false,
+          profileImage:"img/icon/profile.png",
+          isScrolled: false,
+        }
+      }, 
+      mounted() {
+        this.fetchUserFavRecipes();
+        this.fetchAllRecipes();
+        //this.searchRecipes();
+        window.addEventListener('scroll', this.handleScroll);
+      },
+      methods: {
+        handleScroll() {
+          let scrollAmount = window.scrollY;
+          let amountScrolled = 20;
+    
+          if (scrollAmount > amountScrolled) {
+            this.isScrolled = true;
+          } else {
+            this.isScrolled = false;
+          }
+        },
+        scrollToTop() {
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        },
+        fetchUserFavRecipes(){
+          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+            headers:headers
+          }).then(response => {
+            console.log(response.data)
+            this.recipes = response.data
+            this.recipes.forEach(favRecipe => favRecipe.fav = 1)
+            this.allRecipeIds = response.data.map(item => item.recipeId);
+            console.log(this.recipes)
+          }).catch( error => {
+            console.log(error.response.data.message);
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid Token") window.location.href = './index.html';
+            this.allrecipes = [];
+            this.isError = true;
+          });
+        },
+        fetchAllRecipes(){
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+            headers:headers
+          }).then(response => {
+            console.log(response.data)
+            this.allrecipes = response.data;
+            console.log(this.allrecipes)
+          }).catch( error => {
+            console.log(error.response.data.message);
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.allrecipes = [];
+            this.isError = true;
+          });
+        },
+
+        // searchRecipes() {
+        //   axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+        //       headers:headers
+        //   }).then(response => {
+        //       console.log(response.data)
+        //       this.recipes = response.data;
+        //       this.allRecipeIds = response.data.map(item => item.recipeId);
+        //   }).catch( error => {
+        //       console.log(error.message);
+        //   });
+        // },
+        searchRecipes(titleQuery) {
+          window.location.href = `allRecipe.html?search=${titleQuery}`;
+        },
+        selectFav() {
+          if (this.isSelected === false) {
+            this.isSelected = true;
+          } else {
+            this.isSelected = false;
+          }
+        },
+        allSelect() {
+          if (this.isAllSelected === false) {
+            this.isAllSelected = true;
+            console.log(JSON.parse(JSON.stringify(this.allRecipeIds)))
+            console.log(this.selectedRecipes)
+            this.selectedRecipes = JSON.parse(JSON.stringify(this.allRecipeIds));
+            console.log(this.selectedRecipes)
+          } else {
+            this.isAllSelected = false;
+          }
+        },
+        deletedRecipe(recipe){
+          this.recipes = this.recipes.filter(item => item.recipeId !== recipe.recipeId);
+        },
+        deleteRecipes(){
+          axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, {
+            headers, 
+            data: {
+              recipeIds: this.selectedRecipes.join(", ")
+            }
+          })
+          .then(response => {
+            console.log("success")
+            this.recipes = this.recipes.filter(recipe => !this.selectedRecipes.includes(recipe.recipeId));
+            this.selectedRecipes = []
+          }).catch( error => {
+          });
+        },
+        selectedRecipe(recipeId){
+          this.selectedRecipes.push(recipeId)
+        },
+        unselectedRecipe(recipeId){
+          this.selectedRecipes = this.selectedRecipes.filter(item => item !== recipeId);
+        }
+      },
+    });
+
+    app.component('app-nav', {
+      data() {
+        return {
+          showIsActive: false,
+          random: [],
+          profileImage:"img/icon/profile.png",
+          active: "favourites"
+        }
+      },
+      props: {
+        allrecipes: {
+          type: Array,
+          required: true
+        },
+        size: {
+          type: Number,
+          required: false,
+          default: 12
+        }
+      },
+      methods: {
+        ...navbar.methods,
+        showHideModal() {
+          this.showIsActive = !this.showIsActive;
+          this.generateRandomRecipe();
+        },
+        generateRandomRecipe() {
+          if (this.allrecipes.length > 0) {
+            const length = this.allrecipes.length;
+            const r = this.allrecipes[Math.floor(Math.random() * length)];
+            this.random = r;
+          }
+        },
+        closeModal() {
+          this.showIsActive = !this.showIsActive;
+        },
+      },
+      template: navbar.template + `
+        <div class="random-recipe" :class="{active: showIsActive}">
+          <div class="overlay" @click="closeModal"></div>
+          <div class="modal-box">
+            <h3>Random Recipe Generator</h3>
+            ${listing.single}
+            <div class="buttons">
+              <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
+              <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+              <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
+            </div>
+          </div>
+        </div>
+      `,
+      mounted(){
+        axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+          headers:headers,
+        })
+        .then(response => {
+          console.log(response.data)
+          var image = response.data.image.data
+          if (image.length > 0) {
+            var uint8Array = new Uint8Array(image);
+            var binaryString = String.fromCharCode.apply(null, uint8Array);
+            this.profileImage = binaryString
+          } 
+        })
+      }
+    });
+
+    app.component('recipe-listing', {
+      data() {
+        return {
+          pageNumber: 1,
+          fav: 0,
+          selectedListings: [],
+          allSelected: [],
+        }
+      },
+      props: {
+        recipe: {
+          type: Array,
+          required: true
+        },
+        allRecipeId: {
+          type: Array,
+          required: true
+        },
+        select: {
+          type: Boolean,
+          required: true
+        },
+        all: {
+          type: Boolean,
+          required: true
+        },
+        size: {
+          type: Number,
+          required: false,
+          default: 16
+        }
+      },
+      emits: ['deleted', 'selected', 'unselected'],
+      methods:{
+        changeColor(recipe) {
+          console.log(recipe)
+          recipe.fav = recipe.fav === 0 ? 1 : 0;
+          if (recipe.fav === 1) {
+            axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})
+            .then(response => {
+              console.log("success")
+            }).catch( error => {
+            });
+          } else {
+            axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, {
+              headers, 
+              data: {
+                recipeIds: recipe.recipeId.toString()
+              }
+            })
+            .then(response => {
+              console.log("success")
+              this.$emit('deleted', recipe)
+            }).catch( error => {
+              console.log(error)
+            });
+          }
+        },
+        nextPage() {
+          this.pageNumber++;
+        },
+        prevPage() {
+          this.pageNumber--;
+        },
+        toggleSelect(recipeId) {
+          const isExists = this.selectedListings.indexOf(recipeId);
+          if (isExists > -1) {
+            this.selectedListings.splice(isExists, 1); // Remove the item if it exists
+            this.$emit('unselected', recipeId)
+          } else {
+            this.selectedListings.push(recipeId); // Add the item if it does not exist
+            this.$emit('selected', recipeId)
+          }
+        },
+        toggleAll(recipeId) {
+          const isExists = this.allSelected.indexOf(recipeId);
+          if (isExists > -1) {
+            this.allSelected.splice(isExists, 1); // Remove the item if it exists
+          } else {
+            this.allSelected.push(recipeId); // Add the item if it does not exist
+          }
+        },
+        /*
+        deleteFavorites() {
+          this.recipe = this.recipe.filter(item => !item.selected);
+        }
+        */
+      },
+      computed: {
+        pageCount() {
+          let l = this.recipe.length;
+          let s = this.size;
+          return Math.ceil(l/s);
+        },
+        recipeData() {
+          const start = this.pageNumber * this.size - this.size;
+          const end = start + this.size;
+          return this.recipe.slice(start, end);
+        },
+      },
+      template: listing.favtemplate + `
+        <div class="m-4 d-flex align-items-center justify-content-end w-100">
+          <p class="m-1">Total {{ pageCount }} pages</p>
+          <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+          <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+          <template v-if="pageCount <= 7">
+            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="pageNumber = page"> {{ page }}
+            </button>
+          </template>
+          <template v-else>
+            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === 1 }" @click="pageNumber = 1">1</button>
+            <template v-if="pageNumber <= 6">
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + 1 }" v-for="page in 5" @click="pageNumber = page + 1"> {{ page + 1 }}</button>
+              <span class="m-1">...</span>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+            </template>
+            <template v-else-if="pageNumber >= pageCount - 4">
+              <span class="m-1">...</span>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + pageCount - 6 }" v-for="page in 6" @click="pageNumber = page + pageCount - 6"> {{ page + pageCount - 6 }}</button>
+            </template>
+            <template v-else>
+              <span class="m-1">...</span>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 2">{{ pageNumber - 2 }}</button>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber - 1">{{ pageNumber - 1 }}</button>
+              <button type="button" class="btn btn-sm m-1 rounded-circle btn-dark" disabled>{{ pageNumber }}</button>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 1">{{ pageNumber + 1 }}</button>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="pageNumber = pageNumber + 2">{{ pageNumber + 2 }}</button>
+              <span class="m-1">...</span>
+              <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="pageNumber = pageCount">{{ pageCount }}</button>
+            </template>
+          </template>
+          <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+          <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+        </div>
+      `
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>

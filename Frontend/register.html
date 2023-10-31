@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Register</title>
+    <link rel="icon" href="./img/nomstersicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="css/master.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/register.css" />
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <style>
+      /* code for the wave */
+      body {
+        overflow: hidden;
+        background-image: url("img/login.png");
+        background-size: cover;
+      }
+
+      .ocean {
+        background-color: white;
+        height: 0%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .wave {
+        background: url("img/waveRed.svg") repeat-x;
+        position: absolute;
+        top: -150px;
+        width: 6400px;
+        height: 150px;
+        animation: wave 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+        transform: translate3d(0, 0, 0);
+
+        /*animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;*/
+      }
+
+      @keyframes wave {
+        0% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(-50%);
+        }
+        100% {
+          transform: translate(-100%);
+        }
+      }
+
+      @keyframes swell {
+        0%,
+        100% {
+          transform: translate3d(0, -25px, 0);
+        }
+        50% {
+          transform: translate3d(0, 5px, 0);
+        }
+      }
+      /* end of wave code */
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="container-fluid mt-5 mb-5">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-4">
+            <div class="text-center">
+              <label
+                for="form-control"
+                class="form-label chooseprofilepic"
+                style="color: black"
+                >Choose Profile Picture</label
+              >
+              <img id="frame" :src="imagePreview" class="img-fluid" />
+              <input
+                class="form-control fileinput"
+                type="file"
+                id="formFile"
+                @change="previewImage"
+                ref="fileInput"
+                required
+              />
+              <button @click="clearImage" class="btn btn-secondary mt-3 clear">
+                Clear Image
+              </button>
+            </div>
+          </div>
+
+          <!-- center column -->
+          <div class="col-4">
+            <div class="row">
+              <div class="form">
+                <div class="logo-container">
+                  <img src="img/logo.png" alt="logo" class="logo" />
+                </div>
+                <form @submit.prevent="registerUser">
+                  <div class="mb-3">
+                    <input
+                      v-model="username"
+                      type="text"
+                      class="form-control"
+                      id="exampleInputUsername1"
+                      placeholder="Username"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <input
+                      v-model="password"
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                      placeholder="Password"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <input
+                      v-model="confirmPassword"
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword2"
+                      placeholder="Confirm Password"
+                      required
+                    />
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="submit"
+                      class="btn btn-danger"
+                      style="
+                        font-weight: lighter;
+                        position: relative;
+                        z-index: 9999;
+                      "
+                    >
+                      Register
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="filler col-1"></div>
+          <!-- right column -->
+          <div class="col-2 rightcol">
+            <div class="p-3 py-5 mt-5">
+              <br /><br />
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>Special Diet</h4>
+              </div>
+              <br />
+              <div v-for="diet in diets" class="form-check" :key="diet.id">
+                <input
+                  v-model="selectedDiets"
+                  class="form-check-input"
+                  type="checkbox"
+                  :value="diet.value"
+                  :id="diet.id"
+                />
+                <label class="form-check-label" :for="diet.id"
+                  >{{diet.value}}</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ocean">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            username: "",
+            password: "",
+            confirmPassword: "",
+            imagePreview: "",
+            diets: [],
+            selectedDiets: [],
+          };
+        },
+        mounted() {
+          this.fetchDiets();
+        },
+        methods: {
+          fetchDiets() {
+            axios
+              .get("https://leaptron2.dscloud.me:3000/api/diet")
+              .then((response) => {
+                this.diets = response.data.map((item) => ({
+                  id: item.name.replace(/\s+/g, "_").toLowerCase(),
+                  value: item.name,
+                  checked: false,
+                }));
+              })
+              .catch((error) => {});
+          },
+          previewImage() {
+            this.imagePreview = URL.createObjectURL(
+              this.$refs.fileInput.files[0]
+            );
+          },
+          clearImage() {
+            this.imagePreview = "";
+            this.$refs.fileInput.value = null;
+          },
+          registerUser() {
+            if (this.password !== this.confirmPassword) {
+              alert("Passwords do not match.");
+              return;
+            }
+
+            var file = this.$refs.fileInput.files[0];
+
+            if (file) {
+              this.readAndUploadFile(file)
+                .then((fileData) => {
+                  axios
+                    .post("https://leaptron2.dscloud.me:3000/api/signup", {
+                      username: this.username,
+                      password: this.password,
+                      image: fileData,
+                    })
+                    .then((response) => {
+                      let token = response.data.token;
+                      let userId = response.data.userId;
+                      sessionStorage.setItem("token", token);
+                      sessionStorage.setItem("userId", userId);
+                      const selectedDiets = this.selectedDiets;
+                      console.log(selectedDiets);
+                      var dietdata = "";
+
+                      if (selectedDiets.length > 0) {
+                        for (let i = 0; i < selectedDiets.length; i++) {
+                          dietdata += selectedDiets[i];
+      
+                          // Add a comma and space if it's not the last item
+                          if (i < selectedDiets.length - 1) {
+                              dietdata += ", ";
+                          }
+                        }
+    
+                        const headers = {
+                          Authorization: `Bearer ${token}`,
+                        };
+
+                        console.log(headers);
+                        
+                        axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/diet`, 
+                          {
+                            diets: dietdata, // Ensure the property name is 'diets', not 'dietdata'
+                          },
+                          {
+                            headers: headers, // Pass the headers as a separate object
+                          }
+                        )
+                        .then((response) => {
+                          console.log(response.data);
+                          const homePageUrl = `./home.html`;
+                          window.location.href = homePageUrl;
+                        })
+                        .catch((error) => {
+                          console.log(error.response.data.message);
+                        });
+                        
+                      } else {
+                        const homePageUrl = `./home.html`;
+                        window.location.href = homePageUrl;
+                      }
+                    });
+
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            } else {
+              axios
+                .post("https://leaptron2.dscloud.me:3000/api/signup", {
+                  username: this.username,
+                  password: this.password,
+                  image: "",
+                })
+                .then((response) => {
+                  let token = response.data.token;
+                  let userId = response.data.userId;
+                  sessionStorage.setItem("token", token);
+                  sessionStorage.setItem("userId", userId);
+                  const selectedDiets = this.selectedDiets;
+                  console.log(selectedDiets);
+
+                  var dietdata = "";
+
+                  if (selectedDiets.length > 0) {
+                    for (let i = 0; i < selectedDiets.length; i++) {
+                      dietdata += selectedDiets[i];
+
+                      // Add a comma and space if it's not the last item
+                      if (i < selectedDiets.length - 1) {
+                        dietdata += ", ";
+                      }
+                    }
+
+                    const headers = {
+                      Authorization: `Bearer ${token}`,
+                    };
+
+                    console.log(headers);
+
+                    axios
+                      .post(
+                        `https://leaptron2.dscloud.me:3000/api/user/${userId}/diet`,
+                        {
+                          diets: dietdata, // Ensure the property name is 'diets', not 'dietdata'
+                        },
+                        {
+                          headers: headers, // Pass the headers as a separate object
+                        }
+                      )
+                      .then((response) => {
+                        console.log(response.data);
+                        const homePageUrl = `./home.html`;
+                        window.location.href = homePageUrl;
+                      })
+                      .catch((error) => {
+                        console.log(error.response.data.message);
+                      });
+                  } else{
+                    const homePageUrl = `./home.html`;
+                    window.location.href = homePageUrl;
+                  }
+                });
+            }
+          },
+          readAndUploadFile(file) {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+
+              reader.onload = function (e) {
+                const fileData = e.target.result;
+                resolve(fileData);
+              };
+
+              reader.onerror = function (error) {
+                reject(error);
+              };
+
+              reader.readAsDataURL(file);
+            });
+          },
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
