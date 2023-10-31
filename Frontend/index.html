@@ -16,58 +16,7 @@
     crossorigin="anonymous">
 
     <link rel="stylesheet" href="css/master.css">
-    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/index.css">
-    <style>
-         /* code for the wave */
-
-        body {
-            overflow: hidden;
-            background-image: url('img/login.png');
-            background-size: cover;
-        }
-
-        .ocean { 
-            background-color: white;
-            height: 0%;
-            width:100%;
-            position:absolute;
-            bottom:0;
-            left:0;
-        }
-
-        .wave {
-            background: url('img/waveRed.svg') repeat-x; 
-            position: absolute;
-            top: -150px;
-            width: 6400px;
-            height: 150px;
-            animation: wave 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-            transform: translate3d(0, 0, 0);
-        
-            /*animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;*/
-        }
-            
-        @keyframes wave {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translate(-100%);
-            }
-        }
-        
-
-        @keyframes swell {
-            0%, 100% {
-                transform: translate3d(0,-25px,0);
-            }
-            50% {
-                transform: translate3d(0,5px,0);
-            }
-        }
-        /* end of wave code */
-    </style>
 </head>
 
 <body>

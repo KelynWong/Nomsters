@@ -1,3 +1,54 @@
+/* code for the wave */
+body {
+    overflow: hidden;
+    background-image: url("../img/login.png");
+    background-size: cover;
+}
+
+.ocean {
+    background-color: white;
+    height: 0%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.wave {
+    background: url("../img/waveRed.svg") repeat-x;
+    position: absolute;
+    top: -150px;
+    width: 6400px;
+    height: 150px;
+    animation: wave 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+
+    /*animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;*/
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translate(-100%);
+    }
+}
+
+@keyframes swell {
+    0%,
+    100% {
+        transform: translate3d(0, -25px, 0);
+    }
+    50% {
+        transform: translate3d(0, 5px, 0);
+    }
+}
+/* end of wave code */
+      
 .bigdiv {
     padding-top:5%;
     display:block;
@@ -7,85 +58,85 @@
     width: 100%;
 }
 
-    .icon {
-        margin: auto;
-        text-align: center;
-        color: black;
-    }
+.icon {
+    margin: auto;
+    text-align: center;
+    color: black;
+}
 
-    #exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
-        margin-top: 10px;
-        width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+#exampleInputUsername1, #exampleInputPassword1, #exampleInputPassword2, #formFile{
+    margin-top: 10px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .btn {
-        background-color: #DE352A;
-        outline-style: none;
-        margin-bottom: 1cm;
-        margin-top: 10px;
-        width: 35%;
-        border-style: none !important;
-    }
+.btn {
+    background-color: #DE352A;
+    outline-style: none;
+    margin-bottom: 1cm;
+    margin-top: 10px;
+    width: 35%;
+    border-style: none !important;
+}
 
-    .clear {
-        background-color: grey;
-        outline-style: none;
-        margin-bottom: 1cm;
-        margin-top: 10px;
-        width: 30%;
-        border-style: none !important;
-    }
+.clear {
+    background-color: grey;
+    outline-style: none;
+    margin-bottom: 1cm;
+    margin-top: 10px;
+    width: 30%;
+    border-style: none !important;
+}
 
-    a {
-        color: #DE352A;
-    }
+a {
+    color: #DE352A;
+}
 
-    .signup {
-        color:black;
-        font-size: small;
-    }
+.signup {
+    color:black;
+    font-size: small;
+}
 
-    .logo {
-        margin-left: auto;
-        margin-right: auto;
-        width: 15cm;
-        
-    }
+.logo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 15cm;
+    
+}
 
-    #frame {
-        max-width: 100px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+#frame {
+    max-width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .chooseprofilepic {
-        text-align: left !important;
-        font-size: 18px;
-        margin-top: 40%;
-        
-    }
+.chooseprofilepic {
+    text-align: left !important;
+    font-size: 18px;
+    margin-top: 40%;
+    
+}
 
-    .border-right {
-        border-right: 1px solid #dee2e6 !important;
-    }
+.border-right {
+    border-right: 1px solid #dee2e6 !important;
+}
 
-    .container-fluid {
-        padding-top: 5%;
-    }
+.container-fluid {
+    padding-top: 5%;
+}
 
-    .logo-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    .fileinput {
-        max-width: 75%;
-    }
+.fileinput {
+    max-width: 75%;
+}
 
-    .rightcol {
-        margin-left:20px;
-    }
+.rightcol {
+    margin-left:20px;
+}

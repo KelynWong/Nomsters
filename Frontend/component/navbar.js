@@ -55,7 +55,8 @@ const navbar = {
             </div>
         </div> 
 
-        <nav class="navbar navbar-expand-lg bg-light d-lg-none sticky-top">
+        <!--  sticky-top -->
+        <nav class="navbar navbar-expand-lg bg-light d-lg-none">
             <div class="container-fluid" style="padding-right: 21px;">
                 <a href="home.html"><img src="img/logo.png" alt="logo" class="logo" /></a>
                 <div class="menu-bar" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">

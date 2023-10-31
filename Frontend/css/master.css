@@ -50,7 +50,7 @@
 html, body {
     height: 100%;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    /* dun add overflow- overflow-x: hidden; bec scrolltotop wont work */
 }
 
 /* ::-webkit-scrollbar-thumb {

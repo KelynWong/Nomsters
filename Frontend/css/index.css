@@ -1,3 +1,52 @@
+/* code for the wave */
+
+body {
+    overflow: hidden;
+    background-image: url('../img/login.png');
+    background-size: cover;
+}
+
+.ocean { 
+    background-color: white;
+    height: 0%;
+    width:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+
+.wave {
+    background: url('../img/waveRed.svg') repeat-x; 
+    position: absolute;
+    top: -150px;
+    width: 6400px;
+    height: 150px;
+    animation: wave 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+
+    /*animation: wave 40s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;*/
+}
+    
+@keyframes wave {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translate(-100%);
+    }
+}
+
+
+@keyframes swell {
+    0%, 100% {
+        transform: translate3d(0,-25px,0);
+    }
+    50% {
+        transform: translate3d(0,5px,0);
+    }
+}
+/* end of wave code */
+
 .bigdiv {
     position: relative;
     padding-top:10%;
@@ -21,47 +70,48 @@
     align-items: center;
     justify-content: center;
 }
-    .icon {
-        margin: auto;
-        text-align: center;
-        color: black;
-    }
 
-    #exampleInputUsername1, #exampleInputPassword1 {
-        margin-top: 10px;
-        width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.icon {
+    margin: auto;
+    text-align: center;
+    color: black;
+}
 
-    .btn {
-        background-color: #DE352A;
-        outline-style: none;
-        margin-bottom: 1cm;
-        margin-top: 10px;
-        width: 35%;
-        border-style:none;
-         
-    }
+#exampleInputUsername1, #exampleInputPassword1 {
+    margin-top: 10px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    /* .slide:hover,
-    .slide:focus {
-    box-shadow: inset 6.5em 0 0 0 var(--hover);
-    } */
-
-    a {
-        color: #DE352A;
-    }
-
-    .signup {
-        color:black;
-        font-size: small;
-    }
-
-    .logo {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 15cm;
+.btn {
+    background-color: #DE352A;
+    outline-style: none;
+    margin-bottom: 1cm;
+    margin-top: 10px;
+    width: 35%;
+    border-style:none;
         
-    }
+}
+
+/* .slide:hover,
+.slide:focus {
+box-shadow: inset 6.5em 0 0 0 var(--hover);
+} */
+
+a {
+    color: #DE352A;
+}
+
+.signup {
+    color:black;
+    font-size: small;
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15cm;
+    
+}
