@@ -31,7 +31,7 @@
 <body>
     <div id="app">
         <div :class="{onScroll: isScrolled}">
-            <app-nav :allrecipes="allrecipes"></app-nav>
+            <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
                 <div class="edit-profile-wrapper">
                 <h2 class="text-center pb-5">
                     Edit Profile

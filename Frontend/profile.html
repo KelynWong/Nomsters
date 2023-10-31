@@ -33,7 +33,7 @@
 
   <div id="app">
     <div :class="{onScroll: isScrolled}">
-      <app-nav :allrecipes="allrecipes"></app-nav>
+      <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
         <div class="box"></div>
        
         <div class="dp">
