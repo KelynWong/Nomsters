@@ -41,7 +41,13 @@
         margin-top: 10px;
         width: 35%;
         border-style:none;
+         
     }
+
+    /* .slide:hover,
+    .slide:focus {
+    box-shadow: inset 6.5em 0 0 0 var(--hover);
+    } */
 
     a {
         color: #DE352A;

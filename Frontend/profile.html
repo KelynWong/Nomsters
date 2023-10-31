@@ -34,37 +34,40 @@
   <div id="app">
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes"></app-nav>
-      <div class="banner">
-      </div>
-    
-      <img :src="image" alt="logo" class="profilepic mx-auto" /><br>
-      <div class="text-center"><h2>Welcome back,</h2></div><br>
-      <div class="username text-center">{{name}}</div>
+        <div class="box"></div>
+       
+        <div class="dp">
+          <img :src="image" alt="logo" class="profilepic mx-auto" />
+        </div>
+        <br>
+        <div class="text-center"><h2>Welcome back,</h2></div><br>
+        <div class="username text-center">{{name}}</div>
 
-      <div class="mt-5 mb-5 text-center"><a href="./editprofile.html"><button class="btn rounded btn-danger shadow-sm" style='font-weight:lighter' type="button">Edit Profile</button></a></div>
+        <div class="mt-5 mb-5 text-center"><a href="./editprofile.html"><button class="btn rounded btn-danger shadow-sm" style='font-weight:lighter' type="button">Edit Profile</button></a></div>
 
-      <div class="row">
-        <div class="col-2"></div>
-        <!-- <div id="col-8 p-3"> -->
-          <div class="container rounded section-head p-3 bg-light col-8">
-            <h3 class="ml-2">Recipes <span class="red">Shared</span></h3>
-            <recipe-listing v-if="!isEmpty" :recipe="recipes"></recipe-listing>
+        <div class="row">
+          <!-- <div class="col-2"></div> -->
+          <!-- <div id="col-8 p-3"> -->
+          <div class="container rounded section-head p-3 bg-light flex-row scrollmenu" >
+            <h3 class="recipesShared">Recipes <span class="red">Shared</span></h3>
+            
+            <recipe-listing class="col-3 item" v-if="!isEmpty" :recipe="recipes"></recipe-listing>
+            
             <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
               <p>Post some recipes and it will be displayed here!</p>
+            </div>
           </div>
-          </div>
-        <!-- </div> -->
-        <div class="col-2"></div>
-      </div>
-      
-      <div id="BackToTop" @click="scrollToTop">
-        <div class="btt-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
-            <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
-          </svg>
+          <!-- </div> -->
+          <!-- <div class="col-2"></div> -->
         </div>
-      </div>
-      <app-footer></app-footer>
+        <div id="BackToTop" @click="scrollToTop">
+          <div class="btt-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
+              <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
+            </svg>
+          </div>
+        </div>
+        <app-footer></app-footer>
     </div>
   </div>
 
@@ -72,7 +75,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
   crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>

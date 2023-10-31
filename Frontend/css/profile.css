@@ -37,7 +37,7 @@
     color: #ffffff; /* Text color */
     /* padding: 20px; */
     text-align: center;
-    height: 200px;
+    height: 100px;
     background-color: #DE352A;
 }
 
@@ -47,4 +47,50 @@ h2 {
 
 .username {
     font-size: 30px;
+}
+
+.recipesShared {
+    margin-right: 20px;
+}
+
+.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+#recipelisting {
+    display: inline-block;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+.box {
+    width: 100%; 
+    height: 100px;
+    background-color: #DE352A;
+    border-radius: 0 0 50% 50%;
+  }
+
+.dp {
+    max-width: 200px;
+    height: auto;
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;    
+    z-index: 1000;
+    margin-top: -100px;
+}
+
+.dp img{
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;  
 }
