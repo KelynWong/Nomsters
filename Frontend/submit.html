@@ -176,7 +176,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>
@@ -460,64 +459,39 @@
         },
       },
       template: navbar.template + `
-            <div class="random-recipe" :class="{active: showIsActive}">
-                <div class="overlay" @click="closeModal"></div>
-                <div class="modal-box">
-                    <h3>Random Recipe Generator</h3>
-                    ${listing.single}
-                    <div class="buttons">
-                        <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
-                        <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                        <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
-                    </div>
+        <div class="random-recipe" :class="{active: showIsActive}">
+            <div class="overlay" @click="closeModal"></div>
+            <div class="modal-box">
+                <h3>Random Recipe Generator</h3>
+                ${listing.single}
+                <div class="buttons">
+                    <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
+                    <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+                    <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
                 </div>
             </div>
-          `, mounted(){
-            const headers = {
-            Authorization: `BEARER ${token}`
-          }
-          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
-            headers:headers,})
-            .then(response => {
-              console.log(response.data)
-              var image = response.data.image.data
-              if(image.length>0){
-          var uint8Array = new Uint8Array(image);
-          var binaryString = String.fromCharCode.apply(null, uint8Array);
-          this.profileImage = binaryString
-              } 
-              })}
-          
+        </div>
+      `, 
+      mounted(){
+        const headers = {
+          Authorization: `BEARER ${token}`
+        }
+        axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+          headers:headers,
+        })
+        .then(response => {
+          console.log(response.data)
+          var image = response.data.image.data
+          if (image.length > 0) {
+            var uint8Array = new Uint8Array(image);
+            var binaryString = String.fromCharCode.apply(null, uint8Array);
+            this.profileImage = binaryString
+          } 
+        })
+      } 
     });
-
-    app.component('app-listing', listing);
 
     app.mount('#app');
-
-    gsap.from("#countRecipe", {
-      textContent: 0,
-      duration: 4,
-      ease: "power1.in",
-      snap: { textContent: 1 }
-    });
-
-    const buttons = document.querySelectorAll(".topRecipe");
-
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        buttons.forEach(function (btn) {
-          btn.classList.remove("btn-danger");
-          btn.classList.add("btn-outline-secondary");
-
-          var rmv = document.getElementById(btn.getAttribute("data-value"));
-          rmv.style.display = 'none';
-        });
-
-        var content = document.getElementById(event.target.getAttribute("data-value"));
-        content.style.display = 'block';
-      });
-    });
-
   </script>
 </body>
 
