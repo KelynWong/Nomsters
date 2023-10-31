@@ -176,12 +176,12 @@ span {
 
 .width-75 {
     width: 75%;
-    margin: 0 auto;
+    margin: 54px auto;
 }
 
 .width-80 {
     width: 80%;
-    margin: 0 auto;
+    margin: 54px auto;
 }
 
 .btn {
@@ -631,6 +631,8 @@ span {
 
 .container-listing .recipe-img img {
     border-radius: 8px;
+    display: block;
+    width: 100%;
 }
 
 .recipe-img svg {
@@ -677,12 +679,11 @@ span {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 10px 0 8px;
+    margin: 8px 0 6px;
 }
 
 .subdesc {
-    width: 50%;
-    margin-left: -2px;
+    margin: 5px 26px 4px -2px;
 }
 
 .subdesc .p-14 {

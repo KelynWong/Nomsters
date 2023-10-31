@@ -7,6 +7,10 @@
 #formfield,
 #textbox,
 #formfield2,
+.edit-profile-wrapper {
+    margin: 54px auto;
+}
+
 #textbox2 {
     margin-bottom: 5px;
 }

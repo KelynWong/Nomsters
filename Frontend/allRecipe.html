@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="row form results">
-                    <div class="col-md-4 col-lg-3 filter">
+                    <div class="col-md-4 col-xl-3 filter">
                         <button type="button" class="collapsible filter-header">Dish Type <span>+</span></button>
                         <ul class="content col2">
                             <li v-for="dishtype in dishtypes">
@@ -126,7 +126,7 @@
                             <div class="legend" style="margin-top: 14px;"><div>${{Math.round(minPrice)}}</div><div>${{Math.round(maxPrice)}}</div></div>
                         </div>
                     </div>
-                    <div class="col-md-8 col-lg-9">
+                    <div class="col-md-8 col-xl-9">
                         <div v-if="!isError" class="row">
                             <recipe-listing :recipe="recipes"></recipe-listing>
                         </div>

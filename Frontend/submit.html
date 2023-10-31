@@ -39,7 +39,7 @@
           <!-- Text Fields -->
           <div class="mb-4">
             <label for="recipeName" class="form-label">
-              <img src="img/recipe.png" class="me-1" />
+              <img src="img/recipe.png" class="me-1" width="28" />
               Recipe Name
             </label>
             <textarea v-model="formData.title" class="form-control" id="recipeName" rows="1" required></textarea>
@@ -47,18 +47,18 @@
 
           <div class="mb-4">
             <label for="formFile" class="form-label chooseprofilepic" style="color: black; text-align: start !important;">
-              <img src="img/recipePhoto.png" class="me-1" />
+              <img src="img/recipePhoto.png" class="me-1" width="28" />
               Choose Recipe Photo
             </label>
             <input type="file" class="form-control" id="formFile" @change="handleImageChange"
               placeholder="upload profile pic" required />
-            <button @click="clearImage" class="btn btn-secondary mt-3 clear" type="button">Clear Image</button>
+            <button @click="clearImage" class="btn btn-secondary mt-1 clear" type="button">Clear Image</button>
           </div>
 
           <div class="row 2 mb-4">
             <div class="col-6">
               <label for="recipeDirections" class="form-label">
-                <img src="img/instructions.png" class="me-1" />
+                <img src="img/instructions.png" class="me-1" width="28" />
                 Instructions
               </label>
               <div v-for="(step, index) in formData.direction" :key="index" id="formfield">
@@ -71,7 +71,7 @@
 
             <div class="col-6">
               <label for="recipeIngredients" class="form-label">
-                <img src="img/ingredient.png" class="me-1" />
+                <img src="img/ingredient.png" class="me-1" width="28" />
                 Ingredients
               </label>
               <div v-for="(step, index) in formData.ingredient" :key="index" id="formfield">
@@ -87,7 +87,7 @@
           <div class="row mb-4">
             <div class="form-outline col-4">
               <label class="form-label" for="preparationTime">
-                <img src="img/prepTime.png" class="me-1" />
+                <img src="img/prepTime.png" class="me-1" width="28" />
                 Preparation Time (mins)
               </label>
               <input v-model="formData.preparationTime" type="number" class="form-control" id="preparationTime"
@@ -95,7 +95,7 @@
             </div>
             <div class="form-outline col-4">
               <label class="form-label" for="servings">
-                <img src="img/serving.png" class="me-1" />
+                <img src="img/serving.png" class="me-1" width="28" />
                 Number of Servings
               </label>
               <input v-model="formData.servings" type="number" class="form-control" id="servings" placeholder="4"
@@ -103,7 +103,7 @@
             </div>
             <div class="form-outline col-4">
               <label class="form-label" for="pricePerServing">
-                <img src="img/price.png" class="me-1" />
+                <img src="img/price.png" class="me-1" width="28"  />
                 Price (per serving in $)
               </label>
               <input v-model="formData.pricePerServing" type="number" class="form-control" id="pricePerServing"
@@ -113,7 +113,7 @@
 
           <!-- Checkboxes -->
           <div class="mb-4">
-            <p><img src="img/category.png" class="me-2" />Catgeries</p>
+            <p><img src="img/category.png" class="me-2" width="24" />Catgeries</p>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.vegetarian">
               <label class="form-check-label" for="vegetarian">

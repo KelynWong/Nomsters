@@ -1,6 +1,6 @@
 const listing = {
     template: `
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-md-6 col-lg-4 container-listing" v-for="r in recipeData" >
+        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-4 container-listing" v-for="r in recipeData" >
             <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
             <div class="recipe-img">
                 <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />

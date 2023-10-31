@@ -32,78 +32,80 @@
     <div id="app">
         <div :class="{onScroll: isScrolled}">
             <app-nav :allrecipes="allrecipes"></app-nav>
-            <h2 class="text-center p-5 m-0">
-                Edit Profile
-            </h2>
-            <form>
-                <div class="container rounded bg-white mb-5">
-                    <div class="row justify-content-center">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img id="frame" :src="image" class="img-fluid mx-auto">
-                            </div>
-                            <div class="mb-2 text-center">
-                                <label for="form-control" class="form-label chooseprofilepic"
-                                    style="color:black; text-align: start !important;">Edit Profile Picture</label>
-                                <input class="form-control" type="file" id="formFile" onchange="preview()"
-                                    placeholder="upload profile pic">
-                                <button onclick="clearImage()" class="btn btn-secondary mt-3 clear shadow-sm">
-                                    Clear Image
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-5 border-right">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right">Profile Settings</h4>
+                <div class="edit-profile-wrapper">
+                <h2 class="text-center pb-5">
+                    Edit Profile
+                </h2>
+                <form>
+                    <div class="container rounded bg-white mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-3 border-right">
+                                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                    <img id="frame" :src="image" class="img-fluid mx-auto">
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <label class="labels">Display Name</label>
-                                        <input type="text" class="form-control" :value=name id="exampleInputUsername1">
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <label class="labels">Change Password</label>
-                                        <input type="password" class="form-control" placeholder="Enter new password" id="exampleInputPassword1">
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <label class="labels">Confirm Password</label>
-                                        <input type="password" class="form-control" placeholder="Confirm Password" id="exampleInputPassword2">
-                                    </div>
-                                </div>
-                                <div class="mt-5 text-center">
-                                    <button class="btn btn-danger shadow-sm" style='font-weight:lighter' type="submit" onclick=" updateUser(event)">
-                                        Save Profile
+                                <div class="mb-2 text-center">
+                                    <label for="form-control" class="form-label chooseprofilepic"
+                                        style="color:black; text-align: start !important;">Edit Profile Picture</label>
+                                    <input class="form-control" type="file" id="formFile" onchange="preview()"
+                                        placeholder="upload profile pic">
+                                    <button onclick="clearImage()" class="btn btn-secondary mt-3 clear shadow-sm">
+                                        Clear Image
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center experience">
-                                    <h4>Edit Diet</h4>
-                                </div><br>
-                                <div v-for="diet in diets" class="form-check">
-                                    <input v-model="diet.checked" class="form-check-input" type="checkbox" v-bind:value="diet.value" id="">
-                                    <label class="form-check-label" for="">
-                                    {{diet.value}}
-                                    </label>
+                            <div class="col-md-5 border-right">
+                                <div class="p-3 py-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="text-right">Profile Settings</h4>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="labels">Display Name</label>
+                                            <input type="text" class="form-control" :value=name id="exampleInputUsername1">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="labels">Change Password</label>
+                                            <input type="password" class="form-control" placeholder="Enter new password" id="exampleInputPassword1">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label class="labels">Confirm Password</label>
+                                            <input type="password" class="form-control" placeholder="Confirm Password" id="exampleInputPassword2">
+                                        </div>
+                                    </div>
+                                    <div class="mt-5 text-center">
+                                        <button class="btn btn-danger shadow-sm" style='font-weight:lighter' type="submit" onclick=" updateUser(event)">
+                                            Save Profile
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 py-5">
+                                    <div class="d-flex justify-content-between align-items-center experience">
+                                        <h4>Edit Diet</h4>
+                                    </div><br>
+                                    <div v-for="diet in diets" class="form-check">
+                                        <input v-model="diet.checked" class="form-check-input" type="checkbox" v-bind:value="diet.value" id="">
+                                        <label class="form-check-label" for="">
+                                        {{diet.value}}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-            <div id="BackToTop" @click="scrollToTop">
-                <div class="btt-wrapper">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
-                    <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
-                  </svg>
+                </form>
+                <div id="BackToTop" @click="scrollToTop">
+                    <div class="btt-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 49 30" fill="none">
+                        <path d="M0.819336 24.1799L6.45934 29.8199L24.8193 11.4999L43.1793 29.8199L48.8193 24.1799L24.8193 0.179947L0.819336 24.1799Z" fill="white"/>
+                    </svg>
+                    </div>
                 </div>
             </div>
             <app-footer></app-footer>
