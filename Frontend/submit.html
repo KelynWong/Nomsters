@@ -32,7 +32,7 @@
   <div id="app">
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
-      <div class="container col-8">
+      <div class="container col-lg-9 col-md-12 col-sm-12">
         <!-- <img id="frame" src="" class="img-fluid mx-auto" /> -->
         <h3 class="text-center pb-5">Submit Recipe</h3>
         <form @submit.prevent="submitRecipe">
@@ -56,27 +56,27 @@
           </div>
 
           <div class="row 2 mb-4">
-            <div class="col-6">
+            <div class="col-lg-6 col-sm-12">
               <label for="recipeDirections" class="form-label">
                 <img src="img/instructions.png" class="me-1" width="28" />
                 Instructions
               </label>
               <div v-for="(step, index) in formData.direction" :key="index" id="formfield">
                 <input v-model="formData.direction[index]" type="text" class="form-control" :id="'textbox' + index"
-                  :placeholder="'Step ' + (index + 1)" required />
+                  :placeholder="'Dice carrots and onions'" required />
               </div>
               <button class="add btn btn-secondary mr-3" @click="addRecipe" type="button">Add</button>
               <button class="remove btn btn-secondary mr-3" @click="removeRecipe" type="button">Remove</button>
             </div>
 
-            <div class="col-6">
+            <div class="col-lg-6 col-sm-12">
               <label for="recipeIngredients" class="form-label">
                 <img src="img/ingredient.png" class="me-1" width="28" />
                 Ingredients
               </label>
               <div v-for="(step, index) in formData.ingredient" :key="index" id="formfield">
                 <input v-model="formData.ingredient[index]" type="text" class="form-control" :id="'textbox' + index"
-                  :placeholder="'Step ' + (index + 1)" required />
+                  :placeholder="'20g Potato'" required />
               </div>
               <button class="add btn btn-secondary mr-3" @click="addIngredient" type="button">Add</button>
               <button class="remove btn btn-secondary mr-3" @click="removeIngredient" type="button">Remove</button>
@@ -85,7 +85,7 @@
 
           <!-- Numeric Fields -->
           <div class="row mb-4">
-            <div class="form-outline col-4">
+            <div class="form-outline col-lg-4 col-sm-12 mb-4">
               <label class="form-label" for="preparationTime">
                 <img src="img/prepTime.png" class="me-1" width="28" />
                 Preparation Time (mins)
@@ -93,7 +93,7 @@
               <input v-model="formData.preparationTime" type="number" class="form-control" id="preparationTime"
                 placeholder="120" required />
             </div>
-            <div class="form-outline col-4">
+            <div class="form-outline col-lg-4 col-sm-12 mb-4">
               <label class="form-label" for="servings">
                 <img src="img/serving.png" class="me-1" width="28" />
                 Number of Servings
@@ -101,19 +101,19 @@
               <input v-model="formData.servings" type="number" class="form-control" id="servings" placeholder="4"
                 required />
             </div>
-            <div class="form-outline col-4">
+            <div class="form-outline col-lg-4 col-sm-12 mb-4">
               <label class="form-label" for="pricePerServing">
                 <img src="img/price.png" class="me-1" width="28"  />
                 Price (per serving in $)
               </label>
               <input v-model="formData.pricePerServing" type="number" class="form-control" id="pricePerServing"
-                placeholder="eg. $2" required />
+                placeholder="eg. 2" required />
             </div>
           </div>
 
           <!-- Checkboxes -->
           <div class="mb-4">
-            <p><img src="img/category.png" class="me-2" width="24" />Catgeries</p>
+            <p><img src="img/category.png" class="me-2 mb-3" width="24" />Categories</p>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" v-model="formData.checkboxes.vegetarian">
               <label class="form-check-label" for="vegetarian">
@@ -257,17 +257,25 @@
         addRecipe() {
           // Add a new recipe step to the formData.direction array
           this.formData.direction.push('');
+          
         },
         removeRecipe(index) {
           // Remove the recipe step at the specified index
-          this.formData.direction.pop();
+          if (this.formData.direction.length > 1) {
+            console.log(this.formData.direction.length);
+            this.formData.direction.pop();
+          }
         },
         addIngredient() {
+          
           this.formData.ingredient.push('');
         },
         removeIngredient(index) {
           // Remove the recipe step at the specified index
-          this.formData.ingredient.pop();
+          if (this.formData.ingredient.length > 1) {
+            this.formData.ingredient.pop();
+
+          }
         },
         submitRecipe() {
           function readAndUploadFile(file) {
