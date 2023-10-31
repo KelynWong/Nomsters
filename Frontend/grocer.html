@@ -23,12 +23,12 @@
   <div id="app">
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
-      <div class="container-fluid grocer-wrapper">
+      <div class="grocer-wrapper">
         <h3 class="grocer">Grocers Near You</h3>
         <h6 class="grocer">With more than 1,000 grocers, there is definitely one that suit your needs.</h6>
-        <div class="container">
+        <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="grocer-filter-container col-lg-6 col-xl-4">
               <div class="col-4-wrapper">
                 <div class="search-bar loc">
                   <img class="search-icon loc" src="img/icon/search.png" alt="search-icon" onclick="searchLocation()">
@@ -62,7 +62,7 @@
                 <div id="locations"></div>
               </div>
             </div>
-            <div class="col-lg-8">
+            <div class="map-container col-lg-6 col-xl-8">
               <!--The div element for the map -->
               <div id="map">
                 <!--Place where the extra infomation is added on marker click-->
@@ -161,6 +161,8 @@
 
     // Initialize and add the map
     async function initMap(currentLocation) {
+      var mediaQ = window.matchMedia("(max-width: 991px)")
+
       if (document.getElementById("locations")) {
         document.getElementById("locations").innerHTML = "";
       }
@@ -357,6 +359,9 @@
               if (previousMarker === marker) {
                 document.getElementById("display_info").classList.toggle("active");
                 document.getElementById("map").classList.toggle("active");
+                if (mediaQ.matches) {
+                  document.getElementsByClassName("map-container")[0].style.height = "0%";
+                }
 
                 locationDivs.forEach(div => {
                   if (div.getAttribute("id") == place_id) {
@@ -366,6 +371,9 @@
               } else {
                 document.getElementById("display_info").classList.add("active");
                 document.getElementById("map").classList.add("active");
+                if (mediaQ.matches) {
+                  document.getElementsByClassName("map-container")[0].style.height = "100%";
+                }
 
                 locationDivs.forEach(div => {
                   div.classList.remove('active');
@@ -380,6 +388,9 @@
                 previousMarker = null;
                 document.getElementById("display_info").classList.remove("active");
                 document.getElementById("map").classList.remove("active");
+                if (mediaQ.matches) {
+                  document.getElementsByClassName("map-container")[0].style.height = "0%";
+                }
 
                 locationDivs.forEach(div => {
                   div.classList.remove('active');
@@ -584,11 +595,17 @@
                 previousDiv.classList.remove('active');
                 document.getElementById("display_info").classList.remove("active");
                 document.getElementById("map").classList.remove("active");
+                if (mediaQ.matches) {
+                  document.getElementsByClassName("map-container")[0].style.height = "0%";
+                }
               }
     
               div.classList.toggle('active');
               document.getElementById("display_info").classList.toggle("active");
               document.getElementById("map").classList.toggle("active");
+              if (mediaQ.matches) {
+                document.getElementsByClassName("map-container")[0].style.height = "100%";
+              }
               previousDiv = div;
 
               var detailsurl = "https://leaptron2.dscloud.me:3000/api/maps/details";
@@ -765,6 +782,9 @@
               previousDiv = null;
               document.getElementById("display_info").classList.remove("active");
               document.getElementById("map").classList.remove("active");
+              if (mediaQ.matches) {
+                document.getElementsByClassName("map-container")[0].style.height = "0%";
+              }
               div.classList.remove('active');
             });
           });
@@ -906,21 +926,30 @@
       
           tab.classList.add("active");
 
-          var position = tab.parentElement.offsetLeft;
+          console.log(tab.parentElement)
+          var positionLeft = tab.parentElement.offsetLeft;
+          var positionTop = tab.parentElement.offsetTop;
           var width = tab.parentElement.clientWidth;
+          var height = tab.parentElement.clientHeight;
           var slider = document.querySelector("#nav-slider .slider");
-          slider.style.left = position + "px";
+          slider.style.left = positionLeft + "px";
+          slider.style.top = positionTop + "px";
           slider.style.width = width + "px";
+          slider.style.height = height + "px";
         });
       });
 
       var activeTab = document.querySelector("#nav-slider .nav-tabs .active");
       var activeTabParent = activeTab.parentElement;
+      console.log(activeTabParent)
+      console.log(activeTab)
       var actWidth = activeTabParent.clientWidth;
+      var actHeight = activeTabParent.clientHeight;
       var actPosition = activeTab.offsetLeft;
       var slider = document.querySelector("#nav-slider .slider");
       slider.style.left = actPosition + "px";
       slider.style.width = actWidth + "px";
+      slider.style.height = actHeight + "px";
 
       // then load n execute google maps api 
       initMap('');

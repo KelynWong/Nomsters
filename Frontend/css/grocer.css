@@ -1,5 +1,6 @@
 .grocer-wrapper {
   margin: 54px auto;
+  width: 90%;
 }
 
 h3.grocer, h6.grocer {
@@ -11,12 +12,13 @@ h6.grocer {
   margin-top: 24px;
 }
 
-.container {
+.grocer-wrapper .container-fluid {
   margin: 54px auto;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  position: relative;
 }
 
-.col-lg-4, .col-lg-8 {
+.grocer-filter-container, .map-container {
   padding: 0;
   position: relative;
   overflow: hidden;
@@ -86,7 +88,7 @@ h6.grocer {
   border-radius: 50px;
   background-color: #DE352A;
   position: absolute;
-  bottom: 0;
+  top: 0;
   transition: all .5s ease;
 }
 
@@ -100,7 +102,7 @@ h6.grocer {
 #locations {
   overflow-y: scroll;
   max-height: 500px;
-  padding-right: 16px;
+  padding: 16px;
 }
 
 .location-info {
@@ -197,9 +199,10 @@ h6.grocer {
 }
 
 #Extra_details_div {
-  margin: 0 28px 28px;
+  padding: 0 28px;
+  margin-bottom: 28px;
   overflow-y: scroll;
-  max-height: 100%;
+  max-height: 88%;
 }
 
 #Extra_details_div p, .map-link {
@@ -223,8 +226,51 @@ h6.grocer {
   background-repeat: no-repeat;
 }
 
+@media screen and (max-width: 1199px) {
+  #Extra_details_div {
+    max-height: 75%;
+  }
+  
+  #display_info {
+    right: -145%;
+    height: 50%;
+    width: 100%;
+  }
+
+  #map.active {
+    width: 100%;
+    height: 50%;
+  }
+
+  .image-div {
+    height: 18vw;
+  }
+}
+
 @media screen and (max-width: 991px) {
+  #locations {
+    max-height: 720px;
+  }
+
+  .map-container {
+    height: 0%;
+    overflow: hidden;
+    transition: height .25s ease-out;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  #display_info {
+    right: 0;
+  }
+
   .grocer-container {
     margin: 44px auto;
+  }
+
+  .image-div {
+    height: 45vw;
   }
 }
