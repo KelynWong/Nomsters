@@ -14,6 +14,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/grocer.css">
@@ -94,6 +95,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>
@@ -119,45 +121,43 @@
 
     // Add this function to your script tag
     function searchLocation() {
-  // Get the search input value
-  const searchValue = document.getElementById("locationSearch").value;
+      // Get the search input value
+      const searchValue = document.getElementById("locationSearch").value;
 
-  // Use the Google Geocoding API to get the coordinates of the searched location
-  axios
-    .get("https://maps.googleapis.com/maps/api/geocode/json", {
-      params: {
-        address: searchValue,
-        key: "AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk",
-        components: "country:SG",
-      }
-    })
-    .then((response) => {
-      if (response.data.status === "OK" && response.data.results.length > 0) {
-        // Extract the coordinates of the first result
-        const location = response.data.results[0].geometry.location;
-        const oldActiveTab = document.querySelector("#nav-slider .nav-link.active");
-        if (oldActiveTab) {
-         oldActiveTab.classList.remove("active");
-        }
-        document.querySelector("#all-tab").classList.add("active");
-        const slider = document.querySelector("#nav-slider .slider");
-       const allTab = document.querySelector("#all-tab");
-      slider.style.left = allTab.offsetLeft + "px";
-      slider.style.width = allTab.offsetWidth + "px";
-
-
-
-        // Call the initMap function with the new location
-        initMap(location);
-      } else {
-        // Handle no results found
-        alert("Location not found");
-      }
-    })
-    .catch((error) => {
-      console.error("Error searching for location: ", error);
-    });
-}
+      // Use the Google Geocoding API to get the coordinates of the searched location
+      axios
+        .get("https://maps.googleapis.com/maps/api/geocode/json", {
+          params: {
+            address: searchValue,
+            key: "AIzaSyCdL4cw_-wypt03Y-7aj3fTEBewXmWtmwk",
+            components: "country:SG",
+          }
+        })
+        .then((response) => {
+          if (response.data.status === "OK" && response.data.results.length > 0) {
+            // Extract the coordinates of the first result
+            const location = response.data.results[0].geometry.location;
+            const oldActiveTab = document.querySelector("#nav-slider .nav-link.active");
+            if (oldActiveTab) {
+            oldActiveTab.classList.remove("active");
+            }
+            document.querySelector("#all-tab").classList.add("active");
+            const slider = document.querySelector("#nav-slider .slider");
+            const allTab = document.querySelector("#all-tab");
+            slider.style.left = allTab.offsetLeft + "px";
+            slider.style.width = allTab.offsetWidth + "px";
+            
+            // Call the initMap function with the new location
+            initMap(location);
+          } else {
+            // Handle no results found
+            alert("Location not found");
+          }
+        })
+        .catch((error) => {
+          console.error("Error searching for location: ", error);
+        });
+    }
 
     // Initialize and add the map
     async function initMap(currentLocation) {
@@ -793,6 +793,7 @@
         .catch((error) => {
           // Handle any errors here
           console.error(error);
+          alert("There is a server error")
         });
     }
 
@@ -954,6 +955,12 @@
       // then load n execute google maps api 
       initMap('');
     }
+
+
+    /*window.addEventListener('resize', () => {
+      // Call the resize function when the window is resized
+      resizeSlider();
+    });*/
 
   </script>
 </body>

@@ -9,6 +9,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/home.css">
@@ -73,19 +74,19 @@
           <div class="row flex-column flex-lg-row justify-content-between align-items-center">
             <h3 class="col-lg-4 me-lg-3 me-xl-5">Our numbers tell more about us</h3>
             <div class="col-lg-8 col-xl-7 row">
-              <div class="col mt-4 mt-lg-0">
+              <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="400" data-aos-anchor="#section2">
                 <div class="countNum red">
                   <span class="counter" id="countRecipe">{{recipecount}}</span>+
                 </div>
                 <h4>Recipes</h4>
               </div>
-              <div class="col mt-4 mt-lg-0">
+              <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="600" data-aos-anchor="#section2">
                 <div class="countNum red">
                   <span class="counter" id="countRecipe">{{recipecategoriecount}}</span>+
                 </div>
                 <h4>Categories</h4>
               </div>
-              <div class="col mt-4 mt-lg-0">
+              <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="800" data-aos-anchor="#section2">
                 <div class="countNum red">
                   <span class="counter" id="countRecipe">{{recipedishtypecount}}</span>+
                 </div>
@@ -118,7 +119,7 @@
           </div>
         </div>
 
-        <div id="section4">
+        <div id="section4" data-aos="fade-up">
           <h3>Popular Cuisines</h3>
           <div class="container-fluid container-cuisine-wrap">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 justify-content-center">
@@ -191,7 +192,7 @@
 
           <div class="container-fluid content-section5" id="lunch" style="display: none">
             <div class="row top-recipe-wrap">
-              <popular-lunch-listing :recipe="indexes"></popular-listing>
+              <popular-lunch-listing :recipe="indexes"></popular-lunch-listing>
           </div>
           </div>
 
@@ -293,520 +294,442 @@
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>
   <script src="component/footer.js"></script>
 
   <script>
-    const headers = {
-      Authorization: `BEARER ${token}`
-    }
+    window.onload = function () {
+      const headers = {
+        Authorization: `BEARER ${token}`
+      }
 
-    const app = Vue.createApp({
-      components: {
-        'app-footer': footer,
-      },
-      data() {
-        return {
-          indexes: createIndex(),
-          recipecount:844,
-          recipecategoriecount:32,
-          recipedishtypecount:27,
-          allrecipes: [],
-          errorMessage: "",
-          isError: false,
-          isScrolled: false,
-        };
-      },
-      mounted() {
-        this.fetchAllRecipes();
-        window.addEventListener('scroll', this.handleScroll);
-      },
-      methods: {
-        handleScroll() {
-          let scrollAmount = window.scrollY;
-          let amountScrolled = 20;
-    
-          if (scrollAmount > amountScrolled) {
-            this.isScrolled = true;
-          } else {
-            this.isScrolled = false;
-          }
-
-          console.log("hi")
+      const app = Vue.createApp({
+        components: {
+          'app-footer': footer,
         },
-        scrollToTop() {
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        data() {
+          return {
+            indexes: createIndex(),
+            recipecount:844,
+            recipecategoriecount:32,
+            recipedishtypecount:27,
+            allrecipes: [],
+            errorMessage: "",
+            isError: false,
+            isScrolled: false,
+          };
         },
-        searchRecipes(titleQuery){
-          window.location.href = `allRecipe.html?search=${titleQuery}`;
-        },
-        fetchAllRecipes(){
-          axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
-            headers:headers
-          })
-          .then(response => {
-            console.log(response.data)
-            this.allrecipes = response.data
-            this.allrecipes.forEach((recipe) => {
-              recipe.fav = 0; 
-            });
-
-            axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
-              headers:headers,
-            })
-            .then(response => {
-              response.data.forEach(favRecipe => {
-                const favedRecipe = this.allrecipes.find(recipe => recipe.recipeId === favRecipe.recipeId);
-                if (favedRecipe) {
-                    favedRecipe.fav = 1;
-                }
-              });
-            })
-            .catch( error => {  
-            });
-
-            console.log(this.allrecipes)
-          })
-          .catch( error => {
-            console.log(error.response.data.message);
-            this.errorMessage = error.response.data.message;
-            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-            this.allrecipes = [];
-            this.isError = true;
+        mounted() {
+          this.fetchAllRecipes();
+          window.addEventListener('scroll', this.handleScroll);
+          AOS.init({
+            duration: 1000
           });
         },
-      }
-    });
-    
-    app.component('app-nav', {
-      data() {
-        return {
-          showIsActive: false,
-          random: [],
-          profileImage:"img/icon/profile.png",
-          active: "home"
-        }
-      },
-      props: {
-        allrecipes: {
-          type: Array,
-          required: true
-        },
-        size: {
-          type: Number,
-          required: false,
-          default: 12
-        }
-      },
-      methods: {
-        ...navbar.methods,
-        showHideModal() {
-          this.showIsActive = !this.showIsActive;
-          this.generateRandomRecipe();
-        },
-        generateRandomRecipe() {
-          if (this.allrecipes.length > 0) {
-            const length = this.allrecipes.length;
-            const r = this.allrecipes[Math.floor(Math.random() * length)];
+        methods: {
+          handleScroll() {
+            let scrollAmount = window.scrollY;
+            let amountScrolled = 20;
+      
+            if (scrollAmount > amountScrolled) {
+              this.isScrolled = true;
+            } else {
+              this.isScrolled = false;
+            }
 
-            console.log(this.random);
-            this.random = r;
-          }
-        },
-        closeModal() {
-          this.showIsActive = !this.showIsActive;
-        },
-      },
-      template: navbar.template + `
-        <div class="random-recipe" :class="{active: showIsActive}">
-          <div class="overlay" @click="closeModal"></div>
-          <div class="modal-box">
-            <h3>Random Recipe Generator</h3>
-            ${listing.single}
-            <div class="buttons">
-                <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
-            </div>
-          </div>
-        </div>
-      `,
-      mounted(){
-        axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
-          headers:headers,
-        })
-        .then(response => {
-          console.log(response.data)
-          var image = response.data.image.data
-          if (image.length > 0) {
-            var uint8Array = new Uint8Array(image);
-            var binaryString = String.fromCharCode.apply(null, uint8Array);
-            this.profileImage = binaryString  
-          }
-        })
-      }
-    });
-
-// FOR BACKEND
-    app.component('recipe-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          localrecipe:[],
-        }
-      },
-      methods: {...listing.methods},
-      computed:{
-        recipeData() {
-          return this.localrecipe;
-        }
-      },
-      template: listing.template ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-        console.log(token)
-        const id = sessionStorage.getItem('userId');
-
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`
-        };
-
-        //to add in logic to get user diet
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
-          headers: headers
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          for(recipes of response.data){
-            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-              headers: headers,
-              params:{title: recipes.title}
+            console.log("hi")
+          },
+          scrollToTop() {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          },
+          searchRecipes(titleQuery){
+            window.location.href = `allRecipe.html?search=${titleQuery}`;
+          },
+          fetchAllRecipes(){
+            axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
+              headers:headers
             })
             .then(response => {
-              // Assuming the response contains recipe data
-              this.localrecipe.push(response.data[0])
-              this.localrecipe.forEach((recipe) => {
+              console.log(response.data)
+              this.allrecipes = response.data
+              this.allrecipes.forEach((recipe) => {
                 recipe.fav = 0; 
               });
-            })
-          }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        }); 
-      }
-    });
 
-    app.component('fastrecipe-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          fastrecipe:[],
-        }
-      },
-      methods: {...listing.methods},
-      computed:{
-        recipeData() {
-          return this.fastrecipe;
-        }
-      },
-      template: listing.template ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-      
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
-          headers: headers
-        }).then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          for(responses of response.data){
-            console.log(responses.title)
-            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-              headers: headers,
-              params: {
-                title: responses.title
-              }
-            })
-            .then(responsetwo => {
-              console.log(responsetwo.data[0])
-              // Assuming the response contains recipe data
-              this.fastrecipe.push(responsetwo.data[0])
-              this.fastrecipe.forEach((recipe) => {
-                recipe.fav = 0; 
-              });
               axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
-                 headers:headers,
-              }).then(response => {
+                headers:headers,
+              })
+              .then(response => {
                 response.data.forEach(favRecipe => {
-                  const favedRecipe = this.fastrecipe.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                  const favedRecipe = this.allrecipes.find(recipe => recipe.recipeId === favRecipe.recipeId);
                   if (favedRecipe) {
                       favedRecipe.fav = 1;
                   }
                 });
-              }).catch( error => {
+              })
+              .catch( error => {  
               });
+
+              console.log(this.allrecipes)
             })
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        });
-      }
-    });
-
-    app.component('popular-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
+            .catch( error => {
+              console.log(error.response.data.message);
+              this.errorMessage = error.response.data.message;
+              if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+              this.allrecipes = [];
+              this.isError = true;
+            });
+          },
         }
-      },
-      data(){
-        return{
-          popularrecipe:[],
-          selectedButton: 'breakfast'
-        }
-      },
-      methods:{
-        cleansummary(summary){
-          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
-        },
-        handleButtonClick(value){
-          this.selectedButton = value;
-        }
-      },
-      computed:{
-        recipeData() {
-          return this.popularrecipe.map((recipe)=>({
-            ...recipe,
-            summary: this.cleansummary(recipe.summary)
-          }));
-        }
-      },
-      template: listing.templatetwo ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
+      });
       
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-          headers: headers,
-          params:{
-            dishtype: this.selectedButton,
-            sort: 'aggregateLikes',
+      app.component('app-nav', {
+        data() {
+          return {
+            showIsActive: false,
+            random: [],
+            profileImage:"img/icon/profile.png",
+            active: "home"
           }
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          let count = 0;
-          for (responses of response.data) {
-            if (count < 4) {
-              count++;
-              console.log(responses.title)
-              console.log(this.selectedButton)
+        },
+        props: {
+          allrecipes: {
+            type: Array,
+            required: true
+          },
+          size: {
+            type: Number,
+            required: false,
+            default: 12
+          }
+        },
+        methods: {
+          ...navbar.methods,
+          showHideModal() {
+            this.showIsActive = !this.showIsActive;
+            this.generateRandomRecipe();
+          },
+          generateRandomRecipe() {
+            if (this.allrecipes.length > 0) {
+              const length = this.allrecipes.length;
+              const r = this.allrecipes[Math.floor(Math.random() * length)];
 
+              console.log(this.random);
+              this.random = r;
+            }
+          },
+          closeModal() {
+            this.showIsActive = !this.showIsActive;
+          },
+        },
+        template: navbar.template + `
+          <div class="random-recipe" :class="{active: showIsActive}">
+            <div class="overlay" @click="closeModal"></div>
+            <div class="modal-box">
+              <h3>Random Recipe Generator</h3>
+              ${listing.single}
+              <div class="buttons">
+                  <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+                  <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
+              </div>
+            </div>
+          </div>
+        `,
+        mounted(){
+          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+            headers:headers,
+          })
+          .then(response => {
+            console.log(response.data)
+            var image = response.data.image.data
+            if (image.length > 0) {
+              var uint8Array = new Uint8Array(image);
+              var binaryString = String.fromCharCode.apply(null, uint8Array);
+              this.profileImage = binaryString  
+            }
+          })
+        }
+      });
+
+  // FOR BACKEND
+      app.component('recipe-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
+        },
+        data(){
+          return{
+            localrecipe:[],
+          }
+        },
+        methods: {...listing.methods},
+        computed:{
+          recipeData() {
+            return this.localrecipe;
+          }
+        },
+        template: listing.template ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+          console.log(token)
+          const id = sessionStorage.getItem('userId');
+
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`
+          };
+
+          //to add in logic to get user diet
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
+            headers: headers
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            for(recipes of response.data){
+              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                headers: headers,
+                params:{title: recipes.title}
+              })
+              .then(response => {
+                // Assuming the response contains recipe data
+                this.localrecipe.push(response.data[0])
+                this.localrecipe.forEach((recipe) => {
+                  recipe.fav = 0; 
+                });
+              })
+            }
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          }); 
+        }
+      });
+
+      app.component('fastrecipe-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
+        },
+        data(){
+          return{
+            fastrecipe:[],
+          }
+        },
+        methods: {...listing.methods},
+        computed:{
+          recipeData() {
+            return this.fastrecipe;
+          }
+        },
+        template: listing.template ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
+            headers: headers
+          }).then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            for(responses of response.data){
+              console.log(responses.title)
               axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                 headers: headers,
                 params: {
-                  title: responses.title,
+                  title: responses.title
                 }
               })
               .then(responsetwo => {
                 console.log(responsetwo.data[0])
                 // Assuming the response contains recipe data
-                this.popularrecipe.push(responsetwo.data[0])
-                this.popularrecipe.forEach((recipe) => {
+                this.fastrecipe.push(responsetwo.data[0])
+                this.fastrecipe.forEach((recipe) => {
                   recipe.fav = 0; 
+                });
+                axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                  headers:headers,
+                }).then(response => {
+                  response.data.forEach(favRecipe => {
+                    const favedRecipe = this.fastrecipe.find(recipe => recipe.recipeId === favRecipe.recipeId);
+                    if (favedRecipe) {
+                        favedRecipe.fav = 1;
+                    }
+                  });
+                }).catch( error => {
                 });
               })
             }
-          }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        });
-      }
-    });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          });
+        }
+      });
 
-    app.component('popular-lunch-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          popularrecipe:[],
-          selectedButton: 'lunch'
-        }
-      },
-      methods:{
-        cleansummary(summary){
-          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+      app.component('popular-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
         },
-        handleButtonClick(value){
-          this.selectedButton = value;
-        }
-      },
-      computed:{
-        recipeData() {
-          return this.popularrecipe.map((recipe)=>({
-            ...recipe,
-            summary: this.cleansummary(recipe.summary)
-          }));
-        }
-      },
-      template: listing.templatetwo ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-      
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-          headers: headers,
-          params: {
-            dishtype: "lunch",
-            sort: 'aggregateLikes',
-            order:'ASC'
+        data(){
+          return{
+            popularrecipe:[],
+            selectedButton: 'breakfast'
           }
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          let count = 0;
-          for (responses of response.data) {
-            if (count < 4) {
-              count++;
-            console.log(responses.title)
-            console.log(this.selectedButton)
-            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-              headers: headers,
-              params: {
-                title: responses.title,
+        },
+        methods:{
+          cleansummary(summary){
+            return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+          },
+          handleButtonClick(value){
+            this.selectedButton = value;
+          }
+        },
+        computed:{
+          recipeData() {
+            return this.popularrecipe.map((recipe)=>({
+              ...recipe,
+              summary: this.cleansummary(recipe.summary)
+            }));
+          }
+        },
+        template: listing.templatetwo ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+            headers: headers,
+            params:{
+              dishtype: this.selectedButton,
+              sort: 'aggregateLikes',
+            }
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            let count = 0;
+            for (responses of response.data) {
+              if (count < 4) {
+                count++;
+                console.log(responses.title)
+                console.log(this.selectedButton)
+
+                axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                  headers: headers,
+                  params: {
+                    title: responses.title,
+                  }
+                })
+                .then(responsetwo => {
+                  console.log(responsetwo.data[0])
+                  // Assuming the response contains recipe data
+                  this.popularrecipe.push(responsetwo.data[0])
+                  this.popularrecipe.forEach((recipe) => {
+                    recipe.fav = 0; 
+                  });
+                })
               }
-            })
-            .then(responsetwo => {
-              console.log(responsetwo.data[0])
-              // Assuming the response contains recipe data
-              this.popularrecipe.push(responsetwo.data[0])
-              this.popularrecipe.forEach((recipe) => {
-                recipe.fav = 0; 
-              });
-            })}
-          }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        });
-      }
-    });
+            }
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          });
+        }
+      });
 
-    app.component('popular-dinner-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          popularrecipe:[],
-          selectedButton: 'dinner'
-        }
-      },
-      methods:{
-        cleansummary(summary){
-          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+      app.component('popular-lunch-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
         },
-        handleButtonClick(value){
-          this.selectedButton = value;
-        }
-      },
-      computed:{
-        recipeData() {
-          return this.popularrecipe.map((recipe)=>({
-            ...recipe,
-            summary: this.cleansummary(recipe.summary)
-          }));
-        }
-      },
-      template: listing.templatetwo ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-      
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-          headers: headers,
-          params: {
-            dishtype: 'dinner',
-            sort: 'aggregateLikes'
+        data(){
+          return{
+            popularrecipe:[],
+            selectedButton: 'lunch'
           }
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          let count = 0;
-          for (responses of response.data) {
-            if (count < 4) {
-              count++;
+        },
+        methods:{
+          cleansummary(summary){
+            return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+          },
+          handleButtonClick(value){
+            this.selectedButton = value;
+          }
+        },
+        computed:{
+          recipeData() {
+            return this.popularrecipe.map((recipe)=>({
+              ...recipe,
+              summary: this.cleansummary(recipe.summary)
+            }));
+          }
+        },
+        template: listing.templatetwo ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
 
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+            headers: headers,
+            params: {
+              dishtype: "lunch",
+              sort: 'aggregateLikes',
+              order:'ASC'
+            }
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            let count = 0;
+            for (responses of response.data) {
+              if (count < 4) {
+                count++;
               console.log(responses.title)
               console.log(this.selectedButton)
-              
               axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                 headers: headers,
                 params: {
@@ -820,208 +743,292 @@
                 this.popularrecipe.forEach((recipe) => {
                   recipe.fav = 0; 
                 });
-              })
+              })}
             }
-          }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        });
-      }
-    });
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          });
+        }
+      });
 
-    app.component('popular-dessert-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          popularrecipe:[],
-          selectedButton: 'dessert'
-        }
-      },
-      methods:{
-        cleansummary(summary){
-          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+      app.component('popular-dinner-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
         },
-        handleButtonClick(value){
-          this.selectedButton = value;
-        }
-      },
-      computed:{
-        recipeData() {
-          return this.popularrecipe.map((recipe)=>({
-            ...recipe,
-            summary: this.cleansummary(recipe.summary)
-          }));
-        }
-      },
-      template: listing.templatetwo ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-      
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-          headers: headers,
-          params: {
-            dishtype: 'dessert',
-            sort: 'aggregateLikes'
+        data(){
+          return{
+            popularrecipe:[],
+            selectedButton: 'dinner'
           }
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          let count = 0;
-          for (responses of response.data) {
-            if (coun < 4) {
-              count++;
-
-              console.log(responses.title)
-              console.log(this.selectedButton)
-
-              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-                headers: headers,
-                params: {
-                  title: responses.title,
-                }
-              })
-              .then(responsetwo => {
-                console.log(responsetwo.data[0])
-                // Assuming the response contains recipe data
-                this.popularrecipe.push(responsetwo.data[0])
-                this.popularrecipe.forEach((recipe) => {
-                  recipe.fav = 0; 
-                });
-              })
-            }
-          }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;
-        });
-      }
-    });
-
-    app.component('popular-snack-listing', {
-      props: {
-        recipe: {
-          type: Array,
-          required: true
-        }
-      },
-      data(){
-        return{
-          popularrecipe:[],
-          selectedButton: 'snack'
-        }
-      },
-      methods:{
-        cleansummary(summary){
-          return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
         },
-        handleButtonClick(value){
-          this.selectedButton = value;
-        }
-      },
-      computed:{
-        recipeData() {
-          return this.popularrecipe.map((recipe)=>({
-            ...recipe,
-            summary: this.cleansummary(recipe.summary)
-          }));
-        }
-      },
-      template: listing.templatetwo ,  
-      created() {
-        // This code is executed when the component is created.
-        
-        // Example Axios GET request
-        const token = sessionStorage.getItem('token');
-      
-        // to add in session logic
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-          headers: headers,
-          params: {
-            dishtype: 'snack',
-            sort: 'aggregateLikes',
-            order:'ASC'
+        methods:{
+          cleansummary(summary){
+            return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+          },
+          handleButtonClick(value){
+            this.selectedButton = value;
           }
-        })
-        .then(response => {
-          console.log(response)
-          // Assuming the response contains recipe data
-          let count=0;
+        },
+        computed:{
+          recipeData() {
+            return this.popularrecipe.map((recipe)=>({
+              ...recipe,
+              summary: this.cleansummary(recipe.summary)
+            }));
+          }
+        },
+        template: listing.templatetwo ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
 
-          for (responses of response.data) {
-            if (count < 4) {
-              count++;
-
-              console.log(responses.title)
-              console.log(this.selectedButton)
-              
-              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-                headers: headers,
-                params: {
-                  title: responses.title,
-                }
-              })
-              .then(responsetwo => {
-                console.log(responsetwo.data[0])
-                // Assuming the response contains recipe data
-                this.popularrecipe.push(responsetwo.data[0])
-                this.popularrecipe.forEach((recipe) => {
-                  recipe.fav = 0; 
-                });
-              })
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+            headers: headers,
+            params: {
+              dishtype: 'dinner',
+              sort: 'aggregateLikes',
+              order:'DESC'
             }
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            let count = 0;
+            for (responses of response.data) {
+              if (count < 4) {
+                count++;
+
+                console.log(responses.title)
+                console.log(this.selectedButton)
+                
+                axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                  headers: headers,
+                  params: {
+                    title: responses.title,
+                  }
+                })
+                .then(responsetwo => {
+                  console.log(responsetwo.data[0])
+                  // Assuming the response contains recipe data
+                  this.popularrecipe.push(responsetwo.data[0])
+                  this.popularrecipe.forEach((recipe) => {
+                    recipe.fav = 0; 
+                  });
+                })
+              }
+            }
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          });
+        }
+      });
+
+      app.component('popular-dessert-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
           }
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message;
-          if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-          this.isError = true;console.error('Error:', error);
-        });
+        },
+        data(){
+          return{
+            popularrecipe:[],
+            selectedButton: 'dessert'
+          }
+        },
+        methods:{
+          cleansummary(summary){
+            return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+          },
+          handleButtonClick(value){
+            this.selectedButton = value;
+          }
+        },
+        computed:{
+          recipeData() {
+            return this.popularrecipe.map((recipe)=>({
+              ...recipe,
+              summary: this.cleansummary(recipe.summary)
+            }));
+          }
+        },
+        template: listing.templatetwo ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+            headers: headers,
+            params: {
+              dishtype: 'dessert',
+              sort: 'aggregateLikes'
+            }
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            let count = 0;
+            for (responses of response.data) {
+              if (count < 4) {
+                count++;
+
+                console.log(responses.title)
+                console.log(this.selectedButton)
+
+                axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                  headers: headers,
+                  params: {
+                    title: responses.title,
+                  }
+                })
+                .then(responsetwo => {
+                  console.log(responsetwo.data[0])
+                  // Assuming the response contains recipe data
+                  this.popularrecipe.push(responsetwo.data[0])
+                  this.popularrecipe.forEach((recipe) => {
+                    recipe.fav = 0; 
+                  });
+                })
+              }
+            }
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;
+          });
+        }
+      });
+
+      app.component('popular-snack-listing', {
+        props: {
+          recipe: {
+            type: Array,
+            required: true
+          }
+        },
+        data(){
+          return{
+            popularrecipe:[],
+            selectedButton: 'snack'
+          }
+        },
+        methods:{
+          cleansummary(summary){
+            return summary.replace(/<\/?b>/g, '').replace(/<\/?th>/g, '');
+          },
+          handleButtonClick(value){
+            this.selectedButton = value;
+          }
+        },
+        computed:{
+          recipeData() {
+            return this.popularrecipe.map((recipe)=>({
+              ...recipe,
+              summary: this.cleansummary(recipe.summary)
+            }));
+          }
+        },
+        template: listing.templatetwo ,  
+        created() {
+          // This code is executed when the component is created.
+          
+          // Example Axios GET request
+          const token = sessionStorage.getItem('token');
+        
+          // to add in session logic
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          
+          axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+            headers: headers,
+            params: {
+              dishtype: 'snack',
+              sort: 'aggregateLikes',
+              order:'ASC'
+            }
+          })
+          .then(response => {
+            console.log(response)
+            // Assuming the response contains recipe data
+            let count=0;
+
+            for (responses of response.data) {
+              if (count < 4) {
+                count++;
+
+                console.log(responses.title)
+                console.log(this.selectedButton)
+                
+                axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
+                  headers: headers,
+                  params: {
+                    title: responses.title,
+                  }
+                })
+                .then(responsetwo => {
+                  console.log(responsetwo.data[0])
+                  // Assuming the response contains recipe data
+                  this.popularrecipe.push(responsetwo.data[0])
+                  this.popularrecipe.forEach((recipe) => {
+                    recipe.fav = 0; 
+                  });
+                })
+              }
+            }
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+            this.isError = true;console.error('Error:', error);
+          });
+        }
+      });
+    
+      function createIndex() {
+        let index = [];
+        for (let i = 1; i < 4; i++) {
+          index.push({ ind: '#' + i });
+        }
+        return index;
       }
-    });
-  
-    function createIndex() {
-      let index = [];
-      for (let i = 1; i < 4; i++) {
-        index.push({ ind: '#' + i });
-      }
-      return index;
-    }
 
-    app.mount('#app');
+      app.mount('#app');
 
-    gsap.from("#countRecipe", {
-      textContent: 0,
-      duration: 4,
-      ease: "power1.in",
-      snap: { textContent: 1 }
-    });
+      gsap.from("#countRecipe", {
+        textContent: 0,
+        duration: 4,
+        ease: "power1.in",
+        snap: { textContent: 1 }
+      });
 
-    const buttons = document.querySelectorAll(".topRecipe");
+      const buttons = document.querySelectorAll(".topRecipe");
 
-    buttons.forEach(function (button) {
+      buttons.forEach(function (button) {
       button.addEventListener("click", function () {
         buttons.forEach(function (btn) {
           btn.classList.remove("btn-danger");
@@ -1034,7 +1041,7 @@
         content.style.display = 'block';
       });
     });
-
+    }
   </script>
   
 </body>

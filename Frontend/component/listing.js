@@ -1,6 +1,6 @@
 const listing = {
     template: `
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-4 container-listing p-3" v-for="r in recipeData" >
+        <a data-aos="zoom-in" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-4 container-listing p-3" v-for="r in recipeData" >
             <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
             <div class="recipe-img">
                 <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
@@ -117,14 +117,14 @@ const listing = {
         </a>
     `,
     templatetwo:`
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-3 top-recipe" v-for="r in recipeData">
+        <a data-aos="flip-left" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-3 top-recipe" v-for="r in recipeData">
             <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
             <h5>{{r.title}}</h5>
             <p>{{r.summary}}...</p>
         </a>
     `,
     single: `
-        <div class="container-listing" >
+        <div class="container-listing">
             <div class="recipe-img" :style="{ backgroundImage: 'url(' + random.image + ')' }">
 
             </div>
