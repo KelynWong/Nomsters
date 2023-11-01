@@ -174,7 +174,6 @@
             headers:headers
           })
           .then(response => {
-            console.log(response.data)
             this.allrecipes = response.data
 
             this.allrecipes.forEach((recipe) => {
@@ -189,16 +188,12 @@
                         if (favedRecipe) {
                             favedRecipe.fav = 1;
                         }
-                    });
-                console.log(this.allrecipes)
-                
+                    });  
             }).catch( error => {
               if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
             });
-            console.log(this.allrecipes)
           })
           .catch( error => {
-            console.log(error.response.data.message);
             this.errorMessage = error.response.data.message;
             if (this.errorMessage === "Invalid token") window.location.href = './index.html';
             this.allrecipes = [];
@@ -242,7 +237,6 @@
             const length = this.allrecipes.length;
             const r = this.allrecipes[Math.floor(Math.random() * length)];
 
-            console.log(this.random);
             this.random = r;
           }
         },
@@ -268,7 +262,6 @@
           headers:headers,
         })
         .then(response => {
-          console.log(response.data)
           var image = response.data.image.data
           if (image.length > 0) {
             var uint8Array = new Uint8Array(image);
@@ -345,15 +338,10 @@
         </a>
       `,  
       created() {
-        console.log('Form Data:', this.formData);
         var mealsPerDay = this.formData.mealsPerDay;
         var snacksPerDay = this.formData.snacksPerDay;
         var calorieGoal = this.formData.calorieGoal;
         var budget = this.formData.budget;
-        console.log('Meals Per Day:', mealsPerDay);
-        console.log('Snacks Per Day:', snacksPerDay);
-        console.log('Calorie Goal:', calorieGoal);
-        console.log('Budget:', budget);
 
         // This code is executed when the component is created.
       
@@ -372,7 +360,6 @@
           headers: headers
         })
         .then(response => {
-          console.log(response.data)
           var consolidated_calories=0
           var consolidated_fat=0
           var consolidated_protein=0

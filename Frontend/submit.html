@@ -244,11 +244,8 @@
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
             headers: headers
           }).then(response => {
-            console.log(response.data)
             this.allrecipes = response.data
-            console.log(this.allrecipes)
           }).catch(error => {
-            console.log(error.response.data.message);
             this.errorMessage = error.response.data.message;
             if (this.errorMessage === "Invalid token") window.location.href = './index.html';
             this.allrecipes = [];
@@ -263,7 +260,6 @@
         removeRecipe(index) {
           // Remove the recipe step at the specified index
           if (this.formData.direction.length > 1) {
-            console.log(this.formData.direction.length);
             this.formData.direction.pop();
           }
         },
@@ -296,18 +292,15 @@
             });
           }
 
-          console.log(this.formData);
           var image = this.formData.image;
 
           readAndUploadFile(image)
             .then((fileData) => {
               var imageData = fileData
-              console.log(imageData);
               var title = this.formData.title;
               var preparationTime = this.formData.preparationTime;
               var servings = this.formData.servings;
               var pricePerServing = this.formData.pricePerServing *  100;
-              // console.log(pricePerServing);
               var directions = this.formData.direction;
               var ingredients = this.formData.ingredient;
               var diets = []
@@ -363,12 +356,6 @@
               for (const value of Object.values(ingredients)) {
                 ingredientData += value + ';';
               }
-              
-              console.log(title)
-              console.log(servings)
-              console.log(ingredientData)
-              console.log(directionData)
-              console.log(imageData)
 
               const postData = {
                 title: title,
@@ -466,7 +453,6 @@
             const length = this.allrecipes.length;
             const r = this.allrecipes[Math.floor(Math.random() * length)];
 
-            console.log(this.random);
             this.random = r;
           }
         },
@@ -496,7 +482,6 @@
           headers:headers,
         })
         .then(response => {
-          console.log(response.data)
           var image = response.data.image.data
           if (image.length > 0) {
             var uint8Array = new Uint8Array(image);

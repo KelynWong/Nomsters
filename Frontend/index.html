@@ -86,7 +86,6 @@
             })
             .then(response => {
                 // Handle a successful response here
-                console.log(response.data);
                 let token= response.data.token;
                 let userId= response.data.userId;
                 sessionStorage.setItem('token', token);

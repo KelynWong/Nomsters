@@ -437,7 +437,6 @@
           this.urlToCopy = url.href;
           var recipeId = url.searchParams.get("id");
           this.recipe = {recipeId: recipeId}
-          console.log(this.recipe)
           axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
                  headers:headers,
               }).then(response => {
@@ -456,7 +455,6 @@
             },
           })
           .then(response=>{
-            console.log(response.data[0]);
             var recipiedata=response.data[0];
             this.image=recipiedata.image;
             var createdById=recipiedata.createdById;
@@ -482,7 +480,6 @@
                 this.usercreated=true;
                 var ingridientdata=recipiedata.ingredients.split(';')
                 ingridientdata.pop()
-                console.log(recipiedata.image2)
                 var image2 = recipiedata.image2.data;
                 var uint8Array = new Uint8Array(image2);
                 var binaryString = String.fromCharCode.apply(null, uint8Array);
@@ -493,11 +490,9 @@
               if (createdById == 0) {
                 axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
                 .then(response => {
-                  console.log(response.data.results[0].id)
                   recipeId=response.data.results[0].id
                   axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apikey}`)
                   .then(response => {
-                    console.log(response.data)
                     if (response.data.instructions != null) {
                       const instructiondata=response.data.instructions.replace(/<\/?li>/g, '').replace(/<\/?ol>/g, '')
                       const instructionsArray = instructiondata.split('.');
@@ -506,9 +501,7 @@
                     }
                     
                     if (response.data.extendedIngredients != null) {
-                      console.log(response.data.extendedIngredients)
                       const ingredientsArray = response.data.extendedIngredients.map(ingredient => ingredient.original);
-                      console.log(ingredientsArray);
                       this.ingredients=ingredientsArray;
                       axios.get(`https://api.spoonacular.com/recipes/${recipeId}/priceBreakdownWidget.json?apiKey=${apikey}`)
                       .then(response => {
@@ -527,9 +520,7 @@
           },
           methods: {
             changeColor(recipe) {
-            console.log(recipe)
             const token = sessionStorage.getItem('token');
-            console.log(token)
             const id = sessionStorage.getItem('userId');
 
             // to add in session logic
@@ -541,7 +532,6 @@
             if (this.recipe.fav === 1){
                 axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
                 .then(response => {
-                    console.log("success1")
                 }).catch( error => {
                     if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
@@ -554,7 +544,6 @@
                     }
                 })
                 .then(response => {
-                    console.log("success2")
                 }).catch( error => {
                     if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
@@ -582,12 +571,9 @@
                   headers: headers,
                 })
                 .then((response) => {
-                  console.log(response.data);
                   this.allrecipes = response.data;
-                  console.log(this.allrecipes);
                 })
                 .catch((error) => {
-                  console.log(error.response.data.message);
                   this.errorMessage = error.response.data.message;
                 if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                   this.allrecipes = [];
@@ -628,7 +614,6 @@
                 const length = this.allrecipes.length;
                 const r = this.allrecipes[Math.floor(Math.random() * length)];
 
-                console.log(this.random);
                 this.random = r;
               }
             },
@@ -658,7 +643,6 @@
                 headers: headers,
               })
               .then((response) => {
-                console.log(response.data);
                 var image = response.data.image.data;
                 if (image.length > 0) {
                   var uint8Array = new Uint8Array(image);
@@ -695,7 +679,6 @@
         
         // Example Axios GET request
         const token = sessionStorage.getItem('token');
-        console.log(token)
         const id = sessionStorage.getItem('userId');
 
         // to add in session logic
@@ -707,12 +690,8 @@
           headers: headers
         })
         .then(response => {
-            console.log('eeeeeeeeeeeeeeeeeeee')
-          console.log(response)
           // Assuming the response contains recipe data
           for(recipes of response.data){
-                console.log('aaaaaaaaaaaa')
-                console.log(response)
               // Assuming the response contains recipe data
               this.localrecipe.push(recipes)
               this.localrecipe.forEach((recipe) => {

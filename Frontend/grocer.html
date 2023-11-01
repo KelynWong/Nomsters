@@ -177,7 +177,7 @@
 
           currentLocation = response.data.location;
         } catch (error) {
-          console.log(error);
+
         }
       }
 
@@ -197,7 +197,7 @@
       const apiUrl = "https://leaptron2.dscloud.me:3000/api/maps/grocers";
 
       var array_of_grocers = [];
-      console.log(currentLocation);
+
       //call maps.js which will call and retrive nearby places from google places api
       axios
         .get(apiUrl, {
@@ -206,7 +206,6 @@
         .then((response) => {
           // Retrives an array of nearby grocery stores
           array_of_grocers = response.data.results;
-          console.log(array_of_grocers);
 
           //Set the number of results to display here(change the i<num to whatever number you want)
           for (let i = 0; i < array_of_grocers.length; i++) {
@@ -514,7 +513,6 @@
                   params: { place_id: place_id },
                 })
                 .then(async (response) => {
-                  console.log(response.data.result)
                   //Phone number Avaliable
                   phone_number = response.data.result.international_phone_number;
                   phone_para = document.createElement("p");
@@ -726,7 +724,6 @@
                   params: { place_id: place_id },
                 })
                 .then(async (response) => {
-                  console.log(response.data.result)
                   //Phone number Avaliable
                   phone_number = response.data.result.international_phone_number;
                   phone_para = document.createElement("p");
@@ -838,11 +835,8 @@
             axios.get('https://leaptron2.dscloud.me:3000/api/recipe', {
               headers: headers
             }).then(response => {
-              console.log(response.data)
               this.allrecipes = response.data
-              console.log(this.allrecipes)
             }).catch(error => {
-              console.log(error.response.data.message);
               this.errorMessage = error.response.data.message;
               if (this.errorMessage === "Invalid token") window.location.href = './index.html';
               this.allrecipes = [];
@@ -878,7 +872,6 @@
               const length = this.allrecipes.length;
               const r = this.allrecipes[Math.floor(Math.random() * length)];
 
-              console.log(this.random);
               this.random = r;
             }
           },
@@ -904,12 +897,11 @@
           axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
             headers:headers,})
             .then(response => {
-              console.log(response.data)
               var image = response.data.image.data
               if(image.length>0){
-          var uint8Array = new Uint8Array(image);
-          var binaryString = String.fromCharCode.apply(null, uint8Array);
-          this.profileImage = binaryString
+                var uint8Array = new Uint8Array(image);
+                var binaryString = String.fromCharCode.apply(null, uint8Array);
+                this.profileImage = binaryString
               } 
               })}
       });
@@ -927,7 +919,6 @@
       
           tab.classList.add("active");
 
-          console.log(tab.parentElement)
           var positionLeft = tab.parentElement.offsetLeft;
           var positionTop = tab.parentElement.offsetTop;
           var width = tab.parentElement.clientWidth;
@@ -942,8 +933,6 @@
 
       var activeTab = document.querySelector("#nav-slider .nav-tabs .active");
       var activeTabParent = activeTab.parentElement;
-      console.log(activeTabParent)
-      console.log(activeTab)
       var actWidth = activeTabParent.clientWidth;
       var actHeight = activeTabParent.clientHeight;
       var actPosition = activeTab.offsetLeft;
