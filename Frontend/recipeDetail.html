@@ -208,12 +208,11 @@
                 <!-- put in div so can j display none if dh ingredients -->
                 <div class="ingredients-section">
                   <h3>Ingredients</h3>
-                  <ol id="ingredients" v-if="ingredients[0] != 'No ingredients found'">
+                  <ol id="ingredients">
                     <li v-for="(ingredient, index) in ingredients" :key="index">
                       {{ ingredient }}
                     </li>
                   </ol>
-                  <p class="no" v-else>{{ ingredients[0] }}</p>
                 </div>
 
                 <img
@@ -694,8 +693,6 @@
       }
       return index;
     }
-      
-  r
         // Add a "checked" symbol when clicking on a list item
         var list = document.querySelector('#ingredients');
         list.addEventListener('click', function(ev) {
@@ -703,6 +700,7 @@
                 ev.target.classList.toggle('checked');
             }
         }, false);
+      
       }
     </script>
   </body>
