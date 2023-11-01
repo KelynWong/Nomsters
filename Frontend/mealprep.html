@@ -31,8 +31,8 @@
   <div id="app">
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
-      <div class="banner bg-light"> 
-        <h3 class="text-center">Meal Prep Generator</h3>
+      <div class="banner bg-light d-flex"> 
+        <h3 class="text">Meal Prep Generator</h3>
       </div>
       <form @submit.prevent="submitForm">
         <div class="container col-lg-9 col-sm-12">
@@ -61,26 +61,30 @@
           </div>
           
           <div class="text-center">
-            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Generate Plan</button>
+            <button type="submit" class="btn btn-danger" style="font-weight:lighter" onclick="generateMealPlan()">Generate Plan</button>
           </div> 
         </div>
       </form>
 
       <br>
 
-      <div class="banner bg-light"> 
-          <h3 class="text-center">Generated Meal Plan</h3>
-      </div>
+      <!-- <div class="banner bg-light d-flex"> 
+          <h3 class="text">Generated Meal Plan</h3>
+      </div> -->
+      <div class="banner plan" id="plan"></div>
 
       <div class="row">
         <recipe-listing :recipe="indexes" :key="formSubmitted" v-if="formSubmitted > 0 " :form-data="form"></recipe-listing>
       </div>
 
-      <div class="banner bg-light"> 
+      <!-- <div class="banner bg-light"> 
           <h3 class="text-center">Consolidated Stats:</h3>
-      </div>
-      <div class="container col-4 p-5">
-        <div class="card">
+      </div> -->
+
+      <div class="banner stats" id="stats"></div>
+
+      <div class="consolidated" id="consolidated">
+        <!-- <div class="card">
           <div class="card-header">
             Total Calories (per day) - {{consolidated_calories}}
           </div>
@@ -89,7 +93,7 @@
             <li class="list-group-item">Protein - {{consolidated_protein}}</li>
             <li class="list-group-item">Cost per day - ${{consolidated_price}}</li>
           </ul>
-        </div>
+        </div> -->
       </div>
 
       <div id="BackToTop" @click="scrollToTop">
@@ -271,6 +275,63 @@
         })}
     });
 
+    // on click, generate banner
+    function generateMealPlan() {
+      var bannerDiv1 = document.getElementById("plan");
+      var bannerDiv2 = document.getElementById("stats");
+      
+      bannerDiv1.classList.add("bg-light", "d-flex", "banner");
+      bannerDiv2.classList.add("bg-light", "d-flex", "banner");
+
+      var h3Element1 = document.createElement("h3");
+      h3Element1.classList.add("text", "mx-auto", "align-items-center");
+      h3Element1.textContent = "Generated Meal Plan";
+
+      var h3Element2 = document.createElement("h3");
+      h3Element2.classList.add("text");
+      h3Element2.textContent = "Consolidated Stats:";
+
+      bannerDiv1.appendChild(h3Element1);
+      bannerDiv2.appendChild(h3Element2);
+
+      // generate card
+      var containerDiv = document.getElementById("consolidated");
+      console.log(containerDiv);
+      containerDiv.classList.add("col-6", "p-5", "mx-auto");
+
+      var cardDiv = document.createElement("div");
+      cardDiv.classList.add("card");
+
+      var cardHeaderDiv = document.createElement("div");
+      cardHeaderDiv.classList.add("card-header");
+      cardHeaderDiv.textContent = "Total Calories (per day) - {{consolidated_calories}}";
+
+      var ulElement = document.createElement("ul");
+      ulElement.classList.add("list-group", "list-group-flush");
+
+      var fatListItem = document.createElement("li");
+      fatListItem.classList.add("list-group-item");
+      fatListItem.textContent = "Fat - {{consolidated_fat}}";
+
+      var proteinListItem = document.createElement("li");
+      proteinListItem.classList.add("list-group-item");
+      proteinListItem.textContent = "Protein - {{consolidated_protein}}";
+
+      var costListItem = document.createElement("li");
+      costListItem.classList.add("list-group-item");
+      costListItem.textContent = "Cost per day - ${{consolidated_price}}";
+
+      ulElement.appendChild(fatListItem);
+      ulElement.appendChild(proteinListItem);
+      ulElement.appendChild(costListItem);
+
+      cardDiv.appendChild(cardHeaderDiv);
+      cardDiv.appendChild(ulElement);
+
+      document.getElementById("consolidated").appendChild(cardDiv);
+      console.log(cardDiv);
+    }
+
     app.mount('#app');
     app.component('recipe-listing', {
       props: {
@@ -295,7 +356,7 @@
       },
       methods: listing.methods,
       template: `
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-4" v-for="r in recipeData">
+        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-lg-4 col-md-6 col-sm-12 p-4" v-for="r in recipeData">
           <div class="card">
             <div class="recipe-img card-img-top" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }">
               <img :src="r.image" class="card-img-top" alt="Recipe Image">

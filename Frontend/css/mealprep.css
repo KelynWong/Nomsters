@@ -18,11 +18,17 @@
 .banner {
     height: 100px;
     text-align: center;
-    margin-top: auto;
+    /* margin-top: auto; */
+    justify-content: center;
+    align-items: center;
     margin: 54px auto 0;
 }
 
 .text-center {
     vertical-align: middle;
     height: 100px;
+}
+
+.consolidated {
+    text-align:center;
 }
