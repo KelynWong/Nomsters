@@ -43,7 +43,7 @@
                 @click="copyURL"
                 style="cursor: pointer"
               >
-                <svg
+                <svg 
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="23"
@@ -79,7 +79,7 @@
               <div>
                 <svg
                   v-if="fav == 1"
-                  @click="changeColor"
+                  @click="changeColor(recipe)"
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
                   height="32"
@@ -100,7 +100,7 @@
                 </svg>
                 <svg
                   v-else
-                  @click="changeColor"
+                  @click="changeColor(recipe)"
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
                   height="32"
@@ -427,6 +427,7 @@
               totalCostPerServing: 0,
             },
             indexes: createIndex(),
+            recipe: {}
           };
         },
         mounted() {
@@ -435,7 +436,19 @@
           const url = new URL(window.location.href);
           this.urlToCopy = url.href;
           var recipeId = url.searchParams.get("id");
-          console.log(recipeId);
+          this.recipe = {recipeId: recipeId}
+          console.log(this.recipe)
+          axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
+                 headers:headers,
+              }).then(response => {
+                response.data.forEach(favRecipe => {
+                  if (Number(this.recipe.recipeId) === favRecipe.recipeId) {
+                      this.recipe.fav = 1;
+                      this.fav = 1;
+                  }
+                });
+              }).catch( error => {
+              });
           axios.get("https://leaptron2.dscloud.me:3000/api/recipe", {
             headers: headers,
             params: {
@@ -513,6 +526,40 @@
             })
           },
           methods: {
+            changeColor(recipe) {
+            console.log(recipe)
+            const token = sessionStorage.getItem('token');
+            console.log(token)
+            const id = sessionStorage.getItem('userId');
+
+            // to add in session logic
+            const headers = {
+                Authorization: `Bearer ${token}`
+            };
+            this.recipe.fav = this.recipe.fav === 0 ? 1 : 0;
+            this.fav = this.fav === 0 ? 1 : 0;
+            if (this.recipe.fav === 1){
+                axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
+                .then(response => {
+                    console.log("success1")
+                }).catch( error => {
+
+                });
+            } else {
+                axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
+                {
+                    headers, 
+                    data: {
+                        recipeIds: this.recipe.recipeId.toString()
+                    }
+                })
+                .then(response => {
+                    console.log("success2")
+                }).catch( error => {
+
+                });
+            }
+        },
             handleScroll() {
               let scrollAmount = window.scrollY;
               let amountScrolled = 20;
@@ -549,10 +596,7 @@
             copyURL() {
               navigator.clipboard.writeText(this.urlToCopy);
               alert("You have copied this recipe's URL: " + this.urlToCopy);
-            },
-            changeColor() {
-              this.fav = this.fav === 0 ? 1 : 0;
-            },
+            }
           },
         });
 
