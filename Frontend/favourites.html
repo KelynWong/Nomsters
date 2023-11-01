@@ -153,6 +153,7 @@
           isError: false,
           profileImage:"img/icon/profile.png",
           isScrolled: false,
+          errorMessage: "No favourite recipes found",
         }
       }, 
       mounted() {
@@ -233,17 +234,16 @@
         allSelect() {
           if (this.isAllSelected === false) {
             this.isAllSelected = true;
-            console.log(this.allRecipeIds)
             for (i = 0; i < this.allRecipeIds.length; i++) {
-              this.selectedRecipe(this.allRecipeIds[i]);
               const listingComponent = this.$refs.recipeItem;
               listingComponent.toggleSelect(this.allRecipeIds[i])
             }
-            console.log(this.selectedRecipes)
             console.log(JSON.parse(JSON.stringify(this.allRecipeIds)))
           } else {
             this.isAllSelected = false;
+            console.log("deselecting all")
             this.selectedRecipes = [];
+            console.log(this.selectedRecipes)
             for (i = 0; i < this.allRecipeIds.length; i++) {
               const listingComponent = this.$refs.recipeItem;
               listingComponent.toggleSelect(this.allRecipeIds[i])
@@ -254,6 +254,7 @@
           this.recipes = this.recipes.filter(item => item.recipeId !== recipe.recipeId);
         },
         deleteRecipes(){
+          console.log(this.selectedRecipes)
           axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, {
             headers, 
             data: {
@@ -265,6 +266,7 @@
             this.recipes = this.recipes.filter(recipe => !this.selectedRecipes.includes(recipe.recipeId));
             this.selectedRecipes = []
           }).catch( error => {
+            console.log("errrorrr")
           });
         },
         selectedRecipe(recipeId){
