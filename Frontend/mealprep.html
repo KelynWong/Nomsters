@@ -84,8 +84,8 @@
 
       <div class="banner stats" id="stats"></div>
 
-      <div class="consolidated" id="consolidated">
-        <!-- <div class="card">
+      <!-- <div class="consolidated" id="consolidated"> -->
+        <div class="card col-8 mx-auto mt-5">
           <div class="card-header">
             Total Calories (per day) - {{consolidated_calories}}
           </div>
@@ -94,8 +94,8 @@
             <li class="list-group-item">Protein - {{consolidated_protein}}</li>
             <li class="list-group-item">Cost per day - ${{consolidated_price}}</li>
           </ul>
-        </div> -->
-      </div>
+        </div>
+      <!-- </div> -->
 
       <div id="BackToTop" @click="scrollToTop">
         <div class="btt-wrapper">
@@ -277,7 +277,9 @@
     });
 
     // on click, generate banner
+    let mealPlanGenerated = false;
     function generateMealPlan() {
+      if (!mealPlanGenerated) {
       var bannerDiv1 = document.getElementById("plan");
       var bannerDiv2 = document.getElementById("stats");
       
@@ -294,43 +296,47 @@
 
       bannerDiv1.appendChild(h3Element1);
       bannerDiv2.appendChild(h3Element2);
+      
+      mealPlanGenerated = true;
+      }
+     
 
       // generate card
-      var containerDiv = document.getElementById("consolidated");
-      console.log(containerDiv);
-      containerDiv.classList.add("col-6", "p-5", "mx-auto");
+    //   var containerDiv = document.getElementById("consolidated");
+    //   console.log(containerDiv);
+    //   containerDiv.classList.add("col-6", "p-5", "mx-auto");
 
-      var cardDiv = document.createElement("div");
-      cardDiv.classList.add("card");
+    //   var cardDiv = document.createElement("div");
+    //   cardDiv.classList.add("card");
 
-      var cardHeaderDiv = document.createElement("div");
-      cardHeaderDiv.classList.add("card-header");
-      cardHeaderDiv.textContent = "Total Calories (per day) - {{consolidated_calories}}";
+    //   var cardHeaderDiv = document.createElement("div");
+    //   cardHeaderDiv.classList.add("card-header");
+    //   cardHeaderDiv.textContent = "Total Calories (per day) - {{consolidated_calories}}";
 
-      var ulElement = document.createElement("ul");
-      ulElement.classList.add("list-group", "list-group-flush");
+    //   var ulElement = document.createElement("ul");
+    //   ulElement.classList.add("list-group", "list-group-flush");
 
-      var fatListItem = document.createElement("li");
-      fatListItem.classList.add("list-group-item");
-      fatListItem.textContent = "Fat - {{consolidated_fat}}";
+    //   var fatListItem = document.createElement("li");
+    //   fatListItem.classList.add("list-group-item");
+    //   fatListItem.textContent = "Fat - {{consolidated_fat}}";
 
-      var proteinListItem = document.createElement("li");
-      proteinListItem.classList.add("list-group-item");
-      proteinListItem.textContent = "Protein - {{consolidated_protein}}";
+    //   var proteinListItem = document.createElement("li");
+    //   proteinListItem.classList.add("list-group-item");
+    //   proteinListItem.textContent = "Protein - {{consolidated_protein}}";
 
-      var costListItem = document.createElement("li");
-      costListItem.classList.add("list-group-item");
-      costListItem.textContent = "Cost per day - ${{consolidated_price}}";
+    //   var costListItem = document.createElement("li");
+    //   costListItem.classList.add("list-group-item");
+    //   costListItem.textContent = "Cost per day - ${{consolidated_price}}";
 
-      ulElement.appendChild(fatListItem);
-      ulElement.appendChild(proteinListItem);
-      ulElement.appendChild(costListItem);
+    //   ulElement.appendChild(fatListItem);
+    //   ulElement.appendChild(proteinListItem);
+    //   ulElement.appendChild(costListItem);
 
-      cardDiv.appendChild(cardHeaderDiv);
-      cardDiv.appendChild(ulElement);
+    //   cardDiv.appendChild(cardHeaderDiv);
+    //   cardDiv.appendChild(ulElement);
 
-      document.getElementById("consolidated").appendChild(cardDiv);
-      console.log(cardDiv);
+    //   document.getElementById("consolidated").appendChild(cardDiv);
+    //   console.log(cardDiv);
     }
 
     app.mount('#app');
