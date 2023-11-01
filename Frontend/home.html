@@ -325,6 +325,7 @@
         mounted() {
           this.fetchAllRecipes();
           window.addEventListener('scroll', this.handleScroll);
+          
           AOS.init({
             duration: 1000
           });
@@ -339,8 +340,6 @@
             } else {
               this.isScrolled = false;
             }
-
-            console.log("hi")
           },
           scrollToTop() {
             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -353,12 +352,11 @@
               headers:headers
             })
             .then(response => {
-              console.log(response.data)
               this.allrecipes = response.data
               this.allrecipes.forEach((recipe) => {
                 recipe.fav = 0; 
               });
-
+  
               axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
                 headers:headers,
               })
@@ -371,12 +369,10 @@
                 });
               })
               .catch( error => {  
+                if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
               });
-
-              console.log(this.allrecipes)
             })
             .catch( error => {
-              console.log(error.response.data.message);
               this.errorMessage = error.response.data.message;
               if (this.errorMessage === "Invalid token") window.location.href = './index.html';
               this.allrecipes = [];
@@ -385,7 +381,7 @@
           },
         }
       });
-      
+
       app.component('app-nav', {
         data() {
           return {
@@ -416,8 +412,7 @@
             if (this.allrecipes.length > 0) {
               const length = this.allrecipes.length;
               const r = this.allrecipes[Math.floor(Math.random() * length)];
-
-              console.log(this.random);
+  
               this.random = r;
             }
           },
@@ -443,7 +438,6 @@
             headers:headers,
           })
           .then(response => {
-            console.log(response.data)
             var image = response.data.image.data
             if (image.length > 0) {
               var uint8Array = new Uint8Array(image);
@@ -453,7 +447,7 @@
           })
         }
       });
-
+  
   // FOR BACKEND
       app.component('recipe-listing', {
         props: {
@@ -479,20 +473,18 @@
           
           // Example Axios GET request
           const token = sessionStorage.getItem('token');
-          console.log(token)
           const id = sessionStorage.getItem('userId');
-
+  
           // to add in session logic
           const headers = {
             Authorization: `Bearer ${token}`
           };
-
+  
           //to add in logic to get user diet
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
             headers: headers
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             for(recipes of response.data){
               axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
@@ -515,7 +507,7 @@
           }); 
         }
       });
-
+  
       app.component('fastrecipe-listing', {
         props: {
           recipe: {
@@ -545,14 +537,12 @@
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-
+  
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=30&diet=',{
             headers: headers
           }).then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             for(responses of response.data){
-              console.log(responses.title)
               axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                 headers: headers,
                 params: {
@@ -560,14 +550,13 @@
                 }
               })
               .then(responsetwo => {
-                console.log(responsetwo.data[0])
                 // Assuming the response contains recipe data
                 this.fastrecipe.push(responsetwo.data[0])
                 this.fastrecipe.forEach((recipe) => {
                   recipe.fav = 0; 
                 });
                 axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
-                  headers:headers,
+                   headers:headers,
                 }).then(response => {
                   response.data.forEach(favRecipe => {
                     const favedRecipe = this.fastrecipe.find(recipe => recipe.recipeId === favRecipe.recipeId);
@@ -576,6 +565,7 @@
                     }
                   });
                 }).catch( error => {
+                  if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
               })
             }
@@ -588,7 +578,7 @@
           });
         }
       });
-
+      
       app.component('popular-listing', {
         props: {
           recipe: {
@@ -629,7 +619,7 @@
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-
+  
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
             headers: headers,
             params:{
@@ -638,15 +628,12 @@
             }
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             let count = 0;
             for (responses of response.data) {
               if (count < 4) {
                 count++;
-                console.log(responses.title)
-                console.log(this.selectedButton)
-
+  
                 axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                   headers: headers,
                   params: {
@@ -654,7 +641,6 @@
                   }
                 })
                 .then(responsetwo => {
-                  console.log(responsetwo.data[0])
                   // Assuming the response contains recipe data
                   this.popularrecipe.push(responsetwo.data[0])
                   this.popularrecipe.forEach((recipe) => {
@@ -671,7 +657,7 @@
           });
         }
       });
-
+  
       app.component('popular-lunch-listing', {
         props: {
           recipe: {
@@ -712,7 +698,7 @@
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-
+  
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
             headers: headers,
             params: {
@@ -722,14 +708,11 @@
             }
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             let count = 0;
             for (responses of response.data) {
               if (count < 4) {
                 count++;
-              console.log(responses.title)
-              console.log(this.selectedButton)
               axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                 headers: headers,
                 params: {
@@ -737,7 +720,6 @@
                 }
               })
               .then(responsetwo => {
-                console.log(responsetwo.data[0])
                 // Assuming the response contains recipe data
                 this.popularrecipe.push(responsetwo.data[0])
                 this.popularrecipe.forEach((recipe) => {
@@ -753,7 +735,7 @@
           });
         }
       });
-
+  
       app.component('popular-dinner-listing', {
         props: {
           recipe: {
@@ -794,7 +776,7 @@
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-
+  
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
             headers: headers,
             params: {
@@ -804,15 +786,11 @@
             }
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             let count = 0;
             for (responses of response.data) {
               if (count < 4) {
                 count++;
-
-                console.log(responses.title)
-                console.log(this.selectedButton)
                 
                 axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                   headers: headers,
@@ -821,7 +799,6 @@
                   }
                 })
                 .then(responsetwo => {
-                  console.log(responsetwo.data[0])
                   // Assuming the response contains recipe data
                   this.popularrecipe.push(responsetwo.data[0])
                   this.popularrecipe.forEach((recipe) => {
@@ -838,7 +815,7 @@
           });
         }
       });
-
+  
       app.component('popular-dessert-listing', {
         props: {
           recipe: {
@@ -879,7 +856,7 @@
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-
+  
           axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
             headers: headers,
             params: {
@@ -888,16 +865,12 @@
             }
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             let count = 0;
             for (responses of response.data) {
               if (count < 4) {
                 count++;
-
-                console.log(responses.title)
-                console.log(this.selectedButton)
-
+  
                 axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                   headers: headers,
                   params: {
@@ -905,7 +878,6 @@
                   }
                 })
                 .then(responsetwo => {
-                  console.log(responsetwo.data[0])
                   // Assuming the response contains recipe data
                   this.popularrecipe.push(responsetwo.data[0])
                   this.popularrecipe.forEach((recipe) => {
@@ -922,7 +894,7 @@
           });
         }
       });
-
+  
       app.component('popular-snack-listing', {
         props: {
           recipe: {
@@ -973,16 +945,12 @@
             }
           })
           .then(response => {
-            console.log(response)
             // Assuming the response contains recipe data
             let count=0;
-
+  
             for (responses of response.data) {
               if (count < 4) {
                 count++;
-
-                console.log(responses.title)
-                console.log(this.selectedButton)
                 
                 axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
                   headers: headers,
@@ -991,7 +959,6 @@
                   }
                 })
                 .then(responsetwo => {
-                  console.log(responsetwo.data[0])
                   // Assuming the response contains recipe data
                   this.popularrecipe.push(responsetwo.data[0])
                   this.popularrecipe.forEach((recipe) => {
@@ -1016,7 +983,7 @@
         }
         return index;
       }
-
+  
       app.mount('#app');
 
       gsap.from("#countRecipe", {
@@ -1029,18 +996,18 @@
       const buttons = document.querySelectorAll(".topRecipe");
 
       buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        buttons.forEach(function (btn) {
-          btn.classList.remove("btn-danger");
-          btn.classList.add("btn-outline-secondary");
-          var rmv = document.getElementById(btn.getAttribute("data-value"));
-          rmv.style.display = 'none';
-        });
+        button.addEventListener("click", function () {
+          buttons.forEach(function (btn) {
+            btn.classList.remove("btn-danger");
+            btn.classList.add("btn-outline-secondary");
+            var rmv = document.getElementById(btn.getAttribute("data-value"));
+            rmv.style.display = 'none';
+          });
 
-        var content = document.getElementById(event.target.getAttribute("data-value"));
-        content.style.display = 'block';
+          var content = document.getElementById(event.target.getAttribute("data-value"));
+          content.style.display = 'block';
+        });
       });
-    });
     }
   </script>
   

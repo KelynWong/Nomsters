@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 
+
 <body>
+    
     <div class="bigdiv">
         
         <div class="container">
@@ -55,9 +57,17 @@
 
     </div>
 
-    <div class="ocean">
-        <div class="wave"></div>
-        <div class="wave"></div>
+    <div class="ocean container-fluid">
+        <svg viewBox="0 0 1320 500">
+            <path d="
+            M0, 192
+            C220, 100, 440, 100, 660, 192
+            C880, 290, 1100, 290, 1320, 192
+            L1320 800
+            L0 800"
+            fill="#DE352A"
+            />
+        </svg>
     </div>
 
     <script>
@@ -77,7 +87,6 @@
             })
             .then(response => {
                 // Handle a successful response here
-                console.log(response.data);
                 let token= response.data.token;
                 let userId= response.data.userId;
                 sessionStorage.setItem('token', token);

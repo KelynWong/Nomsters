@@ -1,6 +1,7 @@
 const listing = {
     template: `
         <a data-aos="zoom-in" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-4 container-listing p-3" v-for="r in recipeData" >
+        <!-- <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-lg-4 col-xl-4 container-listing m-4" v-for="r in recipeData" > -->
             <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
             <div class="recipe-img">
                 <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
@@ -145,6 +146,14 @@ const listing = {
     methods: {
         changeColor(recipe) {
             console.log(recipe)
+            const token = sessionStorage.getItem('token');
+            console.log(token)
+            const id = sessionStorage.getItem('userId');
+
+            // to add in session logic
+            const headers = {
+                Authorization: `Bearer ${token}`
+            };
             recipe.fav = recipe.fav === 0 ? 1 : 0;
             if (recipe.fav === 1){
                 axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${recipe.recipeId}`, null, {headers})

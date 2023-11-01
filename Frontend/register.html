@@ -202,7 +202,6 @@
                       sessionStorage.setItem("token", token);
                       sessionStorage.setItem("userId", userId);
                       const selectedDiets = this.selectedDiets;
-                      console.log(selectedDiets);
                       var dietdata = "";
 
                       if (selectedDiets.length > 0) {
@@ -218,8 +217,6 @@
                         const headers = {
                           Authorization: `Bearer ${token}`,
                         };
-
-                        console.log(headers);
                         
                         axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/diet`, 
                           {
@@ -230,12 +227,10 @@
                           }
                         )
                         .then((response) => {
-                          console.log(response.data);
                           const homePageUrl = `./home.html`;
                           window.location.href = homePageUrl;
                         })
                         .catch((error) => {
-                          console.log(error.response.data.message);
                         });
                         
                       } else {
@@ -261,7 +256,6 @@
                   sessionStorage.setItem("token", token);
                   sessionStorage.setItem("userId", userId);
                   const selectedDiets = this.selectedDiets;
-                  console.log(selectedDiets);
 
                   var dietdata = "";
 
@@ -279,8 +273,6 @@
                       Authorization: `Bearer ${token}`,
                     };
 
-                    console.log(headers);
-
                     axios
                       .post(
                         `https://leaptron2.dscloud.me:3000/api/user/${userId}/diet`,
@@ -292,12 +284,10 @@
                         }
                       )
                       .then((response) => {
-                        console.log(response.data);
                         const homePageUrl = `./home.html`;
                         window.location.href = homePageUrl;
                       })
                       .catch((error) => {
-                        console.log(error.response.data.message);
                       });
                   } else{
                     const homePageUrl = `./home.html`;

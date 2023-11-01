@@ -94,6 +94,12 @@
 }
 
 .recipe-body img {
+    max-width: 100%; /* Add this line to limit image width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px;
+}
+
+.recipe-img img {
     display: block;
     width: 100%;
     border-radius: 8px;
