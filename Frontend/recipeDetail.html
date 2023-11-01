@@ -394,7 +394,7 @@
             allrecipes: [],
             isScrolled: false,
             urlToCopy:
-              "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+              "",
             fav: 0,
             vegetarian: 0,
             vegan: 0,
@@ -433,6 +433,7 @@
           this.fetchAllRecipes();
           window.addEventListener("scroll", this.handleScroll);
           const url = new URL(window.location.href);
+          this.urlToCopy = url.href;
           var recipeId = url.searchParams.get("id");
           console.log(recipeId);
           axios.get("https://leaptron2.dscloud.me:3000/api/recipe", {
@@ -637,7 +638,7 @@
           localrecipe:[],
         }
       },
-      methods: {...listing.methods},
+      methods: listing.methods,
       computed:{
         recipeData() {
           return this.localrecipe;
@@ -656,26 +657,22 @@
         const headers = {
           Authorization: `Bearer ${token}`
         };
-
-        //to add in logic to get user diet
-        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=',{
+       
+        axios.get('https://leaptron2.dscloud.me:3000/api/recipe/random?limit=3&readyInMinutes=700&diet=&',{
           headers: headers
         })
         .then(response => {
+            console.log('eeeeeeeeeeeeeeeeeeee')
           console.log(response)
           // Assuming the response contains recipe data
           for(recipes of response.data){
-            axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-              headers: headers,
-              params:{title: recipes.title}
-            })
-            .then(response => {
+                console.log('aaaaaaaaaaaa')
+                console.log(response)
               // Assuming the response contains recipe data
-              this.localrecipe.push(response.data[0])
+              this.localrecipe.push(recipes)
               this.localrecipe.forEach((recipe) => {
                 recipe.fav = 0; 
               });
-            })
           }
         })
         .catch(error => {
@@ -683,6 +680,8 @@
           if (this.errorMessage === "Invalid token") window.location.href = './index.html';
           this.isError = true;
         }); 
+    
+
       }
     });
     

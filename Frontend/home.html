@@ -793,7 +793,8 @@
           headers: headers,
           params: {
             dishtype: 'dinner',
-            sort: 'aggregateLikes'
+            sort: 'aggregateLikes',
+            order:'DESC'
           }
         })
         .then(response => {
@@ -881,12 +882,14 @@
           }
         })
         .then(response => {
+          console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
           console.log(response)
           // Assuming the response contains recipe data
           let count = 0;
           for (responses of response.data) {
-            if (coun < 4) {
+            if (count < 4) {
               count++;
+
 
               console.log(responses.title)
               console.log(this.selectedButton)
