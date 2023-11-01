@@ -305,7 +305,8 @@
               var title = this.formData.title;
               var preparationTime = this.formData.preparationTime;
               var servings = this.formData.servings;
-              var pricePerServing = this.formData.pricePerServing;
+              var pricePerServing = this.formData.pricePerServing *  100;
+              // console.log(pricePerServing);
               var directions = this.formData.direction;
               var ingredients = this.formData.ingredient;
               var diets = []
