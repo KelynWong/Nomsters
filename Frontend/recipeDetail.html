@@ -477,7 +477,7 @@
                 this.ingredients = ingridientdata;
               }
 
-              if (reatedById == 0) {
+              if (createdById == 0) {
                 axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
                 .then(response => {
                   console.log(response.data.results[0].id)
@@ -695,10 +695,7 @@
       return index;
     }
       
-    </script>
-
-    <script>
-
+  r
         // Add a "checked" symbol when clicking on a list item
         var list = document.querySelector('#ingredients');
         list.addEventListener('click', function(ev) {
