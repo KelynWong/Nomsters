@@ -122,7 +122,8 @@
           console.log(uint8Array)
           var binaryString = String.fromCharCode.apply(null, uint8Array);
 
-          this.image = binaryString}
+          this.image = binaryString
+        }
         }).catch(error => {
           this.isError = true;
         });
@@ -138,7 +139,20 @@
         axios.get('https://leaptron2.dscloud.me:3000/api/recipe/user/' + userId , {
           headers: headers
         }).then(response => {
-          this.recipes = response.data
+          console.log(response.data)
+          this.recipes = response.data.map(recipe => {
+  // Assuming 'image2' contains binary data, you can convert it to a binary string
+  const binaryString = String.fromCharCode.apply(null, new Uint8Array(recipe.image2.data));
+
+  // Add the binary string to the recipe object
+  return {
+    ...recipe,
+    image2: binaryString
+  };
+});
+console.log(this.recipes);
+
+          
           this.recipes.forEach((recipe) => {
             recipe.fav = 0; 
           });
