@@ -347,6 +347,7 @@
                                 }
                             });
                     }).catch( error => {
+                        if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                     }).finally(() =>{
                         this.searchRecipes()
                     });
@@ -362,7 +363,7 @@
                                 }
                             });
                     }).catch( error => {
-
+                        if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                     });
                 },
                 fetchTotalRecipe(){
@@ -371,7 +372,7 @@
                     }).then(response => {
                         this.totalNoRecipe = response.data.length
                     }).catch( error => {
-
+                        if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                     });
                 },
                 searchRecipes(titleQuery){

@@ -267,6 +267,7 @@
             this.selectedRecipes = []
           }).catch( error => {
             console.log("errrorrr")
+            if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
           });
         },
         selectedRecipe(recipeId){
@@ -387,6 +388,7 @@
             .then(response => {
               console.log("success")
             }).catch( error => {
+              if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
             });
           } else {
             axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, {
@@ -400,6 +402,7 @@
               this.$emit('deleted', recipe)
             }).catch( error => {
               console.log(error)
+              if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
             });
           }
         },

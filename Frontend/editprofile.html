@@ -172,6 +172,7 @@
                 })
                 .catch(error => {
                     this.isError = true;
+                    if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
 
                 axios.get('https://leaptron2.dscloud.me:3000/api/user/' + userId, {
@@ -189,6 +190,7 @@
                 })
                 .catch(error => {
                     this.isError = true;
+                    if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
 
                 axios.get('https://leaptron2.dscloud.me:3000/api/user/' + userId, {
@@ -199,6 +201,7 @@
                 })
                 .catch(error => {
                     this.isError = true;
+                    if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
 
                 axios.get('https://leaptron2.dscloud.me:3000/api/diet', {
@@ -223,7 +226,7 @@
                         });
                     })
                     .catch( error => {
-
+                        if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                     })
                 })
                 .catch( error => {
@@ -261,6 +264,7 @@
                     }).catch(error => {
                         console.log(error.response.data.message);
                         this.errorMessage = error.response.data.message;
+                        if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                         this.allrecipes = [];
                         this.isError = true;
                     });
@@ -379,6 +383,7 @@
                 }
             }).catch(error => {
                 this.isError = true;
+                if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
             });
             var file = document.getElementById('formFile').files[0];
 
@@ -454,15 +459,19 @@
                             })
                             .catch(error => {
                                 // Handle errors here
+                                if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+
                             });
                         })
                         .catch(error => {
                             // Handle errors here
+                            if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                         });
                     
                 })
                 .catch(error => {
                     // Handle errors here
+                    if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
             }
         }

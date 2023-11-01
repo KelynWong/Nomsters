@@ -365,6 +365,7 @@
               });
             })
             .catch( error => {  
+              if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
             });
 
             console.log(this.allrecipes)
@@ -570,6 +571,7 @@
                   }
                 });
               }).catch( error => {
+                if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
               });
             })
           }

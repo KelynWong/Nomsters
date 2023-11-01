@@ -250,6 +250,7 @@
           }).catch(error => {
             console.log(error.response.data.message);
             this.errorMessage = error.response.data.message;
+            if (this.errorMessage === "Invalid token") window.location.href = './index.html';
             this.allrecipes = [];
             this.isError = true;
           });
