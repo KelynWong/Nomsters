@@ -4,84 +4,29 @@ const listing = {
             <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
             <div class="recipe-img">
                 <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
-                <div v-if="select">
-                    <!-- not selected -->
-                    <svg v-if="this.selectedListings.indexOf(r.recipeId) <= -1" @click.prevent="toggleSelect(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <g clip-path="url(#clip0_285_1392)">
-                        <path d="M19.4997 4.5H6.49967C5.30801 4.5 4.33301 5.5125 4.33301 6.75V20.25C4.33301 21.4875 5.30801 22.5 6.49967 22.5H19.4997C20.6913 22.5 21.6663 21.4875 21.6663 20.25V6.75C21.6663 5.5125 20.6913 4.5 19.4997 4.5ZM19.4997 20.25H6.49967V6.75H19.4997V20.25Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_285_1392">
+                <!-- favourited -->
+                <svg v-if="r.fav == 1" @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <g clip-path="url(#clip0_278_1363)">
+                    <path d="M16.0003 28.4667L14.067 26.7067C7.20033 20.48 2.66699 16.3733 2.66699 11.3333C2.66699 7.22667 5.89366 4 10.0003 4C12.3203 4 14.547 5.08 16.0003 6.78667C17.4537 5.08 19.6803 4 22.0003 4C26.107 4 29.3337 7.22667 29.3337 11.3333C29.3337 16.3733 24.8003 20.48 17.9337 26.72L16.0003 28.4667Z" fill="#DE352A"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_278_1363">
+                    <rect width="32" height="32" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+
+                <!-- not favourited -->
+                <svg v-else @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <g clip-path="url(#clip0_278_1357)">
+                        <path d="M22.0003 4C19.6803 4 17.4537 5.08 16.0003 6.78667C14.547 5.08 12.3203 4 10.0003 4C5.89366 4 2.66699 7.22667 2.66699 11.3333C2.66699 16.3733 7.20033 20.48 14.067 26.72L16.0003 28.4667L17.9337 26.7067C24.8003 20.48 29.3337 16.3733 29.3337 11.3333C29.3337 7.22667 26.107 4 22.0003 4ZM16.1337 24.7333L16.0003 24.8667L15.867 24.7333C9.52033 18.9867 5.33366 15.1867 5.33366 11.3333C5.33366 8.66667 7.33366 6.66667 10.0003 6.66667C12.0537 6.66667 14.0537 7.98667 14.7603 9.81333H17.2537C17.947 7.98667 19.947 6.66667 22.0003 6.66667C24.667 6.66667 26.667 8.66667 26.667 11.3333C26.667 15.1867 22.4803 18.9867 16.1337 24.7333Z" fill="#DE352A"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_278_1357">
                         <rect width="32" height="32" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-
-                    <!-- selected -->
-                    <svg v-else @click.prevent="toggleSelect(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <g clip-path="url(#clip0_278_1385)">
-                        <path d="M19 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.11 21 21 20.1 21 19V5C21 3.9 20.11 3 19 3ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_278_1385">
-                        <rect width="32" height="32" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-
-                </div>
-
-                <div v-else-if="all">
-                    <!-- no all -->
-                    <svg v-if="this.allSelected.indexOf(r.recipeId) <= -1" @click.prevent="toggleAll(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <g clip-path="url(#clip0_278_1379)">
-                        <path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_278_1379">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-
-                    <!-- all -->
-                    <svg v-else @click.prevent="toggleAll(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <g clip-path="url(#clip0_278_1382)">
-                        <path d="M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_278_1382">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-                </div>
-
-                <div v-else>
-                    <!-- favourited -->
-                    <svg v-if="r.fav == 1" @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <g clip-path="url(#clip0_278_1363)">
-                        <path d="M16.0003 28.4667L14.067 26.7067C7.20033 20.48 2.66699 16.3733 2.66699 11.3333C2.66699 7.22667 5.89366 4 10.0003 4C12.3203 4 14.547 5.08 16.0003 6.78667C17.4537 5.08 19.6803 4 22.0003 4C26.107 4 29.3337 7.22667 29.3337 11.3333C29.3337 16.3733 24.8003 20.48 17.9337 26.72L16.0003 28.4667Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_278_1363">
-                        <rect width="32" height="32" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-
-                    <!-- not favourited -->
-                    <svg v-else @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <g clip-path="url(#clip0_278_1357)">
-                            <path d="M22.0003 4C19.6803 4 17.4537 5.08 16.0003 6.78667C14.547 5.08 12.3203 4 10.0003 4C5.89366 4 2.66699 7.22667 2.66699 11.3333C2.66699 16.3733 7.20033 20.48 14.067 26.72L16.0003 28.4667L17.9337 26.7067C24.8003 20.48 29.3337 16.3733 29.3337 11.3333C29.3337 7.22667 26.107 4 22.0003 4ZM16.1337 24.7333L16.0003 24.8667L15.867 24.7333C9.52033 18.9867 5.33366 15.1867 5.33366 11.3333C5.33366 8.66667 7.33366 6.66667 10.0003 6.66667C12.0537 6.66667 14.0537 7.98667 14.7603 9.81333H17.2537C17.947 7.98667 19.947 6.66667 22.0003 6.66667C24.667 6.66667 26.667 8.66667 26.667 11.3333C26.667 15.1867 22.4803 18.9867 16.1337 24.7333Z" fill="#DE352A"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_278_1357">
-                            <rect width="32" height="32" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-                </div>
+                    </clipPath>
+                    </defs>
+                </svg>
             </div>
             <div class="listing-subdesc">
                 <div class="subdesc">

@@ -121,6 +121,11 @@ h3 {
     padding-left: 2rem;
 }
 
+p.no {
+    margin: 18px 0;
+}
+
+
 #ingredients li {
     position: relative;
     -webkit-user-select: none;

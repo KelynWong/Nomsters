@@ -206,11 +206,12 @@
                 <!-- put in div so can j display none if dh ingredients -->
                 <div class="ingredients-section">
                   <h3>Ingredients</h3>
-                  <ol id="ingredients">
+                  <ol id="ingredients" v-if="ingredients[0] != 'No ingredients found'">
                     <li v-for="(ingredient, index) in ingredients" :key="index">
                       {{ ingredient }}
                     </li>
                   </ol>
+                  <p class="no" v-else>{{ ingredients[0] }}</p>
                 </div>
 
                 <img
@@ -258,12 +259,12 @@
               <div class="content-right">
                 <div class="instructions-section">
                   <h3>Instructions</h3>
-                  <ol id="instructions">
+                  <ol id="instructions" v-if="instructions[0] != 'No instructions found'">
                     <li v-for="(instruction, index) in instructions" :key="index">
                       {{ instruction }}
                     </li>
                   </ol>
-     
+                  <p class="no" v-else>{{ instructions[0] }}</p>
                 </div>
                 <div v-if="tasteImg != null" class="taste-wrapper">
                   <img :src="tasteImg" class="taste-img" />
@@ -374,256 +375,253 @@
     <script src="component/footer.js"></script>
 
     <script>
-      const headers = {
-        Authorization: `BEARER ${token}`,
-      };
+      window.onload = function () {
+        const headers = {
+          Authorization: `BEARER ${token}`,
+        };
 
-      const app = Vue.createApp({
-        components: {
-          "app-footer": footer,
-          "similar-listing": listing.template,
-        },
-        data() {
-          return {
-            allrecipes: [],
-            isScrolled: false,
-            urlToCopy:
-              "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
-            fav: 0,
-            vegetarian: 0,
-            vegan: 0,
-            glutenFree: 0,
-            dairyFree: 0,
-            sustainable: 0,
-            calories: 0,
-            fat: 0,
-            saturatedFat: 0,
-            carbohydrates: 0,
-            sugar: 0,
-            cholesterol: 0,
-            sodium: 0,
-            protein: 0,
-            title: '',
-            cooktime:'0',
-            servings:'0',
-            pricePerServing:'0',
-            usercreated: false,
-            image: "https://cdn.dribbble.com/users/591610/screenshots/3856643/comida.gif",
-            instructions:['No instructions found'],
-            ingredients:['No ingredients found'],
-            //nutritionImg: "img/nutritionImg.jpeg",
-            // recipeCostImg: "img/pricebreakdown.png",
-            //tasteImg: "img/taste.png",
-            recipeCost: {
-              ingredients: [
-              ],
-              totalCost: 0,
-              totalCostPerServing: 0,
-            },
-          };
-        },
-        mounted() {
-          this.fetchAllRecipes();
-          window.addEventListener("scroll", this.handleScroll);
-          const url = new URL(window.location.href);
-          var recipeId = url.searchParams.get("id");
-          console.log(recipeId);
-          axios.get("https://leaptron2.dscloud.me:3000/api/recipe", {
-            headers: headers,
-            params: {
-              recipeId: recipeId,
-            },
-          })
-          .then(response=>{
-            console.log(response.data[0]);
-            var recipiedata=response.data[0];
-            this.image=recipiedata.image;
-            var createdById=recipiedata.createdById;
-            const apikey='139eaa51e33b4915958297f14f4b05d2'
-            this.title=recipiedata.title;
-            var title=recipiedata.title
-            this.cooktime=recipiedata.readyInMinutes;
-            this.servings=recipiedata.servings;
-            this.pricePerServing = Math.round(recipiedata.pricePerServing * 10) / 1000;
-            this.calories=recipiedata.calories;
-            this.fat=recipiedata.fat;
-            this.saturatedFat=recipiedata.saturatedFat;
-            this.carbohydrates=recipiedata.carbohydrates;
-            this.sugar=recipiedata.sugar;
-            this.cholesterol=recipiedata.cholesterol;
-            this.instructions=[recipiedata.instructions];
-            this.vegetarian=recipiedata.vegetarian;
-            this.vegan=recipiedata.vegan;
-            this.glutenFree=recipiedata.glutenFree;
-            this.dairyFree=recipiedata.dairyFree;
-            this.sustainable=recipiedata.sustainable;
-            if(createdById!=0){
-                this.usercreated=true;
-                var ingridientdata=recipiedata.ingredients.split(';')
+        const app = Vue.createApp({
+          components: {
+            "app-footer": footer,
+            "similar-listing": listing.template,
+          },
+          data() {
+            return {
+              allrecipes: [],
+              isScrolled: false,
+              urlToCopy:
+                "https://www.foodista.com/recipe/8XQZRM44/a-refreshing-drink-to-welcome-you-all",
+              fav: 0,
+              vegetarian: 0,
+              vegan: 0,
+              glutenFree: 0,
+              dairyFree: 0,
+              sustainable: 0,
+              calories: 0,
+              fat: 0,
+              saturatedFat: 0,
+              carbohydrates: 0,
+              sugar: 0,
+              cholesterol: 0,
+              sodium: 0,
+              protein: 0,
+              title: '',
+              cooktime:'0',
+              servings:'0',
+              pricePerServing:'0',
+              usercreated: false,
+              image: "https://cdn.dribbble.com/users/591610/screenshots/3856643/comida.gif",
+              instructions:['No instructions found'],
+              ingredients:['No ingredients found'],
+              //nutritionImg: "img/nutritionImg.jpeg",
+              // recipeCostImg: "img/pricebreakdown.png",
+              //tasteImg: "img/taste.png",
+              recipeCost: {
+                ingredients: [
+                ],
+                totalCost: 0,
+                totalCostPerServing: 0,
+              },
+            };
+          },
+          mounted() {
+            this.fetchAllRecipes();
+            window.addEventListener("scroll", this.handleScroll);
+            const url = new URL(window.location.href);
+            var recipeId = url.searchParams.get("id");
+            console.log(recipeId);
+
+            axios.get("https://leaptron2.dscloud.me:3000/api/recipe", {
+              headers: headers,
+              params: {
+                recipeId: recipeId,
+              },
+            })
+            .then(response => {
+              console.log(response.data[0]);
+              var recipiedata = response.data[0];
+              this.image = recipiedata.image;
+              var createdById = recipiedata.createdById;
+              const apikey = '139eaa51e33b4915958297f14f4b05d2'
+              this.title = recipiedata.title;
+              var title = recipiedata.title
+              this.cooktime = recipiedata.readyInMinutes;
+              this.servings = recipiedata.servings;
+              this.pricePerServing = Math.round(recipiedata.pricePerServing * 10) / 100;
+              this.calories = recipiedata.calories;
+              this.fat = recipiedata.fat;
+              this.saturatedFat = recipiedata.saturatedFat;
+              this.carbohydrates = recipiedata.carbohydrates;
+              this.sugar = recipiedata.sugar;
+              this.cholesterol = recipiedata.cholesterol;
+              this.instructions = [recipiedata.instructions];
+              this.vegetarian = recipiedata.vegetarian;
+              this.vegan = recipiedata.vegan;
+              this.glutenFree = recipiedata.glutenFree;
+              this.dairyFree = recipiedata.dairyFree;
+              this.sustainable = recipiedata.sustainable;
+              
+              if (createdById != 0) {
+                this.usercreated = true;
+                var ingridientdata = recipiedata.ingredients.split(';')
                 ingridientdata.pop()
                 console.log(recipiedata.image2)
                 var image2 = recipiedata.image2.data;
                 var uint8Array = new Uint8Array(image2);
                 var binaryString = String.fromCharCode.apply(null, uint8Array);
-                this.image=binaryString
-                
-                this.ingredients=ingridientdata;
-            }
-            if(createdById==0){
-            axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
-            .then(response=>{
-                console.log(response.data.results[0].id)
-                recipeId=response.data.results[0].id
-                axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apikey}`)
-                .then(response=>{
+                this.image = binaryString
+                this.ingredients = ingridientdata;
+              }
+
+              if (reatedById == 0) {
+                axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
+                .then(response => {
+                  console.log(response.data.results[0].id)
+                  recipeId=response.data.results[0].id
+                  axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apikey}`)
+                  .then(response => {
                     console.log(response.data)
-                    if(response.data.instructions!=null){
-            const instructiondata=response.data.instructions.replace(/<\/?li>/g, '').replace(/<\/?ol>/g, '')
-            const instructionsArray = instructiondata.split('.');
-            const filteredInstructionsArray = instructionsArray.filter(instruction => instruction.trim() !== '' && instruction.trim().length > 1);
-            this.instructions=filteredInstructionsArray;}
-            if(response.data.extendedIngredients!=null){
-
-            console.log(response.data.extendedIngredients)
-            const ingredientsArray = response.data.extendedIngredients.map(ingredient => ingredient.original);
-            console.log(ingredientsArray);
-            this.ingredients=ingredientsArray;
-            axios.get(`https://api.spoonacular.com/recipes/${recipeId}/priceBreakdownWidget.json?apiKey=${apikey}`)
-            .then(response=>{
-                this.pricePerServing = Math.round(response.data.totalCostPerServing * 10) / 1000;
-                this.recipeCost={
-                    ingredients:response.data.ingredients,
-                    totalCost:Math.round(response.data.totalCost*10)/1000,
-                    totalCostPerServing:Math.round(response.data.totalCostPerServing*10)/1000
-                }
-            })
-            }
+                    if (response.data.instructions != null) {
+                      const instructiondata=response.data.instructions.replace(/<\/?li>/g, '').replace(/<\/?ol>/g, '')
+                      const instructionsArray = instructiondata.split('.');
+                      const filteredInstructionsArray = instructionsArray.filter(instruction => instruction.trim() !== '' && instruction.trim().length > 1);
+                      this.instructions = filteredInstructionsArray;
+                    }
+                    
+                    if (response.data.extendedIngredients != null) {
+                      console.log(response.data.extendedIngredients)
+                      const ingredientsArray = response.data.extendedIngredients.map(ingredient => ingredient.original);
+                      console.log(ingredientsArray);
+                      this.ingredients=ingredientsArray;
+                      axios.get(`https://api.spoonacular.com/recipes/${recipeId}/priceBreakdownWidget.json?apiKey=${apikey}`)
+                      .then(response => {
+                        this.pricePerServing = Math.round(response.data.totalCostPerServing * 10) / 100;
+                        this.recipeCost = {
+                          ingredients: response.data.ingredients,
+                          totalCost: Math.round(response.data.totalCost*10)/100,
+                          totalCostPerServing: Math.round(response.data.totalCostPerServing*10)/100
+                        }
+                      })
+                    }
+                  })  
                 })
-                
-                
-            })}
-            
-          })
-          
-
-
-        },
-        methods: {
-          handleScroll() {
-            let scrollAmount = window.scrollY;
-            let amountScrolled = 20;
-
-            if (scrollAmount > amountScrolled) {
-              this.isScrolled = true;
-            } else {
-              this.isScrolled = false;
-            }
+              }
+            })
           },
-          scrollToTop() {
-            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          methods: {
+            handleScroll() {
+              let scrollAmount = window.scrollY;
+              let amountScrolled = 20;
+
+              if (scrollAmount > amountScrolled) {
+                this.isScrolled = true;
+              } else {
+                this.isScrolled = false;
+              }
+            },
+            scrollToTop() {
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            },
+            searchRecipes(titleQuery) {
+              window.location.href = `allRecipe.html?search=${titleQuery}`;
+            },
+            fetchAllRecipes() {
+              axios
+                .get("https://leaptron2.dscloud.me:3000/api/recipe", {
+                  headers: headers,
+                })
+                .then((response) => {
+                  console.log(response.data);
+                  this.allrecipes = response.data;
+                  console.log(this.allrecipes);
+                })
+                .catch((error) => {
+                  console.log(error.response.data.message);
+                  this.errorMessage = error.response.data.message;
+                  this.allrecipes = [];
+                  this.isError = true;
+                });
+            },
+            copyURL() {
+              navigator.clipboard.writeText(this.urlToCopy);
+              alert("You have copied this recipe's URL: " + this.urlToCopy);
+            },
+            changeColor() {
+              this.fav = this.fav === 0 ? 1 : 0;
+            },
           },
-          searchRecipes(titleQuery) {
-            window.location.href = `allRecipe.html?search=${titleQuery}`;
+        });
+
+        app.component("app-nav", {
+          data() {
+            return {
+              showIsActive: false,
+              random: [],
+              profileImage: "img/icon/profile.png",
+              active: "allRecipe",
+            };
           },
-          fetchAllRecipes() {
+          props: {
+            allrecipes: {
+              type: Array,
+              required: true,
+            },
+          },
+          methods: {
+            ...navbar.methods,
+            showHideModal() {
+              this.showIsActive = !this.showIsActive;
+
+              this.generateRandomRecipe();
+            },
+            generateRandomRecipe() {
+              if (this.allrecipes.length > 0) {
+                const length = this.allrecipes.length;
+                const r = this.allrecipes[Math.floor(Math.random() * length)];
+
+                console.log(this.random);
+                this.random = r;
+              }
+            },
+            closeModal() {
+              this.showIsActive = !this.showIsActive;
+            },
+          },
+          template:
+            navbar.template +
+            `
+                  <div class="random-recipe" :class="{active: showIsActive}">
+                      <div class="overlay" @click="closeModal"></div>
+                      <div class="modal-box">
+                          <h3>Random Recipe Generator</h3>
+                          ${listing.single}
+                          <div class="buttons">
+                              <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
+                              <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+                              <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
+                          </div>
+                      </div>
+                  </div>
+              `,
+          mounted() {
             axios
-              .get("https://leaptron2.dscloud.me:3000/api/recipe", {
+              .get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
                 headers: headers,
               })
               .then((response) => {
                 console.log(response.data);
-                this.allrecipes = response.data;
-                console.log(this.allrecipes);
-              })
-              .catch((error) => {
-                console.log(error.response.data.message);
-                this.errorMessage = error.response.data.message;
-                this.allrecipes = [];
-                this.isError = true;
+                var image = response.data.image.data;
+                if (image.length > 0) {
+                  var uint8Array = new Uint8Array(image);
+                  var binaryString = String.fromCharCode.apply(null, uint8Array);
+                  this.profileImage = binaryString;
+                }
               });
           },
-          copyURL() {
-            navigator.clipboard.writeText(this.urlToCopy);
-            alert("You have copied this recipe's URL: " + this.urlToCopy);
-          },
-          changeColor() {
-            this.fav = this.fav === 0 ? 1 : 0;
-          },
-        },
-      });
+        });
 
-      app.component("app-nav", {
-        data() {
-          return {
-            showIsActive: false,
-            random: [],
-            profileImage: "img/icon/profile.png",
-            active: "allRecipe",
-          };
-        },
-        props: {
-          allrecipes: {
-            type: Array,
-            required: true,
-          },
-        },
-        methods: {
-          ...navbar.methods,
-          showHideModal() {
-            this.showIsActive = !this.showIsActive;
-
-            this.generateRandomRecipe();
-          },
-          generateRandomRecipe() {
-            if (this.allrecipes.length > 0) {
-              const length = this.allrecipes.length;
-              const r = this.allrecipes[Math.floor(Math.random() * length)];
-
-              console.log(this.random);
-              this.random = r;
-            }
-          },
-          closeModal() {
-            this.showIsActive = !this.showIsActive;
-          },
-        },
-        template:
-          navbar.template +
-          `
-                <div class="random-recipe" :class="{active: showIsActive}">
-                    <div class="overlay" @click="closeModal"></div>
-                    <div class="modal-box">
-                        <h3>Random Recipe Generator</h3>
-                        ${listing.single}
-                        <div class="buttons">
-                            <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
-                            <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                            <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
-                        </div>
-                    </div>
-                </div>
-            `,
-        mounted() {
-          axios
-            .get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
-              headers: headers,
-            })
-            .then((response) => {
-              console.log(response.data);
-              var image = response.data.image.data;
-              if (image.length > 0) {
-                var uint8Array = new Uint8Array(image);
-                var binaryString = String.fromCharCode.apply(null, uint8Array);
-                this.profileImage = binaryString;
-              }
-            });
-        },
-      });
-
-      app.mount("#app");
-    </script>
-
-    <script>
+        app.mount("#app");
+      
         // Add a "checked" symbol when clicking on a list item
         var list = document.querySelector('#ingredients');
         list.addEventListener('click', function(ev) {
@@ -631,6 +629,7 @@
                 ev.target.classList.toggle('checked');
             }
         }, false);
+      }
     </script>
   </body>
 </html>

@@ -105,7 +105,7 @@
 
         <div class="container">
           <div v-if="!isError" class="row">
-            <recipe-listing @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
+            <recipe-listing ref="recipeItem" @deleted="deletedRecipe" @selected="selectedRecipe" @unselected="unselectedRecipe" :recipe="recipes" :allRecipeId="allRecipeIds" :select="isSelected" :all="isAllSelected" ></recipe-listing>
           </div>
           <div v-else class="alert alert-danger w-100 d-flex align-items-center justify-content-center" role="alert">
             <p>{{errorMessage}}</p>
@@ -184,6 +184,7 @@
             this.recipes.forEach(favRecipe => favRecipe.fav = 1)
             this.allRecipeIds = response.data.map(item => item.recipeId);
             console.log(this.recipes)
+            console.log(this.allRecipeIds)
           }).catch( error => {
             console.log(error.response.data.message);
             this.errorMessage = error.response.data.message;
@@ -232,12 +233,21 @@
         allSelect() {
           if (this.isAllSelected === false) {
             this.isAllSelected = true;
+            console.log(this.allRecipeIds)
+            for (i = 0; i < this.allRecipeIds.length; i++) {
+              this.selectedRecipe(this.allRecipeIds[i]);
+              const listingComponent = this.$refs.recipeItem;
+              listingComponent.toggleSelect(this.allRecipeIds[i])
+            }
+            console.log(this.selectedRecipes)
             console.log(JSON.parse(JSON.stringify(this.allRecipeIds)))
-            console.log(this.selectedRecipes)
-            this.selectedRecipes = JSON.parse(JSON.stringify(this.allRecipeIds));
-            console.log(this.selectedRecipes)
           } else {
             this.isAllSelected = false;
+            this.selectedRecipes = [];
+            for (i = 0; i < this.allRecipeIds.length; i++) {
+              const listingComponent = this.$refs.recipeItem;
+              listingComponent.toggleSelect(this.allRecipeIds[i])
+            }
           }
         },
         deletedRecipe(recipe){
