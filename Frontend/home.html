@@ -72,7 +72,7 @@
       <div class="width-80">
         <div id="section2" class="container-fluid text-center text-lg-start">
           <div class="row flex-column flex-lg-row justify-content-between align-items-center">
-            <h3 class="col-lg-4 me-lg-3 me-xl-5">Our numbers tell more about us</h3>
+            <h3 class="col-lg-4 me-lg-3 me-xl-5" data-aos="fade-down-right">Our numbers tell more about us</h3>
             <div class="col-lg-8 col-xl-7 row">
               <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="400" data-aos-anchor="#section2">
                 <div class="countNum red">
@@ -98,8 +98,10 @@
 
         <div id="section3">
           <div class="section-head">
-            <h3>Just for <span class="red">you</span></h3>
-            <a href="./allRecipe.html" class="section-view all">View All
+            <h3 data-aos="fade-right"
+            data-aos-easing="ease-in-sine">Just for <span class="red">you</span></h3>
+            <a href="./allRecipe.html" class="section-view all" data-aos="fade-left"
+            data-aos-easing="ease-in-sine">View All
               <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 viewBox="0 0 19 19" fill="none">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -111,7 +113,7 @@
 
 
           <div class="container-fluid">
-            <div class="row">
+            <div class="row" data-aos-delay="300">
               <!-- TO BE LINK WITH DATABASE -->
               <!-- <app-listing></app-listing>
               <app-listing></app-listing>
@@ -121,9 +123,9 @@
           </div>
         </div>
 
-        <div id="section4" data-aos="fade-up">
-          <h3>Popular Cuisines</h3>
-          <div class="container-fluid container-cuisine-wrap">
+        <div id="section4">
+          <h3 data-aos="fade-down" data-aos-delay="250">Popular Cuisines</h3>
+          <div data-aos="fade-up" data-aos-delay="250" class="container-fluid container-cuisine-wrap">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 justify-content-center">
               <div class="col cuisine">
                 <a href="./allRecipe.html?cuisine=Korean">
@@ -163,15 +165,18 @@
               </div>
             </div>
           </div>
-          <div class="button"><a href="./allRecipe.html?cuisine=Korean,Chinese,Indian,Vietnamese,Japanese,Italian">
+          <div data-aos="zoom-in" class="button"><a href="./allRecipe.html?cuisine=Korean,Chinese,Indian,Vietnamese,Japanese,Italian">
               <p>View All</p>
             </a></div>
         </div>
 
         <div id="section5">
-          <h3>Super Delicious</h3>
-          <h6>Our All-Time Favorite Recipes for Every Hour!</h6>
-          <div class="d-flex flex-wrap justify-content-center my-4">
+          <h3 data-aos="fade-right"
+          data-aos-easing="ease-in-sine">Super Delicious</h3>
+          <h6 data-aos="fade-left"
+          data-aos-easing="ease-in-sine">Our All-Time Favorite Recipes for Every Hour!</h6>
+          <div class="d-flex flex-wrap justify-content-center my-4" data-aos="fade-up"
+          data-aos-duration="1400">
             <button class="topRecipe btn btn-danger mx-2 my-2 rounded-pill px-4 py-3" type="button"
               data-value="breakfast">Breakfast</button>
             <button class="topRecipe btn btn-outline-secondary mx-2 my-2 rounded-pill px-4 py-3" type="button"
@@ -221,8 +226,10 @@
 
         <div id="section6">
           <div class="section-head">
-            <h3>Quick <span class="red">30-minute</span> Meals</h3>
-            <a href="./allRecipe.html?maxmins=30" class="section-view all">View All
+            <h3 data-aos="fade-left"
+            data-aos-easing="ease-in-sine">Quick <span class="red">30-minute</span> Meals</h3>
+            <a href="./allRecipe.html?maxmins=30" class="section-view all" data-aos="fade-right"
+            data-aos-easing="ease-in-sine">View All
               <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 viewBox="0 0 19 19" fill="white">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -239,14 +246,14 @@
           </div>
         </div>
 
-        <div id="section7" data-aos="fade-left"
+        <div id="section7">
+          <h3 data-aos="fade-down">Calories Energy Balance</h3>
+          <h6 data-aos="zoom-out">On a diet? No worries, we got you! Featuring our top low calorie recipes.</h6>
+
+          <div class="calorie-wrapper" data-aos="fade-left"
           data-aos-anchor="#section7"
           data-aos-offset="500"
-          data-aos-duration="500">
-          <h3>Calories Energy Balance</h3>
-          <h6>On a diet? No worries, we got you! Featuring our top low calorie recipes.</h6>
-
-          <div class="calorie-wrapper">
+          data-aos-duration="1000">
               <a href="./allRecipe.html?dishtype=starter&maxcalories=300" class="section-view calorie starters">
                 <div class="overlay"></div>
                 <div class="section-head">
