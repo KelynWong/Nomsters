@@ -2,9 +2,9 @@ const listing = {
     template: `
         <a data-aos="zoom-in" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-4 container-listing p-3" v-for="r in recipeData" >
         <!-- <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-lg-4 col-xl-4 container-listing m-4" v-for="r in recipeData" > -->
-            <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
-            <div class="recipe-img">
-                <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
+            <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> 
+            <!-- <div class="recipe-img">
+                <img :src="(r.image ? r.image : r.image2)" class="img-fluid" /> -->
                 <!-- favourited -->
                 <svg v-if="r.fav == 1" @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                     <g clip-path="url(#clip0_278_1363)">
@@ -45,10 +45,10 @@ const listing = {
         </a>
     `,
     favtemplate: `
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-md-4 col-lg-3 container-listing" v-for="r in recipeData" >
-            <!-- <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> -->
-            <div class="recipe-img">
-                <img :src="(r.image ? r.image : r.image2)" class="img-fluid" />
+        <a data-aos="zoom-in" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-md-4 col-lg-3 container-listing" v-for="r in recipeData" >
+            <div class="recipe-img" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }"> 
+            <!-- <div class="recipe-img">
+                <img :src="(r.image ? r.image : r.image2)" class="img-fluid" /> -->
                 <div v-if="select">
                     <!-- not selected -->
                     <svg v-if="this.selectedListings.indexOf(r.recipeId) <= -1" @click.prevent="toggleSelect(r.recipeId)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -118,7 +118,8 @@ const listing = {
         </a>
     `,
     templatetwo:`
-        <a data-aos="flip-left" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-3 top-recipe" v-for="r in recipeData">
+        <a data-aos="flip-left"
+        data-aos-duration="1500" :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-xl-3 top-recipe" v-for="r in recipeData">
             <div class="img" :style="{ backgroundImage: \`url(\${r.image})\` }"></div>
             <h5>{{r.title}}</h5>
             <p>{{r.summary}}...</p>

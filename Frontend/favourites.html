@@ -39,10 +39,12 @@
             <ellipse cx="23.7449" cy="22.4119" rx="23.2732" ry="22.3776" fill="#DE352A"/>
             <path d="M15.4608 15.1875C13.1732 17.4752 13.1732 21.1842 15.4608 23.4718L23.0548 31.0657C23.436 31.447 24.0542 31.447 24.4355 31.0657L32.0294 23.4718C34.317 21.1842 34.317 17.4752 32.0294 15.1875C29.7418 12.8999 26.0328 12.8999 23.7451 15.1875C21.4575 12.8999 17.7485 12.8999 15.4608 15.1875Z" fill="white"/>
           </svg>
-          <span><h3>Favourites</h3></span>
+          <span><h3 data-aos="zoom-in">Favourites</h3></span>
         </div>
 
-        <div class="subhead flex">
+        <div class="subhead flex" data-aos="fade-left"
+        data-aos-offset="300"
+        data-aos-easing="ease-in-sine">
           <p style="font-style: italic;">{{recipes.length}} Recipes</p>
           <div class="select-fav flex" @click="selectFav" :class="{ 'red': isSelected }" style="cursor:pointer">
             <svg v-if="!isSelected" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 27" fill="none">

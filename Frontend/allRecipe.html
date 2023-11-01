@@ -32,7 +32,7 @@
     <div id="app">
         <div :class="{onScroll: isScrolled}">
             <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>    
-            <h3>{{titlequery}}</h3>
+            <h3 data-aos="zoom-in" data-aos-delay="400">{{titlequery}}</h3>
             <div class="container-fluid recipeContent">
                 <div class="dropdown d-flex justify-content-end align-items-center">
                     <span class="me-2">Sort By:</span>

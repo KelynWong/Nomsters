@@ -25,9 +25,9 @@
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
       <div class="grocer-wrapper">
-        <h3 class="grocer">Grocers Near You</h3>
-        <h6 class="grocer">With more than 1,000 grocers, there is definitely one that suit your needs.</h6>
-        <div class="container-fluid">
+        <h3 class="grocer" data-aos="fade-down">Grocers Near You</h3>
+        <h6 class="grocer" data-aos="zoom-out">With more than 1,000 grocers, there is definitely one that suit your needs.</h6>
+        <div class="container-fluid" data-aos="fade-up" data-aos-anchor-placement="top-bottom" >
           <div class="row">
             <div class="grocer-filter-container col-lg-6 col-xl-4">
               <div class="col-4-wrapper">
@@ -95,7 +95,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
   <script src="component/navbar.js"></script>
   <script src="component/listing.js"></script>
@@ -814,6 +814,11 @@
         mounted() {
           this.fetchAllRecipes();
           window.addEventListener('scroll', this.handleScroll);
+
+          AOS.init({
+            easing: 'ease-out-back',
+            duration: 1000
+          });
         },
         methods: {
           handleScroll() {

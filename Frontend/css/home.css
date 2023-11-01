@@ -31,14 +31,15 @@
     align-content: center;
     justify-content: space-between;
     align-items: center; */
-    margin: 80px auto 0;
+    margin: 26px auto 0;
 }
 
-/* #section2 h3 {
-    width: 36%;
+#section2 h3 {
+    text-transform: none;
+    /* width: 36%; */
 }
 
-.countWrapper {
+/* .countWrapper {
     width: 12%;
 } */
 
@@ -66,34 +67,51 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.section-head h3 {
+    margin-right: 32px;
 }
 
 .section-view {
+    position: relative;
     text-decoration: underline;
     font-family: "PlayfairDisplay";
     font-weight: bold;
-    font-size: 18px;
+    font-size: 18px;   
+    -moz-transition: all 500ms;
+    -webkit-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
 }
 
+.section-view.all:after {
+    content: '\279E';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+}
+
+.section-view.all:hover  {
+    color: #DE352A;
+    padding-right: 10px;
+}
+
+.section-view.all:hover:after {
+    opacity: 1;
+    right: 0;
+}
+
+/* 
 .section-view svg {
     margin-left: 8px;
 }
 
-.section-view:hover  {
-    color: #DE352A;
-    -moz-transition: all 500ms;
-    -webkit-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
-}
-
 .section-view:hover path  {
     fill: #DE352A;
-    -moz-transition: all 500ms;
-    -webkit-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
-}
+} */
 
 #section4 {
     margin: 0 auto 80px;
@@ -245,6 +263,20 @@
     margin: 80px auto 0;
 }
 
+.content-section5 a:hover h5, .content-section5 a:hover p {
+    color: #d53328;
+    -moz-transition: all 500ms;
+    -webkit-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+}
+
+.content-section5 a:hover .img {
+    transition: all 0.65s;
+    transform: rotateY(360deg);
+    outline: 3px solid #d53328;
+}
+
 #section5 h6, #section7 h6 {
     text-align: center;
     margin: 21px 0 0 !important;
@@ -373,5 +405,17 @@
     .carousel-caption h1 {
         font-size: 5vw;
         width: 90%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .countNum {
+        font-size: 44px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .countNum {
+        font-size: 36px;
     }
 }
