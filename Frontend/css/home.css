@@ -96,7 +96,7 @@
 
 .section-view.all:hover  {
     color: #DE352A;
-    padding-right: 10px;
+    padding-right: 28px;
 }
 
 .section-view.all:hover:after {
@@ -359,7 +359,8 @@
 }
 
 .calorie:hover  {
-    color: #fff;
+    /* color: #DE352A; */
+    text-shadow: 0px 0px 6px rgba(0,0,0,0.45);
     transform: scale(1.05);
     -moz-transition: all 500ms;
     -webkit-transition: all 500ms;
@@ -367,8 +368,17 @@
     transition: all 500ms;
 }
 
-.calorie:hover path  {
-    fill: #fff;
+/* .calorie:hover .section-head {
+    visibility: hidden;
+} */
+
+/* .calorie:hover path  {
+    fill: #DE352A;
+} */
+
+.calorie:hover .overlay {
+    opacity: 0.1;
+    transition: 1s ease;
 }
 
 .overlay {
@@ -392,7 +402,7 @@
 }
 
 .soups {
-    background-image: url("../img/soup.webp")
+    background-image: url("../img/soup.jpeg")
 }
 
 @media screen and (min-width: 992px) {
