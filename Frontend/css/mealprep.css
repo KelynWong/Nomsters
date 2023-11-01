@@ -16,15 +16,13 @@
 }
 
 .banner {
-    /* height: 100px; */
+    height: 100px;
     text-align: center;
     margin-top: auto;
     margin: 54px auto 0;
 }
 
-.card-img-top {
-    /* max-height: 250px ;
-    max-width:auto; */
-    background-image: url("img/acai.jpeg");
-    background-position: 0cm;
+.text-center {
+    vertical-align: middle;
+    height: 100px;
 }
