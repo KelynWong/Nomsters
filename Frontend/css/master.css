@@ -187,7 +187,7 @@ span {
 }
 
 .btn {
-    font-family: 'PlayfairDisplay';
+    font-family: 'Poppins';
     font-weight: bold;
     font-size: 16px;
     line-height: 1.438em;
@@ -368,7 +368,7 @@ span {
 
 .modal-box .container-listing .recipe-img {
     position: relative;
-    background-image: url(/img/steak.jpg);
+    /* background-image: url("../img/steak.jpg"); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -622,7 +622,7 @@ span {
 
 .container-listing .recipe-img {
     position: relative;
-    background-image: url(/img/steak.jpg);
+    /* background-image: url("../img/steak.jpg"); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

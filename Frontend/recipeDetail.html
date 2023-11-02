@@ -135,16 +135,18 @@
                     </div> -->
             <div class="title-wrapper">
               <h2>{{title}}</h2>
-              <img src="img/icon/vegetarian-color.png" v-if="vegetarian === 1" />
-              <img src="img/icon/vegan-color.png" v-if="vegan === 1" />
-              <img
-                src="img/icon/gluten-free-color.png" v-if="glutenFree === 1"
-              />
-              <img src="img/icon/dairy-free-color.png" v-if="dairyFree === 1" />
-              <img
-                src="img/icon/sustainable-color.png"
-                v-if="sustainable === 1"
-              />
+              <!-- <div class="diet-wrapper"> -->
+                <img src="img/icon/vegetarian-color.png" v-if="vegetarian === 1" />
+                <img src="img/icon/vegan-color.png" v-if="vegan === 1" />
+                <img
+                  src="img/icon/gluten-free-color.png" v-if="glutenFree === 1"
+                />
+                <img src="img/icon/dairy-free-color.png" v-if="dairyFree === 1" />
+                <img
+                  src="img/icon/sustainable-color.png"
+                  v-if="sustainable === 1"
+                />
+              <!-- </div> -->
             </div>
             <div class="subtitle">
               <div class="subtitle-wrapper">
@@ -200,14 +202,14 @@
               </div>
             </div>
           </div>
-          <div class="recipe-img">
-            <img :src="image" />
-            </div>
-          <div class="recipe-body">
-            <div class="recipe-content">
-              <div class="content-left">
+          <div class="recipe-detail-img" :style="{ backgroundImage: 'url(' + image + ')' }">
+            <!-- <img :src="image" /> -->
+          </div>
+          <div class="container recipe-body">
+            <div class="row m44">
+              <div class="col-lg-6 row mb-4 mb-lg-0">
                 <!-- put in div so can j display none if dh ingredients -->
-                <div class="ingredients-section">
+                <div class="order-2 order-lg-1 ingredients-section">
                   <h3>Ingredients</h3>
                   <ol id="ingredients">
                     <li v-for="(ingredient, index) in ingredients" :key="index">
@@ -216,49 +218,51 @@
                   </ol>
                 </div>
 
-                <img
-                  v-if="nutritionImg != null"
-                  :src="nutritionImg"
-                  class="nutrition-img"
-                />
-                <div v-else class="nutrition-facts">
-                  <h3>Nutrition Facts</h3>
-                  <div class="nutrition">
-                    <p class="grey">Calories</p>
-                    <p>{{ calories }}kcal</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Total Fat</p>
-                    <p>{{ fat }}g</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Saturated Fat</p>
-                    <p>{{ saturatedFat }}g</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Cholesterol</p>
-                    <p>{{ cholesterol }}mg</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Sodium</p>
-                    <p>{{ sodium }}mg</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Total Carbohydrate</p>
-                    <p>{{ carbohydrates }}g</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Sugar</p>
-                    <p>{{ sugar }}g</p>
-                  </div>
-                  <div class="nutrition">
-                    <p class="grey">Protein</p>
-                    <p>{{ protein }}g</p>
+                <div class="order-1 order-lg-2 mb-4 mb-lg-0">
+                  <img
+                    v-if="nutritionImg != null"
+                    :src="nutritionImg"
+                    class="nutrition-img"
+                  />
+                  <div v-else class="nutrition-facts">
+                    <h3>Nutrition Facts</h3>
+                    <div class="nutrition">
+                      <p class="grey">Calories</p>
+                      <p>{{ calories }}kcal</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Total Fat</p>
+                      <p>{{ fat }}g</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Saturated Fat</p>
+                      <p>{{ saturatedFat }}g</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Cholesterol</p>
+                      <p>{{ cholesterol }}mg</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Sodium</p>
+                      <p>{{ sodium }}mg</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Total Carbohydrate</p>
+                      <p>{{ carbohydrates }}g</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Sugar</p>
+                      <p>{{ sugar }}g</p>
+                    </div>
+                    <div class="nutrition">
+                      <p class="grey">Protein</p>
+                      <p>{{ protein }}g</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="content-right">
+              <div class="col-lg-6">
                 <div class="instructions-section">
                   <h3>Instructions</h3>
                   <ol id="instructions" v-if="instructions[0] != 'No instructions found'">
@@ -277,68 +281,62 @@
               </div>
             </div>
 
-            <h3 v-if="!usercreated">Recipe Cost</h3>
-            <img
+            <!-- <img
               v-if="recipeCostImg != null"
               :src="recipeCostImg"
               class="cost-img"
-            />
-            <div v-else class="cost-wrapper">
-                <div v-if="!usercreated" class="cost-header">
-                    <h6>Total Cost: ${{ recipeCost.totalCost }}</h6>
-                <h6>
-                  Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}
-                </h6>
+            /> -->
+            <div class="row m44">
+              <h3 v-if="!usercreated">Recipe Cost</h3>
+              <div v-if="!usercreated" class="cost-header">
+                <h6>Total Cost: ${{ recipeCost.totalCost }}</h6>
+                <h6>Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</h6>
               </div>
-              <table v-if="!usercreated" class="table">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Ingredient</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- i nvr return img bec its j "image": "blueberries.jpg" -->
-                  <tr v-for="(ing, index) in recipeCost.ingredients">
-                    <th scope="row">{{ index+1 }}</th>
-                    <td>{{ ing.name }}</td>
-                    <td
-                      v-if='ing.amount.metric.unit == "" && ing.amount.us.unit == ""'
-                    >
-                      {{ ing.amount.metric.value }}
-                    </td>
-                    <td
-                      v-else-if="ing.amount.metric.unit == ing.amount.us.unit"
-                    >
-                      {{ ing.amount.metric.value }}{{ ing.amount.metric.unit }}
-                    </td>
-                    <td v-else>
-                      {{ ing.amount.metric.value }}{{ ing.amount.metric.unit }}
-                      ({{ ing.amount.us.value }} {{ ing.amount.us.unit }})
-                    </td>
-                    <td>${{ (ing.price/100).toFixed(2) }}</td>
-                  </tr>
-                  <!-- <tr>
-                                    <th></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td col-span="2">Total Cost: ${{ recipeCost.totalCost }}</td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td col-span="2">Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</td>
-                                </tr> -->
-                </tbody>
-              </table>
+                <div class="table-responsive">
+                <table v-if="!usercreated" class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Ingredient</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- i nvr return img bec its j "image": "blueberries.jpg" -->
+                    <tr v-for="(ing, index) in recipeCost.ingredients">
+                      <th scope="row">{{ index+1 }}</th>
+                      <td>{{ ing.name }}</td>
+                      <td v-if='ing.amount.metric.unit == "" && ing.amount.us.unit == ""'>{{ ing.amount.metric.value }}</td>
+                      <td v-else-if="ing.amount.metric.unit == ing.amount.us.unit">{{ ing.amount.metric.value }}{{ ing.amount.metric.unit }}</td>
+                      <td v-else>
+                        {{ ing.amount.metric.value }}{{ ing.amount.metric.unit }}
+                        ({{ ing.amount.us.value }} {{ ing.amount.us.unit }})
+                      </td>
+                      <td>${{ (ing.price/100).toFixed(2) }}</td>
+                    </tr>
+                    <!-- 
+                      <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td col-span="2">Total Cost: ${{ recipeCost.totalCost }}</td>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td col-span="2">Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</td>
+                      </tr> 
+                    -->
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-             <h3>Similar recipes</h3>
-             <div class="similar-wrapper">
-             <div class="container-fluid">
+             <div class="row similar-wrapper">
+              <h3>Similar recipes</h3>
+              <div class="container-fluid">
                 <div class="row">
                   <recipe-listing :recipe="indexes"></recipe-listing>
                 </div>
@@ -434,33 +432,38 @@
         },
         mounted() {
           this.fetchAllRecipes();
-          window.addEventListener("scroll", this.handleScroll);
+          window.addEventListener('scroll', this.handleScroll);
+
+          AOS.init({
+            duration: 1000
+          });
+
           const url = new URL(window.location.href);
           this.urlToCopy = url.href;
           var recipeId = url.searchParams.get("id");
           this.recipe = {recipeId: recipeId}
           axios.get(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe`, {
-                 headers:headers,
-              }).then(response => {
-                response.data.forEach(favRecipe => {
-                  if (Number(this.recipe.recipeId) === favRecipe.recipeId) {
-                      this.recipe.fav = 1;
-                      this.fav = 1;
-                  }
-                });
-              }).catch( error => {
-              });
+            headers:headers,
+          }).then(response => {
+            response.data.forEach(favRecipe => {
+              if (Number(this.recipe.recipeId) === favRecipe.recipeId) {
+                  this.recipe.fav = 1;
+                  this.fav = 1;
+              }
+            });
+          }).catch( error => {
+          });
+
           axios.get("https://leaptron2.dscloud.me:3000/api/recipe", {
             headers: headers,
             params: {
               recipeId: recipeId,
             },
-          })
-          .then(response=>{
+          }).then(response=>{
             var recipiedata=response.data[0];
             this.image=recipiedata.image;
             var createdById=recipiedata.createdById;
-            const apikey='44072f6dc22d43cc833081b65f1cbfe0'
+            const apikey='dee8bace761a4538863e4563d77be823';
             this.title=recipiedata.title;
             var title=recipiedata.title
             this.cooktime=recipiedata.readyInMinutes;
@@ -479,64 +482,60 @@
             this.dairyFree=recipiedata.dairyFree;
             this.sustainable=recipiedata.sustainable;
             if(createdById!=0){
-                this.usercreated=true;
-                var ingridientdata=recipiedata.ingredients.split(';')
-                ingridientdata.pop()
-                var image2 = recipiedata.image2.data;
-                var uint8Array = new Uint8Array(image2);
-                var binaryString = String.fromCharCode.apply(null, uint8Array);
-                this.image = binaryString
-                this.ingredients = ingridientdata;
-              }
+              this.usercreated=true;
+              var ingridientdata=recipiedata.ingredients.split(';')
+              ingridientdata.pop()
+              var image2 = recipiedata.image2.data;
+              var uint8Array = new Uint8Array(image2);
+              var binaryString = String.fromCharCode.apply(null, uint8Array);
+              this.image = binaryString
+              this.ingredients = ingridientdata;
+            }
 
-              if (createdById == 0) {
-                axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
+            if (createdById == 0) {
+              axios.get(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${title}&apiKey=${apikey}`)
+              .then(response => {
+                recipeId=response.data.results[0].id
+                axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apikey}`)
                 .then(response => {
-                  recipeId=response.data.results[0].id
-                  axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apikey}`)
-                  .then(response => {
-                    if (response.data.instructions != null) {
-                      const instructiondata=response.data.instructions.replace(/<\/?li>/g, '').replace(/<\/?ol>/g, '')
-                      const instructionsArray = instructiondata.split('.');
-                      const filteredInstructionsArray = instructionsArray.filter(instruction => instruction.trim() !== '' && instruction.trim().length > 1);
-                      this.instructions = filteredInstructionsArray;
-                    }
-                    
-                    if (response.data.extendedIngredients != null) {
-                      const ingredientsArray = response.data.extendedIngredients.map(ingredient => ingredient.original);
-                      this.ingredients=ingredientsArray;
-                      axios.get(`https://api.spoonacular.com/recipes/${recipeId}/priceBreakdownWidget.json?apiKey=${apikey}`)
-                      .then(response => {
-                        this.pricePerServing = Math.round(response.data.totalCostPerServing * 10) / 100;
-                        this.recipeCost = {
-                          ingredients: response.data.ingredients,
-                          totalCost: Math.round(response.data.totalCost*10)/100,
-                          totalCostPerServing: Math.round(response.data.totalCostPerServing*10)/100
-                        }
-                      })
-                    }
-                  })  
-                })
-              }
-            })
-          },
-          methods: {
-            changeColor(recipe) {
+                  if (response.data.instructions != null) {
+                    const instructiondata=response.data.instructions.replace(/<\/?li>/g, '').replace(/<\/?ol>/g, '')
+                    const instructionsArray = instructiondata.split('.');
+                    const filteredInstructionsArray = instructionsArray.filter(instruction => instruction.trim() !== '' && instruction.trim().length > 1);
+                    this.instructions = filteredInstructionsArray;
+                  }
+                  
+                  if (response.data.extendedIngredients != null) {
+                    const ingredientsArray = response.data.extendedIngredients.map(ingredient => ingredient.original);
+                    this.ingredients=ingredientsArray;
+                    axios.get(`https://api.spoonacular.com/recipes/${recipeId}/priceBreakdownWidget.json?apiKey=${apikey}`)
+                    .then(response => {
+                      this.pricePerServing = Math.round(response.data.totalCostPerServing * 10) / 100;
+                      this.recipeCost = {
+                        ingredients: response.data.ingredients,
+                        totalCost: Math.round(response.data.totalCost*10)/100,
+                        totalCostPerServing: Math.round(response.data.totalCostPerServing*10)/100
+                      }
+                    })
+                  }
+                })  
+              })
+            }
+          })
+        },
+        methods: {
+          changeColor(recipe) {
             const token = sessionStorage.getItem('token');
             const id = sessionStorage.getItem('userId');
 
-            // to add in session logic
-            const headers = {
-                Authorization: `Bearer ${token}`
-            };
             this.recipe.fav = this.recipe.fav === 0 ? 1 : 0;
             this.fav = this.fav === 0 ? 1 : 0;
             if (this.recipe.fav === 1){
-                axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
-                .then(response => {
-                }).catch( error => {
-                    if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
-                });
+              axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
+              .then(response => {
+              }).catch( error => {
+                  if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+              });
             } else {
                 axios.delete(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/`, 
                 {
@@ -550,44 +549,44 @@
                     if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
             }
-        },
-            handleScroll() {
-              let scrollAmount = window.scrollY;
-              let amountScrolled = 20;
+          },
+          handleScroll() {
+            let scrollAmount = window.scrollY;
+            let amountScrolled = 20;
 
-              if (scrollAmount > amountScrolled) {
-                this.isScrolled = true;
-              } else {
-                this.isScrolled = false;
-              }
-            },
-            scrollToTop() {
-              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-            },
-            searchRecipes(titleQuery) {
-              window.location.href = `allRecipe.html?search=${titleQuery}`;
-            },
-            fetchAllRecipes() {
-              axios
-                .get("https://leaptron2.dscloud.me:3000/api/recipe", {
-                  headers: headers,
-                })
-                .then((response) => {
-                  this.allrecipes = response.data;
-                })
-                .catch((error) => {
-                  this.errorMessage = error.response.data.message;
-                if (this.errorMessage === "Invalid token") window.location.href = './index.html';
-                  this.allrecipes = [];
-                  this.isError = true;
-                });
-            },
-            copyURL() {
-              navigator.clipboard.writeText(this.urlToCopy);
-              alert("You have copied this recipe's URL: " + this.urlToCopy);
+            if (scrollAmount > amountScrolled) {
+              this.isScrolled = true;
+            } else {
+              this.isScrolled = false;
             }
           },
-        });
+          scrollToTop() {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          },
+          searchRecipes(titleQuery) {
+            window.location.href = `allRecipe.html?search=${titleQuery}`;
+          },
+          fetchAllRecipes() {
+            axios
+              .get("https://leaptron2.dscloud.me:3000/api/recipe", {
+                headers: headers,
+              })
+              .then((response) => {
+                this.allrecipes = response.data;
+              })
+              .catch((error) => {
+                this.errorMessage = error.response.data.message;
+              if (this.errorMessage === "Invalid token") window.location.href = './index.html';
+                this.allrecipes = [];
+                this.isError = true;
+              });
+          },
+          copyURL() {
+            navigator.clipboard.writeText(this.urlToCopy);
+            alert("You have copied this recipe's URL: " + this.urlToCopy);
+          }
+        },
+      });
 
         app.component("app-nav", {
           data() {

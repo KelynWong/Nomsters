@@ -98,10 +98,9 @@
 
         <div id="section3">
           <div class="section-head">
-            <h3 data-aos="fade-right"
+            <h3 data-aos="fade-left"
             data-aos-easing="ease-in-sine">Just for <span class="red">you</span></h3>
-            <a href="./allRecipe.html" class="section-view all" data-aos="fade-left"
-            data-aos-easing="ease-in-sine">View All
+            <a href="./allRecipe.html" class="section-view all" data-aos="fade-right">View All
               <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 viewBox="0 0 19 19" fill="none">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -118,7 +117,7 @@
               <!-- <app-listing></app-listing>
               <app-listing></app-listing>
               <app-listing></app-listing> -->
-              <fastrecipe-listing :recipe="indexes"></recipe-listing>
+              <recipe-listing :recipe="indexes"></recipe-listing>
             </div>
           </div>
         </div>
@@ -166,7 +165,9 @@
             </div>
           </div>
           <div data-aos="zoom-in" class="button"><a href="./allRecipe.html?cuisine=Korean,Chinese,Indian,Vietnamese,Japanese,Italian">
-              <p>View All</p>
+              <p>View All
+                <span></span><span></span><span></span><span></span>
+              </p>
             </a></div>
         </div>
 
@@ -225,11 +226,9 @@
         </div>
 
         <div id="section6">
-          <div class="section-head">
-            <h3 data-aos="fade-left"
-            data-aos-easing="ease-in-sine">Quick <span class="red">30-minute</span> Meals</h3>
-            <a href="./allRecipe.html?maxmins=30" class="section-view all" data-aos="fade-right"
-            data-aos-easing="ease-in-sine">View All
+          <div class="section-head" data-aos="fade-down">
+            <h3>Quick <span class="red">30-minute</span> Meals</h3>
+            <a href="./allRecipe.html?maxmins=30" class="section-view all">View All
               <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 viewBox="0 0 19 19" fill="white">
                 <path fill-rule="evenodd" clip-rule="evenodd"

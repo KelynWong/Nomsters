@@ -68,6 +68,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 24px;
 }
 
 .section-head h3 {
@@ -76,17 +77,32 @@
 
 .section-view {
     position: relative;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     font-family: "PlayfairDisplay";
     font-weight: bold;
-    font-size: 18px;   
-    -moz-transition: all 500ms;
-    -webkit-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
+    font-size: 18px;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
 }
 
-.section-view.all:after {
+.section-view.all {
+    --c: linear-gradient(#dd3629 0 0);
+    padding-bottom: .15em;
+    background: var(--c), var(--c);
+    background-size: 0;
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    transition: .3s linear, background-size .3s .2s linear;
+}
+
+.section-view.all:hover {
+    background-size: 52% .1em;
+    background-position: 10% 100%, 100% 100%;
+}
+  
+.section-view.all::after {
     content: '\279E';
     position: absolute;
     opacity: 0;
@@ -97,9 +113,13 @@
 .section-view.all:hover  {
     color: #DE352A;
     padding-right: 28px;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
 }
 
-.section-view.all:hover:after {
+.section-view.all:hover::after {
     opacity: 1;
     right: 0;
 }
@@ -125,15 +145,60 @@
     padding: 10px 20px;
     width: fit-content;
     margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    transition: 0.5s;
 }
 
 #section4 .button:hover {
+    border: 1px solid #DE352A;
+}
+
+#section4 .button a p {
+    font-family: "Poppins";
+    font-size: 14px;
+}
+
+#section4 .button a p span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background-color: #DE352A;
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--n) - 1) * 25%);
+    transition: 0.5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -1;
+}
+
+#section4 .button:hover a p span {
+    transform: translateY(0) scale(2);
+}
+
+#section4 .button a p span:nth-child(1) {
+    --n: 1;
+}
+
+#section4 .button a p span:nth-child(2) {
+    --n: 2;
+}
+
+#section4 .button a p span:nth-child(3) {
+    --n: 3;
+}
+
+#section4 .button a p span:nth-child(4) {
+    --n: 4;
+}
+
+/* #section4 .button:hover {
     background-color: #000;
     -moz-transition: all 500ms;
     -webkit-transition: all 500ms;
     -o-transition: all 500ms;
     transition: all 500ms;
-}
+} */
 
 #section4 .button:hover p {
     color: white;
@@ -223,6 +288,27 @@
     margin-right: 0px;
 } */
 
+.cuisine a {
+    width: 90%;
+}
+
+.cuisine:hover h6 {
+    color: #DE352A;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+.cuisine:hover a {
+    transform: scale(1.1);
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+
 .cuisine .img, .top-recipe .img, .calorie {
     border-radius: 50%;
     background-repeat: no-repeat;
@@ -231,8 +317,9 @@
 }
 
 .cuisine .img {
-    width: 160px;
-    height: 160px;
+    /* min-width: 140px; */
+    width: 100%;
+    padding-top: 100%;
 }
 
 .kor {
@@ -271,10 +358,20 @@
     transition: all 500ms;
 }
 
+/* .content-section5 a .img {
+    --b: 4px;     
+    --g: 10px;   
+    --c: #DE352A; 
+    
+    aspect-ratio: 1;
+    cursor: pointer;
+} */
+
 .content-section5 a:hover .img {
     transition: all 0.65s;
     transform: rotateY(360deg);
-    outline: 3px solid #d53328;
+    /* outline: var(--b) solid var(--c);
+    outline-offset: var(--g); */
 }
 
 #section5 h6, #section7 h6 {
@@ -361,7 +458,7 @@
 .calorie:hover  {
     /* color: #DE352A; */
     text-shadow: 0px 0px 6px rgba(0,0,0,0.45);
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
     -moz-transition: all 500ms;
     -webkit-transition: all 500ms;
     -o-transition: all 500ms;
@@ -390,7 +487,7 @@
 	left: 0;
 	background-color: black;
     border-radius: 8px;
-	opacity: .4; 
+	opacity: .5; 
 }
 
 .starters {
