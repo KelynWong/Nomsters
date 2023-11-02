@@ -33,9 +33,10 @@
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
       <div class="banner bg-light d-flex"> 
-        <h3 class="text">Meal Prep Generator</h3>
+        <h3 class="text" data-aos="zoom-in">Meal Prep Generator</h3>
       </div>
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="submitForm" data-aos="fade-up"
+      data-aos-anchor-placement="center-bottom">
         <div class="container col-lg-9 col-sm-12">
           <!-- numeric -->
           <div class="row p-5">
@@ -154,8 +155,14 @@
           this.isError = true;
           if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
         });
+
         this.fetchAllRecipes();
         window.addEventListener('scroll', this.handleScroll);
+
+        AOS.init({
+          easing: 'ease-out-back',
+          duration: 1000
+        });
       },
       methods: {
         handleScroll() {
