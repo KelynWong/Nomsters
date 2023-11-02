@@ -498,20 +498,17 @@
             headers: headers
           })
           .then(response => {
+            let i=0
             // Assuming the response contains recipe data
-            for(recipes of response.data){
-              axios.get('https://leaptron2.dscloud.me:3000/api/recipe/',{
-                headers: headers,
-                params:{title: recipes.title}
-              })
-              .then(response => {
+              for(responses of response.data){
                 // Assuming the response contains recipe data
-                this.localrecipe.push(response.data[0])
+                this.localrecipe.push(response.data[i])
+                i+=1
                 this.localrecipe.forEach((recipe) => {
                   recipe.fav = 0; 
-                });
-              })
-            }
+                });}
+              
+            
           })
           .catch(error => {
             this.errorMessage = error.response.data.message;

@@ -369,6 +369,7 @@ span {
 .modal-box .container-listing .recipe-img {
     position: relative;
     /* background-image: url("../img/steak.jpg"); */
+    background-image: url(/img/foodicon.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -622,7 +623,7 @@ span {
 
 .container-listing .recipe-img {
     position: relative;
-    /* background-image: url("../img/steak.jpg"); */
+    background-image: url(/img/foodicon.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -461,6 +461,7 @@
                             this.errorMessage = error.response.data.message;
                             if (this.errorMessage === "Invalid token") window.location.href = './index.html';
                             this.recipes = [];
+                            this.titlequery = `No recipes found`;
                             this.isError = true;
                         });
                     },
