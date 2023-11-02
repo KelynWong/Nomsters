@@ -25,39 +25,32 @@
 <body>
     
     <div class="bigdiv">
-        
-        <div class="container">
-           
-            <div class="row">
-                <div class="form">
-                    <!-- <div class="icon">nomsters icon goes here</div> -->
-                    <img src="img/logo.png" alt="logo" class="logo mx-auto" />
-                    <form>
-                        
-                        <div class="mb-3">
-                          <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
-                        </div>
-
-                        <div class="mb-3">
-                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger" style="font-weight:lighter" onclick="loginUser(event)">Login</button>
-                        </div>
-
-                        <div class="signup text-center">
-                            Don't have an Account? <a href="http://localhost:5173/register.html">Sign up</a>
-                        </div>
-
-                    </form>
+        <div class="form">
+            <!-- <div class="icon">nomsters icon goes here</div> -->
+            <img src="img/logo.png" alt="logo" class="logo mx-auto" />
+            <form>
+                
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
                 </div>
-            </div>
-        </div>
 
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger" style="font-weight:lighter" onclick="loginUser(event)">Login</button>
+                </div>
+
+                <div class="signup text-center">
+                    Don't have an Account? <a href="./register.html">Sign up</a>
+                </div>
+
+            </form>
+        </div>
     </div>
 
-    <div class="ocean container-fluid">
+    <!-- <div class="ocean container-fluid">
         <svg viewBox="0 0 1320 500">
             <path d="
             M0, 192
@@ -68,7 +61,7 @@
             fill="#DE352A"
             />
         </svg>
-    </div>
+    </div> -->
 
     <script>
         function loginUser() {

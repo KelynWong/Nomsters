@@ -175,6 +175,11 @@
 
         this.fetchAllRecipes();
         window.addEventListener('scroll', this.handleScroll);
+        
+        AOS.init({
+          easing: 'ease-out-back',
+          duration: 1000
+        });
       },
       methods: {
         handleScroll() {

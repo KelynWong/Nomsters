@@ -10,7 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/mealprep.css">
 
@@ -32,30 +32,30 @@
   <div id="app">
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
-      <div class="banner bg-light d-flex"> 
-        <h3 class="text" data-aos="zoom-in">Meal Prep Generator</h3>
+      <div class="banner bg-light first" id="form"> 
+        <h3 class="text-center" data-aos="zoom-in">Meal Prep Generator</h3>
       </div>
-      <form @submit.prevent="submitForm" data-aos="fade-up"
+      <form @submit.prevent="submitForm" data-aos="fade-up" data-aos-anchor="form"
       data-aos-anchor-placement="center-bottom">
-        <div class="container col-lg-9 col-sm-12">
+        <div class="container col-lg-10 col-sm-12">
           <!-- numeric -->
-          <div class="row p-5">
-              <div class="form-outline col-lg-6 col-sm-12 my-2">
+          <div class="row w90">
+              <div class="form-outline col-lg-6 col-sm-12 p-2 p-sm-3">
                   <label class="form-label" for="typeNumber">Number of Meals per Day</label>
                   <input type="number" v-model="form.mealsPerDay" class="form-control" placeholder="2" min="2" max="5" required />
                   <small class="form-text text-muted fst-italic">Please enter a number between 2 and 5.</small>
               </div>
-              <div class="form-outline col-lg-6 col-sm-12 my-2">
+              <div class="form-outline col-lg-6 col-sm-12 p-2 p-sm-3">
                   <label class="form-label" for="typeNumber">Number of Snacks per Day</label>
                   <input type="number" v-model="form.snacksPerDay" class="form-control" placeholder="max 2" max="2" />
                   <small class="form-text text-muted fst-italic">Please enter a maximum value of 2.</small>
               </div>
-              <div class="form-outline col-lg-6 col-sm-12 my-2">
+              <div class="form-outline col-lg-6 col-sm-12 p-2 p-sm-3">
                   <label class="form-label" for="typeNumber">Estimated Calorie Goal per Day</label>
                   <input type="number" v-model="form.calorieGoal" class="form-control" placeholder="2000" min="1000" max="3500" />
                   <small class="form-text text-muted fst-italic">Please enter a number between 1000 and 3500.</small>
               </div>
-              <div class="form-outline col-lg-6 col-sm-12 my-2">
+              <div class="form-outline col-lg-6 col-sm-12 p-2 p-sm-3">
                   <label class="form-label" for="typeNumber">Budget per Day ($)</label>
                   <input type="number" v-model="form.budget" class="form-control" placeholder="eg. 10" min="10" />
                   <small class="form-text text-muted fst-italic">Please set a budget of at least $10.</small>
@@ -63,40 +63,42 @@
           </div>
           
           <div class="text-center">
-            <button type="submit" class="btn btn-danger" style="font-weight:lighter" onclick="generateMealPlan()">Generate Plan</button>
+            <button type="submit" class="btn btn-danger" style="font-weight:lighter">Generate Plan</button>
           </div> 
         </div>
       </form>
 
       <br>
 
-      <!-- <div class="banner bg-light d-flex"> 
-          <h3 class="text">Generated Meal Plan</h3>
-      </div> -->
-      <div class="banner plan" id="plan"></div>
+      <div v-if="formSubmitted != 0" class="mealPrep-wrap" data-aos="fade-up">
+        <div class="banner bg-light d-flex"> 
+            <h3 class="text">Generated Meal Plan</h3>
+        </div>
+        <!-- <div class="banner plan" id="plan"></div> -->
 
-      <div class="row">
-        <recipe-listing :recipe="indexes" :key="formSubmitted" v-if="formSubmitted > 0 " :form-data="form"></recipe-listing>
-      </div>
+        <div class="row w90">
+          <recipe-listing :recipe="indexes" :key="formSubmitted" v-if="formSubmitted > 0 " :form-data="form"></recipe-listing>
+        </div>
 
-      <!-- <div class="banner bg-light"> 
-          <h3 class="text-center">Consolidated Stats:</h3>
-      </div> -->
+        <div class="banner bg-light"> 
+            <h3 class="text-center">Consolidated Stats:</h3>
+        </div>
 
-      <div class="banner stats" id="stats"></div>
+        <!-- <div class="banner stats" id="stats"></div> -->
 
-      <!-- <div class="consolidated" id="consolidated"> -->
-        <div class="card col-8 mx-auto mt-5">
-          <div class="card-header">
-            Total Calories (per day) - {{consolidated_calories}}
+        <!-- <div class="consolidated" id="consolidated"> -->
+        <div class="card col-10 col-md-5 col-lg-4 mx-auto m-5">
+          <div class="card-header" data-aos="zoom-in">
+            Total Calories (per day) - {{consolidated_calories}}kcal
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Fat - {{consolidated_fat}} </li>
-            <li class="list-group-item">Protein - {{consolidated_protein}}</li>
+            <li class="list-group-item">Total Fat - {{consolidated_fat}}g</li>
+            <li class="list-group-item">Protein - {{consolidated_protein}}g</li>
             <li class="list-group-item">Cost per day - ${{consolidated_price}}</li>
           </ul>
         </div>
-      <!-- </div> -->
+        <!-- </div> -->
+      </div>
 
       <div id="BackToTop" @click="scrollToTop">
         <div class="btt-wrapper">
@@ -155,7 +157,6 @@
           this.isError = true;
           if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
         });
-
         this.fetchAllRecipes();
         window.addEventListener('scroll', this.handleScroll);
 
@@ -283,69 +284,6 @@
         })}
     });
 
-    // on click, generate banner
-    let mealPlanGenerated = false;
-    function generateMealPlan() {
-      if (!mealPlanGenerated) {
-      var bannerDiv1 = document.getElementById("plan");
-      var bannerDiv2 = document.getElementById("stats");
-      
-      bannerDiv1.classList.add("bg-light", "d-flex", "banner");
-      bannerDiv2.classList.add("bg-light", "d-flex", "banner");
-
-      var h3Element1 = document.createElement("h3");
-      h3Element1.classList.add("text", "mx-auto", "align-items-center");
-      h3Element1.textContent = "Generated Meal Plan";
-
-      var h3Element2 = document.createElement("h3");
-      h3Element2.classList.add("text");
-      h3Element2.textContent = "Consolidated Stats:";
-
-      bannerDiv1.appendChild(h3Element1);
-      bannerDiv2.appendChild(h3Element2);
-      
-      mealPlanGenerated = true;
-      }
-     
-
-      // generate card
-    //   var containerDiv = document.getElementById("consolidated");
-    //   console.log(containerDiv);
-    //   containerDiv.classList.add("col-6", "p-5", "mx-auto");
-
-    //   var cardDiv = document.createElement("div");
-    //   cardDiv.classList.add("card");
-
-    //   var cardHeaderDiv = document.createElement("div");
-    //   cardHeaderDiv.classList.add("card-header");
-    //   cardHeaderDiv.textContent = "Total Calories (per day) - {{consolidated_calories}}";
-
-    //   var ulElement = document.createElement("ul");
-    //   ulElement.classList.add("list-group", "list-group-flush");
-
-    //   var fatListItem = document.createElement("li");
-    //   fatListItem.classList.add("list-group-item");
-    //   fatListItem.textContent = "Fat - {{consolidated_fat}}";
-
-    //   var proteinListItem = document.createElement("li");
-    //   proteinListItem.classList.add("list-group-item");
-    //   proteinListItem.textContent = "Protein - {{consolidated_protein}}";
-
-    //   var costListItem = document.createElement("li");
-    //   costListItem.classList.add("list-group-item");
-    //   costListItem.textContent = "Cost per day - ${{consolidated_price}}";
-
-    //   ulElement.appendChild(fatListItem);
-    //   ulElement.appendChild(proteinListItem);
-    //   ulElement.appendChild(costListItem);
-
-    //   cardDiv.appendChild(cardHeaderDiv);
-    //   cardDiv.appendChild(ulElement);
-
-    //   document.getElementById("consolidated").appendChild(cardDiv);
-    //   console.log(cardDiv);
-    }
-
     app.mount('#app');
     app.component('recipe-listing', {
       props: {
@@ -370,10 +308,10 @@
       },
       methods: listing.methods,
       template: `
-        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-lg-4 col-md-6 col-sm-12 p-4" v-for="r in recipeData">
-          <div class="card">
+        <a :href="'recipeDetail.html?id=' + r.recipeId" class="col-sm-6 col-lg-4 p-4" v-for="r in recipeData">
+          <div class="card h-100">
             <div class="recipe-img card-img-top" :style="{ backgroundImage: 'url(' + (r.image ? r.image : r.image2) + ')' }">
-              <img :src="r.image" class="card-img-top" alt="Recipe Image">
+              <!-- <img :src="r.image" class="card-img-top" alt="Recipe Image"> -->
               <!-- favourited -->
               <svg v-if="r.fav == 1" @click.prevent="changeColor(r)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <g clip-path="url(#clip0_278_1363)">
@@ -400,13 +338,15 @@
             </div>
               <div class="card-body">
                 <h5 class="card-title">{{ r.title }}</h5>
-                <p class="card-text p-2">{{r.summary}} </p>
-                <p class="card-text">Nutritional Info:</p>
+                <p class="card-text py-3">{{r.summary}} </p>
+              </div>
+              <div class="card-footer">
+                <h6 class="card-text pb-2">Nutritional Info</h6>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Calorie Count: {{r.calories_per_serving}}</li>
-                  <li class="list-group-item">Fat: {{r.fatPerServing}}g</li>
-                  <li class="list-group-item">Protein: {{r.protein_per_serving}}</li>
-                  <li class="list-group-item">Price per serving: {{r.pricePerServing_dollar}} Dollars</li>
+                  <li class="list-group-item">Calorie Count - {{r.calories_per_serving}}kcal</li>
+                  <li class="list-group-item">Total Fat - {{r.fatPerServing}}g</li>
+                  <li class="list-group-item">Protein - {{r.protein_per_serving}}g</li>
+                  <li class="list-group-item">Price per serving - \${{r.pricePerServing_dollar}}</li>
                 </ul>
               </div>
           </div>
