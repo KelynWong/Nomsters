@@ -206,7 +206,7 @@
             <!-- <img :src="image" /> -->
           </div>
           <div class="container recipe-body">
-            <div class="row m44">
+            <div class="row align-items-start m44">
               <div class="col-lg-6 row mb-4 mb-lg-0">
                 <!-- put in div so can j display none if dh ingredients -->
                 <div class="order-2 order-lg-1 ingredients-section">
@@ -588,71 +588,71 @@
         },
       });
 
-        app.component("app-nav", {
-          data() {
-            return {
-              showIsActive: false,
-              random: [],
-              profileImage: "img/icon/profile.png",
-              active: "allRecipe",
-            };
+      app.component("app-nav", {
+        data() {
+          return {
+            showIsActive: false,
+            random: [],
+            profileImage: "img/icon/profile.png",
+            active: "allRecipe",
+          };
+        },
+        props: {
+          allrecipes: {
+            type: Array,
+            required: true,
           },
-          props: {
-            allrecipes: {
-              type: Array,
-              required: true,
-            },
+        },
+        methods: {
+          ...navbar.methods,
+          showHideModal() {
+            this.showIsActive = !this.showIsActive;
+
+            this.generateRandomRecipe();
           },
-          methods: {
-            ...navbar.methods,
-            showHideModal() {
-              this.showIsActive = !this.showIsActive;
+          generateRandomRecipe() {
+            if (this.allrecipes.length > 0) {
+              const length = this.allrecipes.length;
+              const r = this.allrecipes[Math.floor(Math.random() * length)];
 
-              this.generateRandomRecipe();
-            },
-            generateRandomRecipe() {
-              if (this.allrecipes.length > 0) {
-                const length = this.allrecipes.length;
-                const r = this.allrecipes[Math.floor(Math.random() * length)];
-
-                this.random = r;
+              this.random = r;
+            }
+          },
+          closeModal() {
+            this.showIsActive = !this.showIsActive;
+          },
+        },
+        template:
+          navbar.template +
+          `
+                <div class="random-recipe" :class="{active: showIsActive}">
+                    <div class="overlay" @click="closeModal"></div>
+                    <div class="modal-box">
+                        <h3>Random Recipe Generator</h3>
+                        ${listing.single}
+                        <div class="buttons">
+                            <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
+                            <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
+                            <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
+                        </div>
+                    </div>
+                </div>
+            `,
+        mounted() {
+          axios
+            .get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
+              headers: headers,
+            })
+            .then((response) => {
+              var image = response.data.image.data;
+              if (image.length > 0) {
+                var uint8Array = new Uint8Array(image);
+                var binaryString = String.fromCharCode.apply(null, uint8Array);
+                this.profileImage = binaryString;
               }
-            },
-            closeModal() {
-              this.showIsActive = !this.showIsActive;
-            },
-          },
-          template:
-            navbar.template +
-            `
-                  <div class="random-recipe" :class="{active: showIsActive}">
-                      <div class="overlay" @click="closeModal"></div>
-                      <div class="modal-box">
-                          <h3>Random Recipe Generator</h3>
-                          ${listing.single}
-                          <div class="buttons">
-                              <!-- <button class="btn close-btn" @click="showHideModal">Close</button> -->
-                              <button class="btn decide-btn generate" @click="generateRandomRecipe">Regenerate</button>
-                              <button class="btn decide-btn generate"><a :href="'recipeDetail.html?id=' + random.recipeId">Go to Recipe</a></button>
-                          </div>
-                      </div>
-                  </div>
-              `,
-          mounted() {
-            axios
-              .get(`https://leaptron2.dscloud.me:3000/api/user/${userId}`, {
-                headers: headers,
-              })
-              .then((response) => {
-                var image = response.data.image.data;
-                if (image.length > 0) {
-                  var uint8Array = new Uint8Array(image);
-                  var binaryString = String.fromCharCode.apply(null, uint8Array);
-                  this.profileImage = binaryString;
-                }
-              });
-          },
-        });
+            });
+        },
+      });
 
       app.mount("#app");
 

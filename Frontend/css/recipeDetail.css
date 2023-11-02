@@ -107,6 +107,7 @@
 }
 
 .recipe-detail-img {
+    background-image: url(/img/foodicon.png);
     /* background-image: url("../img/steak.jpg"); */
     background-position: center;
     background-size: cover;
