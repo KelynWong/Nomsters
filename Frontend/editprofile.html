@@ -400,7 +400,29 @@
                             headers: headers
                         })
                             .then(response => {
+                                const checkedDiets = [];
+                            const checkboxes = document.getElementsByClassName("form-check-input");
+
+                            for (let i = 0; i < checkboxes.length; i++) {
+                                if (checkboxes[i].checked) {
+                                    checkedDiets.push(checkboxes[i].value);
+                                }
+                            }
+                            
+                            const checkedDietsString = checkedDiets.join(", ");
+                            axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/diet`, {
+                                "diets": checkedDietsString
+                            }, {
+                                headers: headers
+                            })
+                            .then(response => {
                                 window.location.href = './profile.html';
+                            })
+                            .catch(error => {
+                                // Handle errors here
+                                if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+
+                            });
                             })
                             .catch(error => {
                                 alert("Image is too large")
