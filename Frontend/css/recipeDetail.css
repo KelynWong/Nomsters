@@ -292,6 +292,10 @@ li {
     margin-top: 18px;
 }
 
+.cost-header h6 {
+    margin-right: 24px;
+}
+
 .table, .cost-img {
     margin: 9px 0;
     width: 70% !important;

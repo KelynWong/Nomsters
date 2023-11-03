@@ -590,6 +590,66 @@ span {
     opacity: 1;
 }
 
+.anim.button {
+    border-radius: 8px;
+    border: 1px solid #000;
+    background-color: white;
+    padding: 10px 20px;
+    width: fit-content;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.anim.button:hover {
+    border: 1px solid #DE352A;
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+}
+
+.anim.button:hover p, .anim.button:hover button {
+    color: #fff;
+}
+
+.anim.button p, .anim.button button {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.anim.button p span, .anim.button button span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background-color: #DE352A;
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--n) - 1) * 25%);
+    transition: 0.5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -1;
+}
+
+.anim.button:hover p span, .anim.button:hover button span {
+    transform: translateY(0) scale(2);
+}
+
+.anim.button p span:nth-child(1), .anim.button button span:nth-child(1) {
+    --n: 1;
+}
+
+.anim.button p span:nth-child(2), .anim.button button span:nth-child(2) {
+    --n: 2;
+}
+
+.anim.button p span:nth-child(3), .anim.button button span:nth-child(3) {
+    --n: 3;
+}
+
+.anim.button p span:nth-child(4), .anim.button button span:nth-child(4) {
+    --n: 4;
+}
+
 /* listing */
 /* .container-listing-wrap {
     display: flex;
