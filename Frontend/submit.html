@@ -36,46 +36,46 @@
         <h3 class="text-center pb-5">Submit Recipe</h3>
         <form @submit.prevent="submitRecipe">
           <!-- Text Fields -->
-          <div class="mb-4">
+          <div class="my-4">
             <label for="recipeName" class="form-label">
               <img src="img/recipe.png" class="me-1" width="28" />
               Recipe Name
             </label>
-            <textarea v-model="formData.title" class="form-control" id="recipeName" rows="1" required></textarea>
+            <input type="text" v-model="formData.title" class="form-control mt-2" id="recipeName" required />
           </div>
 
           <div class="mb-4">
             <label for="formFile" class="form-label chooseprofilepic" style="color: black; text-align: start !important;">
-              <img id="frame" :key="imagePreview" :src="imagePreview" class="img-fluid" />
               <img src="img/recipePhoto.png" class="me-1" width="28" />
               Choose Recipe Photo
             </label>
-            <input type="file" class="form-control" id="formFile" @change="handleImageChange"
+            <img id="frame" :key="imagePreview" :src="imagePreview" class="img-fluid" />
+            <input type="file" class="form-control mt-2" id="formFile" @change="handleImageChange"
               placeholder="upload profile pic" required />
             <button @click="clearImage" class="btn btn-secondary mt-1 clear" type="button">Clear Image</button>
           </div>
 
-          <div class="row 2 mb-4">
-            <div class="col-lg-6 col-sm-12">
+          <div class="row 2">
+            <div class="col-lg-6 col-sm-12 mb-4">
               <label for="recipeDirections" class="form-label">
                 <img src="img/instructions.png" class="me-1" width="28" />
                 Instructions
               </label>
               <div v-for="(step, index) in formData.direction" :key="index" id="formfield">
-                <input v-model="formData.direction[index]" type="text" class="form-control" :id="'textbox' + index"
+                <input v-model="formData.direction[index]" type="text" class="form-control mt-2" :id="'textbox' + index"
                   :placeholder="'Dice carrots and onions'" required />
               </div>
               <button class="add btn btn-secondary mr-3" @click="addRecipe" type="button">Add</button>
               <button class="remove btn btn-secondary mr-3" @click="removeRecipe" type="button">Remove</button>
             </div>
 
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-6 col-sm-12 mb-4">
               <label for="recipeIngredients" class="form-label">
                 <img src="img/ingredient.png" class="me-1" width="28" />
                 Ingredients
               </label>
               <div v-for="(step, index) in formData.ingredient" :key="index" id="formfield">
-                <input v-model="formData.ingredient[index]" type="text" class="form-control" :id="'textbox' + index"
+                <input v-model="formData.ingredient[index]" type="text" class="form-control mt-2" :id="'textbox' + index"
                   :placeholder="'20g Potato'" required />
               </div>
               <button class="add btn btn-secondary mr-3" @click="addIngredient" type="button">Add</button>
@@ -84,13 +84,13 @@
           </div>
 
           <!-- Numeric Fields -->
-          <div class="row mb-4">
+          <div class="row">
             <div class="form-outline col-lg-4 col-sm-12 mb-4">
               <label class="form-label" for="preparationTime">
                 <img src="img/prepTime.png" class="me-1" width="28" />
                 Preparation Time (mins)
               </label>
-              <input v-model="formData.preparationTime" type="number" class="form-control" id="preparationTime"
+              <input v-model="formData.preparationTime" type="number" class="form-control mt-2" id="preparationTime"
                 placeholder="120" required />
             </div>
             <div class="form-outline col-lg-4 col-sm-12 mb-4">
@@ -98,7 +98,7 @@
                 <img src="img/serving.png" class="me-1" width="28" />
                 Number of Servings
               </label>
-              <input v-model="formData.servings" type="number" class="form-control" id="servings" placeholder="4"
+              <input v-model="formData.servings" type="number" class="form-control mt-2" id="servings" placeholder="4"
                 required />
             </div>
             <div class="form-outline col-lg-4 col-sm-12 mb-4">
@@ -106,7 +106,7 @@
                 <img src="img/price.png" class="me-1" width="28"  />
                 Price (per serving in $)
               </label>
-              <input v-model="formData.pricePerServing" type="number" class="form-control" id="pricePerServing"
+              <input v-model="formData.pricePerServing" type="number" class="form-control mt-2" id="pricePerServing"
                 placeholder="eg. 2" required />
             </div>
           </div>

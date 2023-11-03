@@ -218,13 +218,13 @@
                   </ol>
                 </div>
 
-                <div class="order-1 order-lg-2 mb-4 mb-lg-0">
-                  <img
+                <div v-if="calories != 0" class="order-1 order-lg-2 mb-4 mb-lg-0">
+                  <!-- <img
                     v-if="nutritionImg != null"
                     :src="nutritionImg"
                     class="nutrition-img"
-                  />
-                  <div v-else class="nutrition-facts">
+                  /> -->
+                  <div class="nutrition-facts">
                     <h3>Nutrition Facts</h3>
                     <div class="nutrition">
                       <p class="grey">Calories</p>
@@ -286,14 +286,14 @@
               :src="recipeCostImg"
               class="cost-img"
             /> -->
-            <div class="row m44">
-              <h3 v-if="!usercreated">Recipe Cost</h3>
-              <div v-if="!usercreated" class="cost-header">
+            <div v-if="!usercreated" class="row m44">
+              <h3>Recipe Cost</h3>
+              <div class="cost-header">
                 <h6>Total Cost: ${{ recipeCost.totalCost }}</h6>
                 <h6>Total Cost per Serving: ${{ recipeCost.totalCostPerServing }}</h6>
               </div>
                 <div class="table-responsive">
-                <table v-if="!usercreated" class="table">
+                <table class="table">
                   <thead>
                     <tr>
                       <th scope="col"></th>
@@ -437,6 +437,9 @@
           AOS.init({
             duration: 1000
           });
+
+          const savedPageNumber = localStorage.getItem('pageNumber');
+          console.log(savedPageNumber);
 
           const url = new URL(window.location.href);
           this.urlToCopy = url.href;

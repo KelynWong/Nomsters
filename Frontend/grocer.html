@@ -42,19 +42,19 @@
                   <ul class="nav nav-tabs justify-content-center" role="tablist">
                     <div class="slider"></div>
                     <li class="nav-item">
-                      <div class="nav-link active" id="all-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true" onclick="initMap('')">All</div>
+                      <div class="nav-link active" id="all-tab" data-toggle="tab" role="tab" aria-selected="true" onclick="initMap('')">Nearby</div>
                     </li>
                     <li class="nav-item">
-                        <div class="nav-link" id="north-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false" onclick="initMap({lat:1.4382, lng:103.7890})">North</div>
+                        <div class="nav-link" id="north-tab" data-toggle="tab" role="tab" aria-selected="false" onclick="initMap({lat:1.4382, lng:103.7890})">North</div>
                     </li>
                     <li class="nav-item">
-                        <div class="nav-link" id="east-tab" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false" onclick="initMap({lat:1.3721,lng:103.9474})">East</div>
+                        <div class="nav-link" id="east-tab" data-toggle="tab" role="tab" aria-selected="false" onclick="initMap({lat:1.3721,lng:103.9474})">East</div>
                     </li>
                     <li class="nav-item">
-                        <div class="nav-link" id="west-tab" data-toggle="tab" role="tab" aria-controls="setting" aria-selected="false" onclick="initMap({lat:1.3400319732, lng:103.704087184 })">West</div>
+                        <div class="nav-link" id="west-tab" data-toggle="tab" role="tab" aria-selected="false" onclick="initMap({lat:1.3400319732, lng:103.704087184 })">West</div>
                     </li>
                     <li class="nav-item">
-                        <div class="nav-link" id="central-tab" data-toggle="tab" role="tab" aria-controls="setting" aria-selected="false" onclick="initMap({lat: 1.290270, lng:103.851959})">Central</div>
+                        <div class="nav-link" id="central-tab" data-toggle="tab" role="tab" aria-selected="false" onclick="initMap({lat: 1.290270, lng:103.851959})">Central</div>
                     </li>
                 </ul>
                 </div>
@@ -139,7 +139,7 @@
             const location = response.data.results[0].geometry.location;
             const oldActiveTab = document.querySelector("#nav-slider .nav-link.active");
             if (oldActiveTab) {
-            oldActiveTab.classList.remove("active");
+              oldActiveTab.classList.remove("active");
             }
             document.querySelector("#all-tab").classList.add("active");
             const slider = document.querySelector("#nav-slider .slider");
@@ -937,21 +937,29 @@
         });
       });
 
-      var activeTab = document.querySelector("#nav-slider .nav-tabs .active");
-      var activeTabParent = activeTab.parentElement;
-      var actWidth = activeTabParent.clientWidth;
-      var actHeight = activeTabParent.clientHeight;
-      var actPosition = activeTab.offsetLeft;
-      var slider = document.querySelector("#nav-slider .slider");
-      slider.style.left = actPosition + "px";
-      slider.style.width = actWidth + "px";
-      slider.style.height = actHeight + "px";
+      resizeSlider();
 
       // then load n execute google maps api 
       initMap('');
     }
 
+    function resizeSlider() {
+      var activeTab = document.querySelector("#nav-slider .nav-tabs .active");
+      var activeTabParent = activeTab.parentElement;
+      var actWidth = activeTabParent.clientWidth;
+      var actHeight = activeTabParent.clientHeight;
+      var actPosition = activeTab.offsetLeft;
+      var actTop = activeTab.offsetTop;
+      var slider = document.querySelector("#nav-slider .slider");
+      slider.style.left = actPosition + "px";
+      slider.style.top = actTop + "px";
+      slider.style.width = actWidth + "px";
+      slider.style.height = actHeight + "px";
+    }
 
+    window.addEventListener('resize', function() {
+      resizeSlider();
+    }); 
     /*window.addEventListener('resize', () => {
       // Call the resize function when the window is resized
       resizeSlider();

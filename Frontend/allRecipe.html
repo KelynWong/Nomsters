@@ -553,6 +553,103 @@
                   })}
             });
             
+            /*
+            app.component('recipe-listing', {
+                data() {
+                    return {
+                        pageNumber: 1,
+                        fav: 0,
+                    }
+                },
+                props: {
+                    recipe: {
+                        type: Array,
+                        required: true
+                    },
+                    size: {
+                        type: Number,
+                        required: false,
+                        default: 12
+                    }
+                },
+                mounted() {
+                    this.loadSavedPageNumber();
+                },
+                methods:{
+                    ...listing.methods,
+                    nextPage() {
+                        this.pageNumber++;
+                        this.savePageNumber(); 
+                    },
+                    prevPage() {
+                        this.pageNumber--;
+                        this.savePageNumber();
+                    },
+                    savePageNumber() {
+                        localStorage.setItem('pageNumber', this.pageNumber);
+                    },
+                    loadSavedPageNumber() {
+                        const savedPageNumber = localStorage.getItem('pageNumber');
+                        if (savedPageNumber) {
+                            this.pageNumber = parseInt(savedPageNumber);
+                            console.log(this.pageNumber)
+                        }
+                    },
+                    updatePageNumber(page) {
+                        this.pageNumber = page;
+                        this.savePageNumber();
+                    }
+                },
+                computed: {
+                    pageCount() {
+                        let l = this.recipe.length;
+                        let s = this.size;
+                        return Math.ceil(l/s);
+                    },
+                    recipeData() {
+                        const start = this.pageNumber * this.size - this.size;
+                        const end = start + this.size;
+                        return this.recipe.slice(start, end);
+                    },
+                },
+                template: listing.template + `
+                    <div class="m-4 d-flex flex-wrap align-items-center justify-content-end w-100">
+                        <p class="m-1">Total {{ pageCount }} pages</p>
+                        <button type="button" class="btn btn-sm m-1" v-if="pageNumber > 1" @click="prevPage"> &lt; </button>
+                        <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &lt; </button>
+                        <template v-if="pageCount <= 7">
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" v-for="page in pageCount" @click="updatePageNumber(page)"> {{ page }}
+                            </button>
+                        </template>
+                        <template v-else>
+                            <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === 1 }" @click="updatePageNumber(1)">1</button>
+                            <template v-if="pageNumber <= 6">
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + 1 }" v-for="page in 5" @click="updatePageNumber(page + 1)"> {{ page + 1 }}</button>
+                                <span class="m-1">...</span>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="updatePageNumber(pageCount)">{{ pageCount }}</button>
+                            </template>
+                            <template v-else-if="pageNumber >= pageCount - 4">
+                                <span class="m-1">...</span>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page + pageCount - 6 }" v-for="page in 6" @click="updatePageNumber(page + pageCount - 6)"> {{ page + pageCount - 6 }}</button>
+                            </template>
+                            <template v-else>
+                                <span class="m-1">...</span>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="updatePageNumber(pageNumber - 2)">{{ pageNumber - 2 }}</button>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="updatePageNumber(pageNumber - 1)">{{ pageNumber - 1 }}</button>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle btn-dark" disabled>{{ pageNumber }}</button>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="updatePageNumber(pageNumber + 1)">{{ pageNumber + 1 }}</button>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === page }" @click="updatePageNumber(pageNumber + 2)">{{ pageNumber + 2 }}</button>
+                                <span class="m-1">...</span>
+                                <button type="button" class="btn btn-sm m-1 rounded-circle" :class="{ 'btn-dark': pageNumber === pageCount }" @click="updatePageNumber(pageCount)">{{ pageCount }}</button>
+                            </template>
+                        </template>
+                        <button type="button" class="btn btn-sm m-1" v-if="pageNumber < pageCount" @click="nextPage"> &gt; </button>
+                        <button type="button" class="btn btn-sm m-1 text-secondary border-0" v-else disabled> &gt; </button>
+                    </div>
+                `
+            });
+            */
+
             app.component('recipe-listing', {
                 data() {
                     return {
@@ -590,7 +687,7 @@
                         const start = this.pageNumber * this.size - this.size;
                         const end = start + this.size;
                         return this.recipe.slice(start, end);
-                    }
+                    },
                 },
                 template: listing.template + `
                     <div class="m-4 d-flex flex-wrap align-items-center justify-content-end w-100">
