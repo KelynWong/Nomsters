@@ -52,6 +52,7 @@
               <img src="img/recipePhoto.png" class="me-1" width="28" />
               Choose Recipe Photo
             </label>
+            <img id="frame" class="rounded mx-auto d-block" :src="image" width="300">
             <input type="file" class="form-control" id="formFile" @change="handleImageChange"
               placeholder="upload profile pic" required />
             <button @click="clearImage" class="btn btn-secondary mt-1 clear" type="button">Clear Image</button>

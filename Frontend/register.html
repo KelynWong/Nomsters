@@ -18,7 +18,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/master.css" />
-    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/register.css" />
 
     <script src="https://unpkg.com/vue@next"></script>
@@ -26,112 +25,92 @@
 
   <body>
     <div id="app">
-      <div class="container-fluid mt-5 mb-5">
-        <div class="row">
-          <!-- left column -->
-          <div class="col-4">
-            <div class="text-center">
-              <label
-                for="form-control"
-                class="form-label chooseprofilepic"
-                style="color: black"
-                >Choose Profile Picture</label
-              >
-              <img id="frame" :src="imagePreview" class="img-fluid" />
-              <input
-                class="form-control fileinput"
-                type="file"
-                id="formFile"
-                @change="previewImage"
-                ref="fileInput"
-                required
-              />
-              <button @click="clearImage" class="btn btn-secondary mt-3 clear">
-                Clear Image
-              </button>
-            </div>
-          </div>
-
-          <!-- center column -->
-          <div class="col-4">
-            <div class="row">
-              <div class="form">
-                <div class="logo-container">
-                  <img src="img/logo.png" alt="logo" class="logo" />
-                </div>
-                <form @submit.prevent="registerUser">
-                  <div class="mb-3">
-                    <input
-                      v-model="username"
-                      type="text"
-                      class="form-control"
-                      id="exampleInputUsername1"
-                      placeholder="Username"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <input
-                      v-model="password"
-                      type="password"
-                      class="form-control"
-                      id="exampleInputPassword1"
-                      placeholder="Password"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <input
-                      v-model="confirmPassword"
-                      type="password"
-                      class="form-control"
-                      id="exampleInputPassword2"
-                      placeholder="Confirm Password"
-                      required
-                    />
-                  </div>
-                  <div class="text-center">
-                    <button
-                      type="submit"
-                      class="btn btn-danger"
-                      style="
-                        font-weight: lighter;
-                        position: relative;
-                        z-index: 9999;
-                      "
-                    >
-                      Register
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <div class="filler col-1"></div>
-          <!-- right column -->
-          <div class="col-2 rightcol">
-            <div class="p-3 py-5 mt-5">
-              <br /><br />
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>Special Diet</h4>
-              </div>
-              <br />
-              <div v-for="diet in diets" class="form-check" :key="diet.id">
-                <input
-                  v-model="selectedDiets"
-                  class="form-check-input"
-                  type="checkbox"
-                  :value="diet.value"
-                  :id="diet.id"
-                />
-                <label class="form-check-label" :for="diet.id"
-                  >{{diet.value}}</label
-                >
-              </div>
-            </div>
+      <div class="register-wrapper">
+        <img src="img/logo.png" alt="logo" class="logo" />
+        <div class="text-center mb-3">
+          <div class="imgPre mx-auto my-3" v-if="imagePreview != ''" :style="{backgroundImage: 'url(' + imagePreview + ')'}"></div>
+          
+          <label
+            v-else
+            for="form-control"
+            class="form-label chooseprofilepic"
+            style="color: black"
+            >Choose Profile Picture</label
+          >
+          <div class="mx-auto">
+            <input
+              class="form-control fileinput"
+              type="file"
+              id="formFile"
+              @change="previewImage"
+              ref="fileInput"
+              required
+            />
+            <button @click="clearImage" class="btn btn-secondary mt-1">
+              Clear Image
+            </button>
           </div>
         </div>
+
+        <form @submit.prevent="registerUser">
+          <div class="justify-content-center">
+            <div class="mb-4">
+              <input
+                v-model="username"
+                type="text"
+                class="form-control"
+                id="exampleInputUsername1"
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <input
+                v-model="password"
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <input
+                v-model="confirmPassword"
+                type="password"
+                class="form-control"
+                id="exampleInputPassword2"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <h6 class="mb-1">Dietary Requirements</h6>
+              <ul class="diet-wrap col2">
+                <li v-for="diet in diets" :key="diet.id">
+                  <label :for="diet.id">
+                    <input type="checkbox" v-model="selectedDiets" :value="diet.value" :id="diet.id" />
+                    {{diet.value}}
+                  </label>
+                  <br>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="text-center">
+            <button
+              type="submit"
+              class="btn btn-danger"
+              style="
+                font-weight: lighter;
+                position: relative;
+                z-index: 9999;
+              "
+            >
+              Register
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     <!-- <div class="ocean">
