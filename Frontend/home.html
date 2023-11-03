@@ -317,7 +317,7 @@
 
   <script>
     // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
+    // gsap.registerPlugin(ScrollTrigger);
 
     window.onload = function () {
       const headers = {
@@ -1010,7 +1010,7 @@
   
       app.mount('#app');
 
-      gsap.utils.toArray(".counter").forEach((counter, i) => {
+      /*gsap.utils.toArray(".counter").forEach((counter, i) => {
       gsap.from(counter, {
         textContent: 0,
         duration: 4,
@@ -1022,14 +1022,14 @@
           onEnter: () => counter.innerText = 0,
         },
       });
-    });
+    });*/
     
-      /*gsap.from(".countRecipe", {
+      gsap.from(".countRecipe", {
         textContent: 0,
         duration: 4,
         ease: "power1.in",
         snap: { textContent: 1 }
-      });*/
+      });
 
       const buttons = document.querySelectorAll(".topRecipe");
 
