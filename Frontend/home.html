@@ -497,7 +497,7 @@
             headers: headers
           })
           .then(response=>{
-            if(response.data.diets[0]){
+            if(response.data.diets){
               this.diet= response.data.diets[0]
             }
           })
