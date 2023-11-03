@@ -8,6 +8,9 @@ Done By:
 3. Kelyn Wong En Ting
 4. Chen Wen Han
 
+Hosted website url: https://leaptron2.dscloud.me/nomsters
+!! PS. For some reason, the Google Places API stops receiving our requests between 5-7pm. If possible, please test before or after those timings thank you! :)
+
 To clone project:
 https://www.geeksforgeeks.org/how-to-clone-a-project-from-github-using-vscode/
 
@@ -16,10 +19,3 @@ Steps after cloning from github:
 2. Run npm install to install dependencies
 3. Navigate to Backend folder, Run server using npm start
 4. Navigate to Frontend folder, Run server using npm start
-
-
-Wireframe link: https://www.figma.com/file/Pz7iSTX73PsmRPITju4ULT/WAD2?type=design&node-id=33-2166&mode=design&t=vFPBGru7KFMgNkun-0
-
-Website url: https://leaptron2.dscloud.me/nomsters
-
- 
