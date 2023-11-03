@@ -25,8 +25,3 @@
 .border-right {
     border-right: 1px solid #dee2e6 !important;
 }
-
-.anim.button button {
-    border: none;
-    background-color: unset;
-}

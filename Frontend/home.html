@@ -76,19 +76,19 @@
             <div class="col-lg-8 col-xl-7 row">
               <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="400" data-aos-anchor="#section2">
                 <div class="countNum red">
-                  <span class="counter" id="countRecipe">{{recipecount}}</span>+
+                  <span class="counter">{{recipecount}}</span>+
                 </div>
                 <h4>Recipes</h4>
               </div>
               <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="600" data-aos-anchor="#section2">
                 <div class="countNum red">
-                  <span class="counter" id="countRecipe">{{recipecategoriecount}}</span>+
+                  <span class="counter">{{recipecategoriecount}}</span>+
                 </div>
                 <h4>Categories</h4>
               </div>
               <div class="col mt-4 mt-lg-0" data-aos="fade" data-aos-duration="500" data-aos-delay="800" data-aos-anchor="#section2">
                 <div class="countNum red">
-                  <span class="counter" id="countRecipe">{{recipedishtypecount}}</span>+
+                  <span class="counter">{{recipedishtypecount}}</span>+
                 </div>
                 <h4>Dish Types</h4>
               </div>
@@ -307,7 +307,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.9.1/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script src="component/navbar.js"></script>
@@ -315,6 +316,9 @@
   <script src="component/footer.js"></script>
 
   <script>
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
     window.onload = function () {
       const headers = {
         Authorization: `BEARER ${token}`
@@ -1006,12 +1010,26 @@
   
       app.mount('#app');
 
-      gsap.from("#countRecipe", {
+      gsap.utils.toArray(".counter").forEach((counter, i) => {
+      gsap.from(counter, {
+        textContent: 0,
+        duration: 4,
+        ease: "power1.in",
+        snap: { textContent: 1 },
+        scrollTrigger: {
+          trigger: counter,
+          start: "top 80%",
+          onEnter: () => counter.innerText = 0,
+        },
+      });
+    });
+    
+      /*gsap.from(".countRecipe", {
         textContent: 0,
         duration: 4,
         ease: "power1.in",
         snap: { textContent: 1 }
-      });
+      });*/
 
       const buttons = document.querySelectorAll(".topRecipe");
 

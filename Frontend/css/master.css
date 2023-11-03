@@ -590,6 +590,11 @@ span {
     opacity: 1;
 }
 
+/* .anim.button button {
+    border: none;
+    background-color: unset;
+} */
+
 .anim.button {
     border-radius: 8px;
     border: 1px solid #000;
@@ -602,22 +607,28 @@ span {
     transition: 0.5s;
 }
 
+.anim.button.reg {
+    padding: 8px 26px;
+    font-size: 16px;
+}
+
+
 .anim.button:hover {
     border: 1px solid #DE352A;
     opacity: 1;
     transform: translateZ(0) scale(1);
 }
 
-.anim.button:hover p, .anim.button:hover button {
+.anim.button:hover p, .anim.button:hover {
     color: #fff;
 }
 
-.anim.button p, .anim.button button {
+.anim.button p, .anim.button {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px;
 }
 
-.anim.button p span, .anim.button button span {
+.anim.button p span, .anim.button span {
     position: absolute;
     width: 25%;
     height: 100%;
@@ -628,25 +639,26 @@ span {
     transition: 0.5s;
     transition-delay: calc((var(--n) - 1) * 0.1s);
     z-index: -1;
+    margin-top: 0 !important;
 }
 
-.anim.button:hover p span, .anim.button:hover button span {
+.anim.button:hover p span, .anim.button:hover span {
     transform: translateY(0) scale(2);
 }
 
-.anim.button p span:nth-child(1), .anim.button button span:nth-child(1) {
+.anim.button p span:nth-child(1), .anim.button span:nth-child(1) {
     --n: 1;
 }
 
-.anim.button p span:nth-child(2), .anim.button button span:nth-child(2) {
+.anim.button p span:nth-child(2), .anim.button span:nth-child(2) {
     --n: 2;
 }
 
-.anim.button p span:nth-child(3), .anim.button button span:nth-child(3) {
+.anim.button p span:nth-child(3), .anim.button span:nth-child(3) {
     --n: 3;
 }
 
-.anim.button p span:nth-child(4), .anim.button button span:nth-child(4) {
+.anim.button p span:nth-child(4), .anim.button span:nth-child(4) {
     --n: 4;
 }
 
