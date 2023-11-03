@@ -48,6 +48,25 @@
     margin: 0 12px;
 }
 
+.delete-fav:hover, .select-fav:hover, .all-fav:hover {
+    -moz-transition: all 500ms;
+    -webkit-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    transform: scale(1.1);
+}
+.delete-fav:hover p, .select-fav:hover p, .all-fav:hover p {
+    color: #DE352A;
+}
+
+.delete-fav:hover path {
+    stroke: #DE352A;
+}
+
+.select-fav:hover path, .all-fav:hover path {
+    fill: #DE352A;
+}
+
 .btn {
     font-family: "poppins";
     font-weight: 600;
