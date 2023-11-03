@@ -34,7 +34,7 @@
     <div :class="{onScroll: isScrolled}">
       <app-nav :allrecipes="allrecipes" @search="searchRecipes"></app-nav>
       <div class="container col-lg-9 col-md-12 col-sm-12">
-        <!-- <img id="frame" src="" class="img-fluid mx-auto" /> -->
+        <img id="frame" :src="imagePreview" class="img-fluid" />
         <h3 class="text-center pb-5" data-aos="zoom-in" id="title">Submit Recipe</h3>
         <form @submit.prevent="submitRecipe" data-aos="fade-up" data-aos-anchor="title"
         data-aos-anchor-placement="center-bottom">
@@ -208,6 +208,7 @@
             pricePerServing: '',
             direction: [''], // for recipe directions
             ingredient: [''], // for ingredients
+            imagePreview: '',
             // Add other form fields here and initialize them
             checkboxes: {
               vegetarian: false,
@@ -398,6 +399,7 @@
         },
         handleImageChange(event) {
           const selectedImage = event.target.files[0];
+          console.log(selectedImage);
 
           // Now, you can do something with the selectedImage, such as previewing it or storing it in your form data.
           // For example, you can set it in your formData.image property.
@@ -409,7 +411,10 @@
         preview(selectedImage) {
           // Implement your image preview logic here.
           // You can set the image source in your preview frame.
-          frame.src = URL.createObjectURL(selectedImage);
+          this.imagePreview = URL.createObjectURL(
+              this.formData.image
+            );
+            console.log(this.imagePreview);
         }, 
         clearImage() {
           // Clear the selected image and reset the file input field.
