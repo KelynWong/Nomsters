@@ -8,6 +8,8 @@ Done By:
 3. Kelyn Wong En Ting
 4. Chen Wen Han
 
+Github repo URL: https://github.com/KelynWong/Nomsters
+
 Hosted website URL: https://leaptron2.dscloud.me/nomsters
 
 Localhost URL: http://localhost:5173/index.html
