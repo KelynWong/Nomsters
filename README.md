@@ -9,6 +9,7 @@ Done By:
 4. Chen Wen Han
 
 Hosted website url: https://leaptron2.dscloud.me/nomsters
+Localhost URL: http://localhost:5173/index.html
 
 To clone project:
 https://www.geeksforgeeks.org/how-to-clone-a-project-from-github-using-vscode/
