@@ -369,7 +369,7 @@ span {
 .modal-box .container-listing .recipe-img {
     position: relative;
     /* background-image: url("../img/steak.jpg"); */
-    background-image: url(/img/foodicon.png);
+    background-image: url("../img/foodicon.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -695,7 +695,7 @@ span {
 
 .container-listing .recipe-img {
     position: relative;
-    background-image: url(/img/foodicon.png);
+    background-image: url("../img/foodicon.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1000,5 +1000,301 @@ footer {
     
     .modal-box {
         padding: 1.4em 0;
+    }
+}
+
+
+@media screen and (min-width: 1600px) {
+    
+    body {
+        font-size: 1vw;
+    }
+    
+    input[type="checkbox"], input[type="radio"] {
+        width: 0.875vw;
+        height: 0.875vw;
+        border: 0.063vw solid #CCC;
+        margin-right: 0.500vw;
+        top: 0.125vw;
+    }
+    
+    h1 {
+        font-size: 4vw;
+    }
+    
+    h2 {
+        font-size: 2.250vw;
+    }
+    
+    h3 {
+        font-size: 2vw;
+    }
+    
+    h4 {
+        font-size: 1.500vw;
+    }
+    
+    h5 {
+        font-size: 1.250vw;
+    }
+    
+    h6 {
+        font-size: 1.125vw;
+    }
+    
+    p {
+        font-size: 1vw;
+    }
+    
+    .p-14 {
+        font-size: 0.875vw;
+    }
+    
+    .width-75 {
+        margin: 3.375vw auto;
+    }
+    
+    .width-80 {
+        margin: 3.375vw auto; 
+    }
+    
+    .btn {
+        font-size: 1vw;
+    }
+
+    /* nav */
+    #nav {
+        margin-bottom: 4vw;
+    }
+    
+    .very-top-nav {
+        padding: 0 0.500vw;
+    }
+    
+    .search-bar, .decide-btn, .profile {
+        margin: 0.750vw;
+    }
+    
+    .search-bar {
+        padding: 0.375vw 0.750vw;
+        border-radius: 0.500vw;
+        border: 0.063vw solid #DE352A;
+    }
+    
+    .search-icon {
+        width: 1.375vw;
+        height: 0.875vw;
+        padding-right: 0.500vw;
+    }
+    
+    .search-bar input {
+        font-size: 0.813vw;
+    }
+    
+    .search-field {
+        width: 10vw;
+    }
+    
+    .decide-btn {
+        border-radius: 0.500vw;
+        padding: 0.375vw 0.750vw;
+        font-size: 0.813vw;
+    }
+    
+    .generate {
+        font-size: 1vw !important;
+    }
+    
+    .generate:hover {
+        font-size: 0.875vw !important;
+    }
+    
+    .modal-box {
+        border-radius: 1.500vw;
+        box-shadow: 0 0.313vw 0.625vw rgba(0, 0, 0, 0.1);
+    }
+    
+    .modal-box h3 {
+        font-size: 1.625vw;
+    }
+    
+    .modal-box .container-listing {
+        margin: 2.250vw 2.250vw 1.125vw !important;
+        max-width: 23.750vw;
+        min-width: 16.250vw;
+    }
+    
+    .modal-box .container-listing .recipe-img {
+        border-radius: 0.500vw;
+    }
+    
+    .modal-box .decide-btn {
+        padding: 0.625vw 1.125vw;
+        margin: 0.750vw;
+    }
+    
+    .profile {
+        width: 2vw;
+        height: 2vw;
+    }
+    
+    .logo {
+        width: 31.250vw;
+        margin: 2.250vw auto 0;
+    }
+    
+    .nav-main::before, .nav-main::after {
+        height: 0.063vw;
+    }
+    
+    .nav-main a, .nav-item a {
+        font-size: 1vw;
+        margin: 0 1.250vw;
+        padding: 1.250vw 0;
+    }
+    
+    .nav-item a {
+        padding: 0.750vw 0;
+    }
+    
+    .nav-main a::after, .nav-item a::after {
+        height: 0.188vw;
+    }
+    
+    .nav-main a.active::after, .nav-item a.active::after {
+        height: 0.188vw;
+    }
+    
+    .bar1, .bar2, .bar3 {
+        max-width: 1.500vw;
+        max-height: 0.188vw;
+        margin: 0.250vw 0;
+    }
+    
+    .dropdown p {
+        font-size: 1vw;
+        padding: 1.250vw;
+    }
+    
+    .dropdown-content {
+        min-width: 7.813vw;
+        box-shadow: 0 0.500vw 1vw 0 rgba(0,0,0,0.2);
+    }
+    
+    .dropdown-content a {
+        margin: 0.375vw 0;
+        padding: 0.375vw 0.750vw;
+        font-size: 0.875vw;
+    }
+    
+    .dropdown-content a::after {
+        width: 0.188vw;
+    }
+    
+    .dropdown-content a.active::after {
+        width: 0.188vw;
+    }
+    
+    .anim.button {
+        border-radius: 0.500vw;
+        border: 0.063vw solid #000;
+        padding: 0.625vw 1.250vw;
+    }
+    
+    .anim.button.reg {
+        padding: 0.500vw 1.625vw;
+        font-size: 1vw;
+    }
+    
+    .anim.button:hover {
+        border: 0.063vw solid #DE352A;
+    }
+    
+    .anim.button p, .anim.button {
+        font-size: 0.938vw;
+    }
+    
+    .container-listing {
+        border-radius: 0.500vw;
+        padding-top: 2.125vw;
+        padding-bottom: 2.125vw;
+    }
+    
+    .container-listing h6 {
+        font-size: 1vw;
+    }
+    
+    .container-listing .recipe-img {
+        border-radius: 0.500vw;
+    }
+    
+    .recipe-img svg {
+        top: 0.625vw;
+        right: 0.625vw;
+    }
+    
+    .listing-subdesc {
+        margin: 0.500vw 0 0.375vw;
+    }
+    
+    .subdesc {
+        margin: 0.313vw 1.625vw 0.250vw -0.125vw;
+    }
+    
+    .subdesc .p-14 {
+        margin-left: 0.375vw;
+    }
+    
+    /* footer */
+    footer {
+        margin-top: 4vw;
+        padding: 2vw 10vw;
+    }
+    
+    .footer-content {
+        padding-bottom: 1.500vw;
+    }
+    
+    #app #BackToTop {
+        width: 2.813vw;
+        height: 2.813vw;
+        right: 2.500vw;
+        bottom: 3vw;
+        border-radius: 0.625vw;
+    }
+    
+    #app #BackToTop .btt-wrapper {
+        border-radius: 0.625vw;
+        box-shadow: 0 0 0.500vw rgba(0,0,0,.1);
+    }
+    
+    #app #BackToTop .btt-wrapper svg {
+        padding: 0.875vw;
+    }
+    
+    .footer-content .logo {
+        width: 15.875vw;
+        margin-left: -0.938vw;
+    }
+    
+    .footer-content p {
+        font-size: 0.875vw;
+    }
+    
+    .footer-content::after {
+        height: 0.063vw;
+    }
+    
+    .right ul {
+        margin-left: 2.500vw;
+    }
+    
+    .right a {
+        font-size: 0.875vw;
+    }
+    
+    .copyright {
+        font-size: 0.688vw;
+        padding-top: 1.500vw;
     }
 }

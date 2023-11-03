@@ -1,5 +1,3 @@
-/* code for the wave */
-
 body {
     overflow: hidden;
     background-image: url('../img/login.png');
@@ -8,22 +6,11 @@ body {
 
 .ocean { 
     max-height: 40%;
-    /* padding-top: 20%; */
     width:100%;
     bottom: 0;
     left:0;
     position: fixed;
-    /* height:auto; */
-    /* display: flex; */
-    /* justify-content: flex-end; */
 }
-
-svg {
-    /* position:absolute; */
-    /* bottom :-50%; */
-    /* margin-top: 2%; */
-}
-
 
 svg path{
 	animation:pathAnim 7s; 
@@ -81,21 +68,6 @@ body {
     width: 100%;
 }
 
-.container {
-    /* position: absolute;
-    top: 40%;
-    left: 70px;
-    right: 70px;
-    width: 50%;
-    height:fit-content;
-    margin: auto !important;
-    font-size: 24px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center; */
-}
-
 .icon {
     margin: auto;
     text-align: center;
@@ -119,11 +91,6 @@ body {
         
 }
 
-/* .slide:hover,
-.slide:focus {
-box-shadow: inset 6.5em 0 0 0 var(--hover);
-} */
-
 a {
     color: #DE352A;
 }
@@ -139,4 +106,21 @@ a {
     margin-right: auto;
     width: 15cm;
     
+}
+
+@media screen and (min-width: 1600px) {
+    
+    #exampleInputUsername1, #exampleInputPassword1 {
+        margin-top: 0.625vw;
+        width: 25vw;
+    }
+    
+    .btn {
+        margin-bottom: 1.250vw;
+        margin-top: 0.625vw;
+    }
+    
+    .logo {
+        width: 35vw;
+    }
 }

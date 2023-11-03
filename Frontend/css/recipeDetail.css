@@ -107,7 +107,7 @@
 }
 
 .recipe-detail-img {
-    background-image: url(/img/foodicon.png);
+    background-image: url("../img/foodicon.png");
     /* background-image: url("../img/steak.jpg"); */
     background-position: center;
     background-size: cover;
@@ -166,7 +166,7 @@ li {
     display: inline-block;
     height: 22px;
     width: 36px;
-    background-image: url("/img/icon/check.png");
+    background-image: url("../img/icon/check.png");
     background-size: 20px;
     background-repeat: no-repeat;
     margin-left: -36px;
@@ -176,7 +176,7 @@ li {
 }
 
 #ingredients li.checked::before {
-    background-image: url("/img/icon/checked.png");
+    background-image: url("../img/icon/checked.png");
     left: 2px;
     background-size: 23px;
     top: 4px;
