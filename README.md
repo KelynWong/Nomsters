@@ -8,9 +8,9 @@ Done By:
 3. Kelyn Wong En Ting
 4. Chen Wen Han
 
-Github repo URL: https://github.com/KelynWong/Nomsters
-
 Hosted website URL: https://leaptron2.dscloud.me/nomsters
+
+Github repo URL: https://github.com/KelynWong/Nomsters
 
 Localhost URL: http://localhost:5173/index.html
 
@@ -22,3 +22,5 @@ Steps after cloning from github:
 2. Navigate to Frontend folder, Run server using npm start
 
 !! PS. For some reason, the Google Places API stops receiving our requests between 5-7pm. If possible, please test before or after those timings thank you! :)
+
+Presentation Video URL: https://youtu.be/_zvcPr-Z5L8
