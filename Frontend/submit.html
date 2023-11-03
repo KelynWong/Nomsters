@@ -46,10 +46,10 @@
 
           <div class="mb-4">
             <label for="formFile" class="form-label chooseprofilepic" style="color: black; text-align: start !important;">
+              <img id="frame" :key="imagePreview" :src="imagePreview" class="img-fluid" />
               <img src="img/recipePhoto.png" class="me-1" width="28" />
               Choose Recipe Photo
             </label>
-            <img id="frame" :src="imagePreview" class="img-fluid" />
             <input type="file" class="form-control" id="formFile" @change="handleImageChange"
               placeholder="upload profile pic" required />
             <button @click="clearImage" class="btn btn-secondary mt-1 clear" type="button">Clear Image</button>
@@ -397,22 +397,21 @@
         },
         handleImageChange(event) {
           const selectedImage = event.target.files[0];
-          console.log(selectedImage);
 
           // Now, you can do something with the selectedImage, such as previewing it or storing it in your form data.
           // For example, you can set it in your formData.image property.
           this.formData.image = selectedImage;
 
           // Optionally, you can also preview the selected image.
-          this.preview(selectedImage);
+          this.preview(event.target.files[0]);
         }, 
-        preview(selectedImage) {
+        preview(prevImage) {
           // Implement your image preview logic here.
           // You can set the image source in your preview frame.
           this.imagePreview = URL.createObjectURL(
-              this.formData.image
+              prevImage
             );
-            console.log(this.imagePreview);
+            frame.src = this.imagePreview;
         }, 
         clearImage() {
           // Clear the selected image and reset the file input field.
