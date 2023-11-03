@@ -453,6 +453,16 @@
     }
 }
 
+@media screen and (max-width: 1000px) {
+    #section4 h3::before {
+        width: 0%;
+    }
+    
+    #section4 h3::after {
+        width: 0%;
+    }
+}
+
 @media screen and (max-width: 991px) {
     .carousel-caption h1 {
         font-size: 5vw;
@@ -469,5 +479,139 @@
 @media screen and (max-width: 420px) {
     .countNum {
         font-size: 36px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    
+    .carousel-caption h1 {
+        text-shadow: 0 0.250vw 0.188vw rgba(0,0,0,0.4),
+                 0 0.500vw 0.813vw rgba(0,0,0,0.1),
+                 0 1.125vw 1.438vw rgba(0,0,0,0.1);
+    }
+    
+    #section2 {
+        margin: 1.625vw auto 0;
+    }
+    
+    .countNum {
+        font-size: 3.250vw;
+    }
+    
+    #section3 {
+        margin: 5vw auto;
+    }
+    
+    .section-head {
+        margin-bottom: 1.500vw;
+    }
+    
+    .section-head h3 {
+        margin-right: 2vw;
+    }
+    
+    .section-view {
+        font-size: 1.125vw;
+    }
+      
+    .section-view.all::after {
+        right: -1.250vw;
+    }
+    
+    .section-view.all:hover  {
+        padding-right: 1.750vw;
+    }
+    
+    #section4 {
+        margin: 0 auto 5vw;
+    }
+    
+    #section4 h3::before {
+        height: 0.063vw;
+    }
+    
+    #section4 h3::after {
+        height: 0.063vw;
+    }
+    
+    .calorie-wrapper {
+        margin: 1.250vw 0 1.750vw;
+    }
+    
+    .container-cuisine-wrap {
+        margin: 1.250vw 0 1.750vw;
+    }
+    
+    .cuisine, .top-recipe {    
+        margin: 1.250vw 0;
+    }
+    
+    .top-recipe {
+        margin: 1.250vw 0;
+    }
+    
+    .top-recipe .img {
+        width: 14.375vw;
+        height: 14.375vw;
+    }
+    
+    .top-recipe h5 {
+        margin: 1.500vw 0 0.750vw !important;
+    }
+    
+    .cuisine .img, .top-recipe .img, .calorie {
+        margin-bottom: 1.125vw;
+    }
+    
+    #section5 {
+        margin: 5vw auto 0;
+    }
+    
+    #section5 h6, #section7 h6 {
+        margin: 1.313vw 0 0 !important;
+    }
+    
+    #section7 h6 {
+        margin: 1.313vw 0 2vw !important;
+    }
+    
+    .btn {
+        font-size: 1vw;
+    }
+    
+    .btn-outline-secondary:hover, .btn-outline-secondary:active, :not(.btn-check)+.btn:active, .btn-outline-secondary:focus, .btn:focus-visible {
+        box-shadow: rgba(99, 99, 99, 0.2) 0 0.125vw 0.500vw 0;
+    }
+    
+    #section6 {
+        margin: 5vw auto 0;
+    }
+    
+    #section7 {
+        margin: 5vw auto 6.250vw;
+    }
+    
+    .calorie {
+        border-radius: 0.500vw;
+        padding: 1.500vw 2vw 26vw;
+        margin: 1.250vw 1.125vw;
+        min-width: 15.625vw;
+        min-height: 18.750vw;
+    } 
+
+    .calorie h3 {
+        font-size: 1.625vw;
+    }
+    
+    .calorie .section-head {
+        min-width: 12.500vw;
+    }
+    
+    .calorie:hover  {
+        text-shadow: 0 0 0.375vw rgba(0,0,0,0.45);
+    }
+    
+    .overlay {
+        border-radius: 0.500vw;
     }
 }
