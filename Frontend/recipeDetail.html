@@ -475,7 +475,14 @@
             this.carbohydrates=recipiedata.carbohydrates;
             this.sugar=recipiedata.sugar;
             this.cholesterol=recipiedata.cholesterol;
-            this.instructions=[recipiedata.instructions];
+            if(createdById!=0){
+              const instructionsArray = recipiedata.instructions.split(';');
+              const filteredInstructionsArray = instructionsArray.filter(instruction => instruction.trim() !== '' && instruction.trim().length > 0);
+              this.instructions = filteredInstructionsArray;
+            }
+            else{
+              this.instructions=[recipiedata.instructions];
+            }
             this.vegetarian=recipiedata.vegetarian;
             this.vegan=recipiedata.vegan;
             this.glutenFree=recipiedata.glutenFree;
