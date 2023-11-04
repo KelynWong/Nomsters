@@ -35,7 +35,7 @@
             for="form-control"
             class="form-label chooseprofilepic"
             style="color: black"
-            >Choose Profile Picture</label
+            >Choose Profile Picture (less than 50kb)</label
           >
           <div class="mx-auto">
             <input
@@ -217,17 +217,24 @@
                           window.location.href = homePageUrl;
                         })
                         .catch((error) => {
+                          alert('Error uploading image file, please ensure file is an image  and is < 50kb')
                         });
                         
                       } else {
                         const homePageUrl = `./home.html`;
                         window.location.href = homePageUrl;
                       }
+                    })
+                    .catch((error) => {
+                      if(error.message == 'Request failed with status code 400'){
+                        alert('Username already exists, please try again.')
+                      }
+                      else{
+                      alert('Error uploading image file, please ensure file is an image  and is < 50kb')}
                     });
-
                 })
                 .catch((error) => {
-                  alert('Error uploading recipe, please ensure file is an image  and is < 50kb')
+                  alert('Error uploading image file, please ensure file is an image  and is < 50kb')
                 });
             } else {
               axios
@@ -274,12 +281,16 @@
                         window.location.href = homePageUrl;
                       })
                       .catch((error) => {
+                        alert('Error uploading image file, please ensure file is an image  and is < 50kb')
                       });
                   } else{
                     const homePageUrl = `./home.html`;
                     window.location.href = homePageUrl;
                   }
-                });
+                })
+                .catch((error) => {
+                  alert('Username already exists, please try again.')
+                })
             }
           },
           readAndUploadFile(file) {
@@ -293,6 +304,7 @@
 
               reader.onerror = function (error) {
                 reject(error);
+                alert("Error uploading file");
               };
 
               reader.readAsDataURL(file);
