@@ -22,30 +22,33 @@
 }
 
 .subhead {
-    padding: 32px 0 16px;
+    padding: 24px 0 16px;
 }
 
 .flex {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .flex p {
     line-height: normal;
+    padding-top: 8px;
 }
 
 .flex svg {
     margin-right: 8px;
-
 }
 
 .select-fav {
     margin: 0 12px 0 24px;
+    padding-top: 8px;
 }
 
 .all-fav, .delete-fav {
     margin: 0 12px;
+    padding-top: 8px;
 }
 
 .delete-fav:hover, .select-fav:hover, .all-fav:hover {

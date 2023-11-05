@@ -274,3 +274,17 @@ h6.grocer {
     height: 45vw;
   }
 }
+
+@media screen and (max-width: 420px) {
+  .col-4-wrapper {
+    margin: 21px;
+  }
+  
+  .search-bar.loc input {
+    font-size: 14px;
+  }
+  .search-icon.loc {
+    width: 18px;
+    height: 17px;
+  }
+}

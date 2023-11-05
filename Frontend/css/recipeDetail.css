@@ -46,13 +46,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 20px 0 32px;
+    flex-wrap: wrap;
+    padding: 14px 0 20px;
 }
 
 .subtitle-wrapper {
-    padding: 0 32px;
+    padding: 0 3%;
     text-transform: uppercase;
     position: relative;
+    margin: 6px 0 12px;
 }
 
 .subtitle-wrapper:first-child {
@@ -289,11 +291,12 @@ li {
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 18px;
+    margin-top: 12px;
 }
 
 .cost-header h6 {
     margin-right: 24px;
+    margin-top: 6px;
 }
 
 .table, .cost-img {
@@ -319,7 +322,20 @@ li {
 }
 
 @media screen and (max-width: 991px) {
+    h3 {
+        font-size: 26px;
+    }
     .nutrition-facts, .table {
         width: 100% !important;
+    }
+
+    .recipe-detail-img, .recipe-body, .m44 {
+        margin: 32px auto;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    h2 {
+        font-size: 36px;
     }
 }

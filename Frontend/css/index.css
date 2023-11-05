@@ -76,7 +76,9 @@ body {
 
 #exampleInputUsername1, #exampleInputPassword1 {
     margin-top: 10px;
-    width: 400px;
+    /* width: 400px; */
+    max-width: 400px;
+    width: 75vw;
     margin-left: auto;
     margin-right: auto;
 }
@@ -104,8 +106,15 @@ a {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 15cm;
-    
+    width: 60vw;
+    max-width: 520px;
+}
+
+@media screen and (max-width: 460px) {
+    .anim.button.reg {
+        padding: 4px 20px;
+        font-size: 15px;
+    }
 }
 
 @media screen and (min-width: 1600px) {

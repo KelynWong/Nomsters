@@ -170,7 +170,7 @@ a {
 } */
 
 .chooseprofilepic {
-  text-align: left !important;
+  /* text-align: left !important; */
   font-size: 18px;
   /* margin-top: 40%; */
 
@@ -491,9 +491,17 @@ button.ghost i {
 }
 
 @media screen and (max-width: 440px) {
+  .chooseprofilepic {
+    font-size: 16px;
+  }
+
   .diet-wrap {
     columns: 1;
     -webkit-columns: 1;
     -moz-columns: 1;
+  }
+
+  .form-control {
+    font-size: 14px;
   }
 }

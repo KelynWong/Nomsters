@@ -619,6 +619,10 @@
             this.showIsActive = !this.showIsActive;
 
             this.generateRandomRecipe();
+            if (document.getElementsByClassName("menu-bar")[0].ariaExpanded === "true") {
+              document.getElementsByClassName("menu-bar")[0].ariaExpanded = "false";
+              document.getElementById("navbarToggler").classList.remove("show");
+            } 
           },
           generateRandomRecipe() {
             if (this.allrecipes.length > 0) {

@@ -599,6 +599,7 @@ span {
     border-radius: 8px;
     border: 1px solid #000;
     background-color: white;
+    color: #000;
     padding: 10px 20px;
     width: fit-content;
     margin: 0 auto;
@@ -962,8 +963,20 @@ footer {
         font-size: 16px;
     }
 
+    .form-label img {
+        width: 24px;
+    }
+
     label, p {
         font-size: 14px;
+    }
+
+    .anim.button {
+        padding: 9px 16px;
+    }
+
+    .anim.button p, .anim.button, .anim.button.reg {
+        font-size: 13px;
     }
 
     .footer-content p {
@@ -972,6 +985,10 @@ footer {
 
     .copyright {
         font-size: 10px;
+    }
+   
+    .btn {
+        font-size: 14px;
     }
 }
 
@@ -999,7 +1016,7 @@ footer {
     }
     
     .modal-box {
-        padding: 1.4em 0;
+        padding: 1.4em .6em;
     }
 }
 
