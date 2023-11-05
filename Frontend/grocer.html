@@ -238,6 +238,7 @@
             mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
               name
             )}`;
+            mapLink.target = "_blank";
             mapLink.innerText = "View on Google Maps";
 
             let line = document.createElement("div");
@@ -382,7 +383,7 @@
                   }
                 });
               }
-            
+              
               document.getElementById("close").addEventListener("click", () => {
                 previousMarker = null;
                 document.getElementById("display_info").classList.remove("active");
@@ -433,6 +434,7 @@
               mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 name
               )}`;
+              mapLink.target = "_blank";
               mapLink.innerText = "View on Google Maps";
 
               //name is appened to h5 element
@@ -642,6 +644,7 @@
               mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 name
               )}`;
+              mapLink.target = "_blank";
               mapLink.innerText = "View on Google Maps";
 
               //name is appened to h5 element

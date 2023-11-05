@@ -325,6 +325,11 @@ li {
     h3 {
         font-size: 26px;
     }
+
+    label, p, li {
+        font-size: 16px;
+    }
+
     .nutrition-facts, .table {
         width: 100% !important;
     }
@@ -334,8 +339,23 @@ li {
     }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 767px) {
+    .row>* {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width: 440px) {
     h2 {
         font-size: 36px;
+    }
+    
+    h3 {
+        font-size: 24px;
+    }
+
+    label, p, li {
+        font-size: 14px;
     }
 }

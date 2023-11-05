@@ -19,9 +19,51 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 50%;
+    max-width: 175px;
+    width: 13.5vw;
+    display: block;
+    margin: 0 auto;
+    max-height: 175px;
+    height: 13.5vw;
+    object-fit: cover;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    padding: 8px;
+    border: 6px solid #dd3629;
 }
 
 .border-right {
     border-right: 1px solid #dee2e6 !important;
 }
+
+
+@media screen and (max-width: 991px) {
+    .container {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .border-right {
+        border-right: none !important;
+    }
+
+    .container {
+        width: 80%;
+        padding: 0;
+    }
+
+    .img-fluid {
+        width: 97%;
+        height: 50vw;
+    }
+}
+
+/* @media screen and (max-width: 440px) {
+    h2 {
+        font-size: 36px;
+    }
+} */

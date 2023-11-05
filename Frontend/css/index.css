@@ -102,6 +102,10 @@ a {
     font-size: small;
 }
 
+.signup:hover a {
+  color: #0b58ca;
+}
+
 .logo {
     display: block;
     margin-left: auto;
@@ -109,6 +113,14 @@ a {
     width: 60vw;
     max-width: 520px;
 }
+
+@media screen and (max-width: 991px) {
+    .logo {
+      max-width: 500px;
+      width: 72vw;
+    }
+}
+  
 
 @media screen and (max-width: 460px) {
     .anim.button.reg {

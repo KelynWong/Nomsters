@@ -468,6 +468,48 @@
         font-size: 5vw;
         width: 90%;
     }
+    
+    .width-80 {
+        margin: 40px auto;
+    }
+
+    .section-head {
+        margin-bottom: 0px;
+    }
+
+    #section3 {
+        margin: 60px auto 40px;
+    }
+
+    #section4 {
+        margin: 0 auto 60px;
+    }
+    
+    #section5 {
+        margin: 60px auto 0;
+    }
+
+    #section6 {
+        margin: 40px auto 0;
+    }
+
+    #section7 {
+        margin: 60px auto;
+    }
+
+    .cuisine a {
+        width: 80%;
+    }
+
+    .container-cuisine-wrap {
+        margin: 14px 0 8px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+.cuisine a {
+    width: 65%;
+}
 }
 
 @media screen and (max-width: 767px) {
@@ -476,10 +518,21 @@
     }
 }
 
+@media screen and (max-width: 440px) {
+    .btn {
+        font-size: 14px;
+    }
+
+    .section-head h3 {
+        margin-right: 16px;
+    }
+}
+
 @media screen and (max-width: 420px) {
     .countNum {
         font-size: 36px;
     }
+    
 }
 
 @media screen and (min-width: 1600px) {

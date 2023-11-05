@@ -285,4 +285,11 @@ span.value.upper.price::before {
         width: 85%;
     }
 
+    h3 {
+        font-size: 25px;
+    }
+
+    .btn {
+        font-size: 13px;
+    }
 }

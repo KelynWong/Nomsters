@@ -355,7 +355,7 @@
                                     }
                                 });
                         }).catch( error => {
-                            if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+                            if (error.response.data.message === "Invalid token") window.location.href = './index.html';
                         }).finally(() =>{
                             this.searchRecipes()
                         });
@@ -371,7 +371,7 @@
                                     }
                                 });
                         }).catch( error => {
-                            if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+                            if (error.response.data.message === "Invalid token") window.location.href = './index.html';
                         });
                     },
                     fetchTotalRecipe(){
@@ -380,7 +380,8 @@
                         }).then(response => {
                             this.totalNoRecipe = response.data.length
                         }).catch( error => {
-                            if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
+                            console.log(error)
+                            if (error.response.data.message === "Invalid token") window.location.href = './index.html';
                         });
                     },
                     searchRecipes(titleQuery){
@@ -889,7 +890,13 @@
                 /* draw */
                 draw(slider,avgvalue);
             }
+        
+            
+            window.addEventListener('resize', function() {
+                initSliders();
+            }); 
         }
+
     </script>
 </body>
 
