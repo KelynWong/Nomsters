@@ -65,8 +65,8 @@
                 <input v-model="formData.ingredient[index]" type="text" class="form-control mt-2" :id="'textbox' + index"
                   :placeholder="'20g Potato'" required />
               </div>
-              <button class="add btn btn-secondary mr-3" @click="addIngredient" type="button">Add</button>
-              <button class="remove btn btn-secondary mr-3" @click="removeIngredient" type="button">Remove</button>
+              <button class="add clear btn btn-secondary mr-3" @click="addIngredient" type="button">Add</button>
+              <button class="remove clear btn btn-secondary mr-3" @click="removeIngredient" type="button">Remove</button>
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-4">
@@ -78,8 +78,8 @@
                 <input v-model="formData.direction[index]" type="text" class="form-control mt-2" :id="'textbox' + index"
                   :placeholder="'Dice carrots and onions'" required />
               </div>
-              <button class="add btn btn-secondary mr-3" @click="addRecipe" type="button">Add</button>
-              <button class="remove btn btn-secondary mr-3" @click="removeRecipe" type="button">Remove</button>
+              <button class="add clear btn btn-secondary mr-3" @click="addRecipe" type="button">Add</button>
+              <button class="remove clear btn btn-secondary mr-3" @click="removeRecipe" type="button">Remove</button>
             </div>
           </div>
 
