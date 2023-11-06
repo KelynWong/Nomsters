@@ -1015,6 +1015,14 @@ footer {
     .anim.button {
         padding: 9px 16px;
     }
+
+    .nav-main a, .nav-item a {
+        font-size: 15px;
+    }
+
+    .nav-item a {
+        padding: 9px 0;
+    }
 }
 
 @media screen and (max-width: 420px) {

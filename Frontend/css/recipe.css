@@ -202,10 +202,10 @@ span.value.upper.price::before {
     display: block;
 }
 
-.container-listing {
-    /* width: 21.5vw; */
-    /* margin: 0 0 32px 32px !important; */
-}
+/* .container-listing {
+    width: 21.5vw; */
+    /* margin: 0 0 32px 32px !important;
+} */
 
 /* .rounded-circle:first-child {
     padding: 2px 9px;
