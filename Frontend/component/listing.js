@@ -31,11 +31,11 @@ const listing = {
             </div>
             <div class="listing-subdesc">
                 <div class="subdesc">
-                    <img src="../img/prepTime.png" width="22" />
+                    <img src="img/prepTime.png" width="22" />
                     <span class="p-14">{{(r.readyInMinutes===-1 ? "Unknown" : r.readyInMinutes)}} Minutes</span>
                 </div>
                 <div class="subdesc">
-                    <img src="../img/serving.png" width="24" />
+                    <img src="img/serving.png" width="24" />
                     <!-- <span class="p-14">{{ r.dishtypes && r.dishtypes.length > 0 ? r.dishtypes[0] : 'Snack' }}</span> -->
                     <span class="p-14">{{ r.servings }} People</span>
                 </div>
@@ -104,11 +104,11 @@ const listing = {
             </div>
             <div class="listing-subdesc">
                 <div class="subdesc">
-                    <img src="../img/prepTime.png" width="22" />
+                    <img src="img/prepTime.png" width="22" />
                     <span class="p-14">{{(r.readyInMinutes===-1 ? "Unknown" : r.readyInMinutes)}} Minutes</span>
                 </div>
                 <div class="subdesc">
-                    <img src="../img/serving.png" width="24" />
+                    <img src="img/serving.png" width="24" />
                     <!-- <span class="p-14">{{ r.dishtypes && r.dishtypes.length > 0 ? r.dishtypes[0] : 'Snack' }}</span> -->
                     <span class="p-14">{{ r.servings }} People</span>
                 </div>
@@ -132,11 +132,11 @@ const listing = {
             </div>
             <div class="listing-subdesc">
                 <div class="subdesc">
-                    <img src="../img/prepTime.png" width="22" />
+                    <img src="img/prepTime.png" width="22" />
                     <span class="p-14">{{random.readyInMinutes}} Minutes</span>
                 </div>
                 <div class="subdesc">
-                    <img src="../img/serving.png" width="24" />
+                    <img src="img/serving.png" width="24" />
                     <!-- <span class="p-14">{{ random.dishtypes && random.dishtypes.length > 0 ? random.dishtypes[0] : 'Snack' }}</span> -->
                     <span class="p-14">{{ random.servings }} People</span>
                 </div>
