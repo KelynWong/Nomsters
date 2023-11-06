@@ -146,6 +146,16 @@
                   src="img/icon/sustainable-color.png"
                   v-if="sustainable === 1"
                 />
+                <img src="img/icon/lactoOvoVegetarian.png" v-if="lactoOvoVegetarian === 1" />
+                <img src="img/icon/fodmapFriendly.png" v-if="fodmapFriendly === 1" />
+                <img
+                  src="img/icon/paleolithic.png" v-if="paleolithic === 1"
+                />
+                <img src="img/icon/pescatarian.png" v-if="pescatarian === 1" />
+                <img
+                  src="img/icon/keto.png"
+                  v-if="ketogenic === 1"
+                />
               <!-- </div> -->
             </div>
             <div class="subtitle">
@@ -401,6 +411,11 @@
             glutenFree: 0,
             dairyFree: 0,
             sustainable: 0,
+            lactoOvoVegetarian: 0,
+            fodmapFriendly: 0,
+            paleolithic: 0,
+            pescatarian: 0,
+            ketogenic: 0,
             calories: 0,
             fat: 0,
             saturatedFat: 0,
@@ -491,6 +506,24 @@
             this.glutenFree=recipiedata.glutenFree;
             this.dairyFree=recipiedata.dairyFree;
             this.sustainable=recipiedata.sustainable;
+            var diets = recipiedata.diets;
+            for (i = 0; i < diets.length(); i++) {
+              if (diets[i] == "lacto ovo vegetarian") {
+                this.lactoOvoVegetarian = 1;
+              }
+              if (diets[i] == "fodmap friendly") {
+                this.fodmapFriendly = 1;
+              }
+              if (diets[i] == "paleolithic") {
+                this.paleolithic = 1;
+              }
+              if (diets[i] == "pescatarian") {
+                this.pescatarian = 1;
+              }
+              if (diets[i] == "ketogenic") {
+                this.ketogenic = 1;
+              }
+            }
             if(createdById!=0){
               this.usercreated=true;
               var ingridientdata=recipiedata.ingredients.split(';')
@@ -538,11 +571,13 @@
             const token = sessionStorage.getItem('token');
             const id = sessionStorage.getItem('userId');
 
-            this.recipe.fav = this.recipe.fav === 0 ? 1 : 0;
-            this.fav = this.fav === 0 ? 1 : 0;
-            if (this.recipe.fav === 1){
+            // this.recipe.fav = this.recipe.fav === 0 ? 1 : 0;
+            // this.fav = this.fav === 0 ? 1 : 0;
+            if (this.recipe.fav === 0){
               axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
               .then(response => {
+                this.recipe.fav = 1;
+                this.fav = 1;
               }).catch( error => {
                   if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
               });
@@ -555,6 +590,8 @@
                     }
                 })
                 .then(response => {
+                  this.recipe.fav = 0;
+                  this.fav = 0;
                 }).catch( error => {
                     if (this.error.response.data.message === "Invalid token") window.location.href = './index.html';
                 });
