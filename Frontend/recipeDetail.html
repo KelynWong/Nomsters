@@ -147,7 +147,7 @@
                   v-if="sustainable === 1"
                 />
                 <img src="img/icon/lactoOvoVegetarian.png" v-if="lactoOvoVegetarian === 1" />
-                <img src="img/icon/fodmapFriendly.png" v-if="fodmapFriendly === 1" />
+                <img src="img/icon/fodmapFriendly.png" v-if="fodmapFriendly === 1" height="46" width="42" />
                 <img
                   src="img/icon/paleolithic.png" v-if="paleolithic === 1"
                 />
@@ -507,7 +507,8 @@
             this.dairyFree=recipiedata.dairyFree;
             this.sustainable=recipiedata.sustainable;
             var diets = recipiedata.diets;
-            for (i = 0; i < diets.length(); i++) {
+            console.log(diets)
+            for (i = 0; i < diets.length; i++) {
               if (diets[i] == "lacto ovo vegetarian") {
                 this.lactoOvoVegetarian = 1;
               }
@@ -573,7 +574,7 @@
 
             // this.recipe.fav = this.recipe.fav === 0 ? 1 : 0;
             // this.fav = this.fav === 0 ? 1 : 0;
-            if (this.recipe.fav === 0){
+            if (this.fav === 0){
               axios.post(`https://leaptron2.dscloud.me:3000/api/user/${userId}/recipe/${this.recipe.recipeId}`, null, {headers})
               .then(response => {
                 this.recipe.fav = 1;
